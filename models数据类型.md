@@ -52,4 +52,7 @@
 
 # 数据功能
 ## 查找
-    <model>.objects.get_or_create(user__name='wangx')   # 不存在用户就不登录而是注册
+    obj, created = <model>.objects.get_or_create(user__name='wangx')
+    # 不存在用户就不登录而是注册
+    # created 为 True， 代表了obj是新建的
+    # 创建的时候的时候会自动保存, 但是要注意, 如果有写field不允许null, 就需要get的时候把参数传进去
