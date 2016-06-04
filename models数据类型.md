@@ -47,7 +47,7 @@
     class Meta:
         unique_together = ("user","date")   # 同一个用户同一个时间只允许一次(比如投票)
 ### property的作用
-*views里面可以直接调用,不用加括号
+* views里面可以直接调用,不用加括号
 **但是不能在aggregrate或者filter里面使用**
 
 # 数据功能
