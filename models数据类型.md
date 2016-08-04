@@ -1,3 +1,6 @@
+# 基础的模块
+    from django.db import models
+    from django.contrib.auth.models import User
 # 数据结构
     class profile(models.Model):
         SEX_CHOICE = (
@@ -20,6 +23,14 @@
     default = '0',  # 默认的数值
     blank=True      # admin界面是不是可以不填写。不填写的话就是NULL
     related_name = 'table'  # 设置反向查找的功能
+
+## 字符串
+    models.CharField(max_length=255)
+    models.TextField()
+        max_length  # 不是数据库底层支持的。
+    models.EmailField()
+        # 底层还是 CharField 只不过用 EmailValidator 去校验
+* [EmailValidator](https://docs.djangoproject.com/en/1.10/ref/validators/#django.core.validators.EmailValidator)
 
 ## 时间  
 ### django 都是存储的0时区的时间  

@@ -20,3 +20,6 @@
 * `divisibleby`: 能否被值整除
 * `length`: 长度
 * `filesizeformat`: 文件尺寸,自动从Byte变成 KB MB
+
+# url 写法
+    {% url 'some-url-name' [v1 v2 arg1=v1 arg2=v2] %}
