@@ -23,6 +23,7 @@
     default = '0',  # 默认的数值
     blank=True      # admin界面是不是可以不填写。不填写的话就是NULL
     related_name = 'table'  # 设置反向查找的功能
+    verbose_name = '名字'   # 不知道哪里用，用来给人看的名称
 
 ## 字符串
     models.CharField(max_length=255)
@@ -34,7 +35,7 @@
 
 ## 时间  
 ### django 都是存储的0时区的时间  
-    models.DateTimeField()  
+    models.DateTimeField()
 ### 可以有的参数
     auto_now_add = True   # 保存为当前时间，不再改变
     auto_now = True # 保存未当前时间，每次保存时候会自动变更
@@ -57,6 +58,7 @@
 ### Meta的作用
     class Meta:
         unique_together = ("user","date")   # 同一个用户同一个时间只允许一次(比如投票)
+    如果不符合，会报错  django.db.utils.IntegrityError
 ### property的作用
 * views里面可以直接调用,不用加括号
 **但是不能在aggregrate或者filter里面使用**
@@ -67,3 +69,19 @@
     # 不存在用户就不登录而是注册
     # created 为 True， 代表了obj是新建的
     # 创建的时候的时候会自动保存, 但是要注意, 如果有写field不允许null, 就需要get的时候把参数传进去
+
+## 操作符
+[官方教程](https://docs.djangoproject.com/en/1.10/ref/models/querysets/#field-lookups)
+### 基础
+* 过滤: Model.objects.filter()  Model.objects.all()
+* 排除: Model.objects.exclude()
+### 操作符列表
+* =: 值
+* 
+
+## 修改
+### 原子操作
+    from django.db.models import F
+    obj = Model.objects.get(name='test')
+    obj.friends = F('friends') + 1
+    obj.save()
