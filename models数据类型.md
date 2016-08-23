@@ -67,3 +67,6 @@
     # 不存在用户就不登录而是注册
     # created 为 True， 代表了obj是新建的
     # 创建的时候的时候会自动保存, 但是要注意, 如果有写field不允许null, 就需要get的时候把参数传进去
+
+## 创建
+    Model.objects.bulk_create([Model1, Model2]) # 如果后面的创建失败，整个就不会创建。类似事务，但是无法调用每个instance的save函数
