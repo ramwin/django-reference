@@ -75,7 +75,8 @@
 #### 一对一
     models.ForeignKey(Model)    # 关联到另一个Model
 
-#### 参数
+
+###### 参数
     def get_default_user():
         return User.objects.first()
 
@@ -83,6 +84,16 @@
         on_delete=models.CASCADE # 默认连带删除(2.0以后默认不连带删除)
         on_delete=models.SET(get_default_user)  # 删除后调用函数设置连带关系的默认直
     )
+
+#### 多对多 [参考文档](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
+
+    label = models.ManyToManyField(Label, verbose_name=u'标签', null=True)
+    todos = models.ManyToManyField(TodoList, through="WeeklyPaperTodoRef")
+
+###### 参数
+    through = "ModelRefName"  # 可以把中间关联的表拿出来写成model加参数
+    db_table = "关联的表名"  # 关联的数据库的表名称
+
 
 ## 特殊
 #### Meta的作用
