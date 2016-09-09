@@ -74,7 +74,7 @@
 ## 关联
 #### 一对一
     models.ForeignKey(Model)    # 关联到另一个Model
-
+    models.OneToOneField(Model, related_name="profile", db_index=True)
 
 ###### 参数
     def get_default_user():
@@ -84,6 +84,10 @@
         on_delete=models.CASCADE # 默认连带删除(2.0以后默认不连带删除)
         on_delete=models.SET(get_default_user)  # 删除后调用函数设置连带关系的默认直
     )
+
+###### 使用
+    
+    user.profile
 
 #### 多对多 [参考文档](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
 
@@ -116,6 +120,21 @@
     # 不存在用户就不登录而是注册
     # created 为 True， 代表了obj是新建的
     # 创建的时候的时候会自动保存, 但是要注意, 如果有写field不允许null, 就需要get的时候把参数传进去
+
+#### 使用索引分页
+    objs = <model>.objects.filter(params)[0]
+    objs = <model>.objects.filter(params)[1:]
+    # 注意: django的每次query_set的生成并不会去查询数据库，只有调用索引([0],[1:],等)或者类似All, first的时候才会查询数据库。
+    # 如果你的 ordering 同时出现了2个数据，调用数据库的时候数据库不能保证调用[0](limit 1)和调用[1:](offset 1)的结果是互斥的。所以就会导致数据重复和丢失
+
+#### 使用 sql 语句查找
+    model.objects.raw("select * from table where id=%s", params=(1,))
+    # 请务必使用params而不要自己用format把数字格式话到query里面
+    # 这样不用考虑sql注入
+
+## 修改
+    objs = model.objects.filter(status=1)
+    objs.
 
 ## 创建
     Model.objects.bulk_create([Model1, Model2]) # 如果后面的创建失败，整个就不会创建。类似事务，但是无法调用每个instance的save函数
