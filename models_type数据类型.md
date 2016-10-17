@@ -4,15 +4,15 @@
     from django.contrib.auth.models import User  
 
 * [数据结构](#数据结构)  
-* [数据操作](#数据操作)  
 
 # 数据结构
 * [通用](#通用)
 * [字符串](#字符串)
 * [时间](#时间)  
-* [关联](#关联)
+* [关联](#关联)  
 
 
+## 示例
     class profile(models.Model):
         SEX_CHOICE = (
             ('M':'男'),
@@ -28,6 +28,7 @@
         # django默认是用
         lastlogin = models.DateTimeField()
 
+
 <div id="通用"></div>
 ## 通用
 #### 参数
@@ -35,8 +36,10 @@
     default = '0',  # 默认的数值
     blank=True      # admin界面是不是可以不填写。不填写的话就是NULL
     related_name = 'table'  # 设置反向查找的功能
-    verbose_name = '名字'   # 不知道哪里用，用来给人看的名称
+    verbose_name = '名字'   # admin界面用来给人看的名称,账号，而不是username
+    help_text = ''  # 在每个model的form下面有一小行字符串。显示帮助信息。账号必须多于6个字符等等
     through = ''
+    choices = TUPLE
 
 <div id="字符串"></div>
 ## 字符串
@@ -70,6 +73,10 @@
     decimal:    '1.1', 1.1, decimal.Decimal('1.1')
 ### 获取
 
+<div id="布尔值"></div>
+# 布尔值
+    models.BooleanField()   # 布尔值
+
 <div id="关联"></div>
 ## 关联
 #### 一对一
@@ -77,18 +84,23 @@
     models.OneToOneField(Model, related_name="profile", db_index=True)
 
 ###### 参数
+
     def get_default_user():
         return User.objects.first()
 
     models.ForeignKey(Model,
-        on_delete=models.CASCADE # 默认连带删除(2.0以后默认不连带删除)
+        on_delete=models.CASCADE # 默认连带删除(2.0以后默认不连带删除) 
         on_delete=models.SET(get_default_user)  # 删除后调用函数设置连带关系的默认直
     )
+* [on_delete参数参考](https://docs.djangoproject.com/en/1.10/ref/models/fields/#django.db.models.CASCADE)  
+
 
 ###### 使用
     
     user.profile
 
+#### 多对一
+* 请使用ForeignKey [参考](https://docs.djangoproject.com/en/1.10/topics/db/examples/many_to_one/)
 #### 多对多 [参考文档](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
 
     label = models.ManyToManyField(Label, verbose_name=u'标签', null=True)
@@ -98,61 +110,18 @@
     through = "ModelRefName"  # 可以把中间关联的表拿出来写成model加参数
     db_table = "关联的表名"  # 关联的数据库的表名称
 
+#### 其他
+* 如果调用了本身，可以使用 `models.ForeignKey('self', on_delete=models.CASCADE)`
+
 
 ## 特殊
 #### Meta的作用
     class Meta:
         unique_together = ("user","date")   # 同一个用户同一个时间只允许一次(比如投票)
     如果不符合，会报错  django.db.utils.IntegrityError
+        ordering = "-id"  # 指定默认排序方式
+        db_table = "table"  # 指定表的名称
 #### property的作用
 * views里面可以直接调用,不用加括号
 **但是不能在aggregrate或者filter里面使用**
 
-<div id="数据操作"></div>
-# 数据操作
-
-* [查找](#查找)
-* [操作符号](#操作符号)
-
-<div id="查找"></div>
-## 查找
-    obj, created = <model>.objects.get_or_create(user__name='wangx')
-    # 不存在用户就不登录而是注册
-    # created 为 True， 代表了obj是新建的
-    # 创建的时候的时候会自动保存, 但是要注意, 如果有写field不允许null, 就需要get的时候把参数传进去
-
-#### 使用索引分页
-    objs = <model>.objects.filter(params)[0]
-    objs = <model>.objects.filter(params)[1:]
-    # 注意: django的每次query_set的生成并不会去查询数据库，只有调用索引([0],[1:],等)或者类似All, first的时候才会查询数据库。
-    # 如果你的 ordering 同时出现了2个数据，调用数据库的时候数据库不能保证调用[0](limit 1)和调用[1:](offset 1)的结果是互斥的。所以就会导致数据重复和丢失
-
-#### 使用 sql 语句查找
-    model.objects.raw("select * from table where id=%s", params=(1,))
-    # 请务必使用params而不要自己用format把数字格式话到query里面
-    # 这样不用考虑sql注入
-
-## 修改
-    objs = model.objects.filter(status=1)
-    objs.
-
-## 创建
-    Model.objects.bulk_create([Model1, Model2]) # 如果后面的创建失败，整个就不会创建。类似事务，但是无法调用每个instance的save函数
-    创建后会把创建对象的列表返回
-
-## 修改
-#### 原子操作
-    from django.db.models import F
-    obj = Model.objects.get(name='test')
-    obj.friends = F('friends') + 1
-    obj.save()
-
-<div id="操作符号"></div>
-## 操作符号
-[官方教程](https://docs.djangoproject.com/en/1.10/ref/models/querysets/#field-lookups)
-#### 基础
-* 过滤: Model.objects.filter()  Model.objects.all()
-* 排除: Model.objects.exclude()
-#### 操作符列表
-* =: 值等于
-* 

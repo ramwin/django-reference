@@ -1,0 +1,20 @@
+#### Xiang Wang @ 2016-09-23 10:55:46
+
+# 基础
+
+## request
+    request.GET['key']
+    request.POST['key']
+    json.loads(request.read().encode(request.encoding))
+    file = request.FILES['file'].read()  # 获取文件
+    file_name = file
+
+
+## response
+
+### 返回文件
+    from django.http import FileResponse
+    response = FileResponse(open('filename', 'rb'))
+    response['Content-Disposition'] = 'attachment;filename="result.xlsx"'  # 告诉浏览器文件的文件名
+    response['Content-Length'] = tmp_file.tell()  # 告诉浏览器文件的大小
+    return response

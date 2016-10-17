@@ -6,3 +6,4 @@
 
 ## 错误种类
 * ValidationError()
+* PermissionDenied()
