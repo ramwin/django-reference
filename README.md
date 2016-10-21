@@ -1,6 +1,7 @@
 # django_reference
 A quick reference  for django
 
+# 基础
 * [用户认证](./admin.md)
 * [URL分配](./urls.md)
 * [Model数据库基础](./models_type数据类型.md)
@@ -12,3 +13,6 @@ A quick reference  for django
 * [Exceptions错误](./exceptions错误.md)
 * [其他工具utils](./utils.md)
 * [rest_framework](./rest_framework/README.md)
+
+# 其他
+* [自定义指令](https://docs.djangoproject.com/en/1.10/howto/custom-management-commands/#accepting-optional-arguments)
