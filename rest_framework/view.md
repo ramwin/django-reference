@@ -31,5 +31,7 @@
     2. CreateModelMixin.create  # 验证数据
 
 
+# RetrieveAPIView
+
 # DestroyAPIView
 * DELETE请求顺序

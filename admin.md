@@ -1,3 +1,6 @@
+# 用户认证
+    from django.contrib.auth import authenticate
+    authenticate(username='ramwin', password='wangx')
 # admin界面设置
 
 ## 最简单的

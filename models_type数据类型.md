@@ -40,11 +40,12 @@
     help_text = ''  # 在每个model的form下面有一小行字符串。显示帮助信息。账号必须多于6个字符等等
     through = ''
     choices = TUPLE
+    unique = False  # 是否允许重复, 如果设置了True，并且一个model里面有2个True，get_or_create就必须把每个这样的字段设置好，不然就会报错
 
 <div id="字符串"></div>
 ## 字符串
     models.CharField(max_length=255)
-    models.TextField()
+    models.TextField()  # 不能为None，默认会为""
         max_length  # 不是数据库底层支持的。
     models.EmailField()
         # 底层还是 CharField 只不过用 EmailValidator 去校验
@@ -62,6 +63,8 @@
 ## 数字
     models.IntegerField()   # 整数
     models.FloatField() # 小数
+        如果设置了unique的话，就会在数据库层面设置unique。不过数据库显示的时候偶尔会看上去一样
+        实际上二者的二进制数据有点区别，换成是十进制后显示不出来。在python内部可以显示
     models.DecimalField()   # 精确小数
 #### 必须参数(decimal)
     decimal_places = 2  # 小数尾数
@@ -124,4 +127,6 @@
 #### property的作用
 * views里面可以直接调用,不用加括号
 **但是不能在aggregrate或者filter里面使用**
-
+#### str的作用
+* 可以让shell里面查看model更加好看一点，但是要注意，尽量不要把id放在里面，
+* 不然在model没有save的时候，会报错。就算放，也用 instance.pk or 0的形式

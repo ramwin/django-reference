@@ -9,7 +9,10 @@
 # 数据操作
 
 * [查找](#查找)
+* [过滤](#过滤)
+* [排序](#排序)
 * [操作符号](#操作符号)
+* [创建](#创建)
 
 <div id="查找"></div>
 ## 查找
@@ -18,7 +21,11 @@
     # created 为 True， 代表了obj是新建的
     # 创建的时候的时候会自动保存, 但是要注意, 如果有写field不允许null, 就需要get的时候把参数传进去
 
+### 仅仅查询需要的字段
+    User.objects.all().values('username')  # 返回 [{'username': 'ramwin'}], 是一个queryset, 可以用来exclude，而如果是自己写的[{'uesrname': 'ramwin'}] 就不可以用来过滤
 
+
+<div id="过滤"></div>
 ## 过滤
     Search.objects.all()
     Search.objects.filter(text='text')  # 单个条件过滤
@@ -33,7 +40,21 @@
     User.objects.exclude(shop__title__contains='shop', shop__name__contains='ew')  # 过滤所有title包含shop和name包含ew的
     User.objects.exclude(shop = Shop.objects.filter(location__contains='tian', name__contains='test'))  # 用户
     ts.messages.annotate().values('type').annotate(cnt=Count('type'))
+### 通过不关联的表字段进行过滤
+    visited_ids = Travel.objects.filter(user=uesr).values('interest')
+    Interest.objects.exclude(id__in=visited_ids)
 
+### 通过外健过滤
+    TestQuery.objects.exclude(user__id=4001)  # 会搜索出user为None的
+    TestQuery.objects.filter(user__id=None)  # 会搜索出user为None的
+    # user都没有，更没有id，id更不可能属于这个列表
+    TestQuery.objects.filter(user__id__in=[4001])  # 不会搜索出user为None的
+    # exclude并不没有user__id必须存在这个前提条件
+    TestQuery.objects.exclude(user__id__in=[4001])  # 会搜索出user为None的
+
+
+
+<div id="排序"></div>
 ## 排序
     User.objects.all().ordey_by('username', 'id')  # 通过2个字段排序
 
@@ -48,21 +69,27 @@
     # 请务必使用params而不要自己用format把数字格式话到query里面
     # 这样不用考虑sql注入
 
-## 修改
-    objs = model.objects.filter(status=1)
-    objs.
-
 ## 创建
     Model.objects.bulk_create([Model1, Model2]) # 如果后面的创建失败，整个就不会创建。类似事务，但是无法调用每个instance的save函数
     Model.objects.create(name='王')  # 创建一个对象，会调用Model的save函数
+    Model.objects.get_or_create(text='w')  # 如果是创建的话会调用save函数
     创建后会把创建对象的列表返回
 
 ## 修改
+    objs = model.objects.filter(status=1).update(status=1)
+
 #### 原子操作
     from django.db.models import F
     obj = Model.objects.get(name='test')
     obj.friends = F('friends') + 1
     obj.save()
+
+## 计算
+### 求和
+    from django.db.modes import Sum
+    >>> Number.objects.filter(id__lte=3).aggregate(s = Sum('integer'))
+    >>> {'s': 10}
+
 
 <div id="操作符号"></div>
 ## 操作符号
@@ -76,6 +103,18 @@
 * contains: 包含
 * icontains: 不区分大小写的包含
 * startswith, endswith, istartswith, iendswith
+
+
+<div id="创建"></div>
+## 创建数据
+#### 基础
+    instance = Text(text='text')
+    instance.save()
+
+#### 其他
+    Shop.objects.bulk_create([  # 这个create需要把foriegnkey的对象传递进去，但是不会去校验, 只要这个对象有pk这个属性就可以了
+        Shop(user=user, name='test'),
+        Shop(user=user, name='test2')])
 
 
 <div id="其他属性设置"></div>
