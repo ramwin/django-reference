@@ -39,7 +39,7 @@
     User.objects.exclude(shop__title__contains='shop', shop__id=3)  # 过滤到有店id是3并且名字有shop的用户
     User.objects.exclude(shop__title__contains='shop', shop__name__contains='ew')  # 过滤所有title包含shop和name包含ew的
     User.objects.exclude(shop = Shop.objects.filter(location__contains='tian', name__contains='test'))  # 用户
-    ts.messages.annotate().values('type').annotate(cnt=Count('type'))
+    ts.messages.all().values('type').annotate(cnt=Count('type'))
 ### 通过不关联的表字段进行过滤
     visited_ids = Travel.objects.filter(user=uesr).values('interest')
     Interest.objects.exclude(id__in=visited_ids)
@@ -88,7 +88,7 @@
 ### 求和
     from django.db.modes import Sum
     >>> Number.objects.filter(id__lte=3).aggregate(s = Sum('integer'))
-    >>> {'s': 10}
+    >>> {'s': 10}  # 如果没有搜索到，返回的会是None，而不是0哦
 
 
 <div id="操作符号"></div>

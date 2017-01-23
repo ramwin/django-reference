@@ -5,9 +5,14 @@
 ## request
     request.GET['key']
     request.POST['key']
+    request.POST.getlist('multi_select')  # 获取一个多选的select的数值
+    request.method == "GET" | "POST"
     json.loads(request.read().encode(request.encoding))
-    file = request.FILES['file'].read()  # 获取文件
-    file_name = file
+    file = request.FILES['file']  # 获取文件, 里面的file是你在form里面设置的name
+        name: 文件名 - portriat.png
+        read(): 读取文件的二进制数据(内存占用很大)
+        chunks(): 一个迭代器
+        size: 文件字节数
 
 ### 获取cookie
     request.COOKIES
@@ -29,3 +34,8 @@
     a = HttpResponse('ok')
     a.set_cookie('foo', value='bar')
     return a
+
+
+### 重定向(HttpResponseRedirect)
+    return HttpResponseRedirect('http://www.ramwin.com')
+    

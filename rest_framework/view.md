@@ -4,12 +4,17 @@
 ## 基础
 
     from rest_framework.views import APIView
+    from rest_framework.generics import GenericAPIView
     from rest_framework.generics import ListCreateAPIView
 
 ## 参数  
     http_method_names = ['post','get']  # 设置允许的请求方法  
     `self.kwargs['key']  # 获取url里面的参数`
 
+# 常用的需要修改的方法
+
+2. `GenericAPIView.get_queryset`  # 可能你需要根据请求来过滤
+1. `GenericAPIView.get_serializer_class`  # 可能你要根据request调用不同的序列化类，默认是 `self.serializer_class`
 
 # ListCreateAPIView
 * POST请求顺序
@@ -23,7 +28,7 @@
     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
-    1. CreateModelMixin.perform_create  # serializer.save()
+    1. CreateModelMixin.perform_create  # serializer.save()  如果要save后进行其他操作，修改这个函数
 
 # CreateAPIView
 * POST请求顺序

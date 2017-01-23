@@ -51,6 +51,10 @@
         # 底层还是 CharField 只不过用 EmailValidator 去校验
 * [EmailValidator](https://docs.djangoproject.com/en/1.10/ref/validators/#django.core.validators.EmailValidator)
 
+### UUIDField
+    import uuid
+    models.UUIDField(default=uuid.uuid4)
+
 <div id="时间"></div>
 ## 时间  
 #### django 都是存储的0时区的时间  
@@ -61,7 +65,11 @@
 
 <div id="数字"></div>
 ## 数字
-    models.IntegerField()   # 整数
+    models.IntegerField()   # 整数 -2147483648 - -2147483648
+    models.PositiveSmallIntegerField()  # 0 - 32767
+    models.SmallIntegerField()  #  -32767 - 32767
+    models.PositiveIntegerField() # 0 - 2147483647
+
     models.FloatField() # 小数
         如果设置了unique的话，就会在数据库层面设置unique。不过数据库显示的时候偶尔会看上去一样
         实际上二者的二进制数据有点区别，换成是十进制后显示不出来。在python内部可以显示
@@ -108,6 +116,7 @@
 
     label = models.ManyToManyField(Label, verbose_name=u'标签', null=True)
     todos = models.ManyToManyField(TodoList, through="WeeklyPaperTodoRef")
+    model.todos.add('1','2')  # 可以是数字，可以是字符串，可以是对象。只要是一个一个传入的即可
 
 ###### 参数
     through = "ModelRefName"  # 可以把中间关联的表拿出来写成model加参数
@@ -124,6 +133,7 @@
     如果不符合，会报错  django.db.utils.IntegrityError
         ordering = "-id"  # 指定默认排序方式
         db_table = "table"  # 指定表的名称
+        abstract = True # 表不进行创建，只用来继承
 #### property的作用
 * views里面可以直接调用,不用加括号
 **但是不能在aggregrate或者filter里面使用**

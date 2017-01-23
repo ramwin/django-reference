@@ -13,6 +13,7 @@ A quick reference  for django
 * [Exceptions错误](./exceptions错误.md)
 * [其他工具utils](./utils.md)
 * [rest_framework](./rest_framework/README.md)
+* [validator表单验证](validator表单验证.md)
 
 # 其他
 * [自定义指令](https://docs.djangoproject.com/en/1.10/howto/custom-management-commands/#accepting-optional-arguments)

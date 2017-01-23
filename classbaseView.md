@@ -21,7 +21,7 @@
 * 参数
     * template_name = "appname/filename.html"  # 使用哪个html渲染
 * 方法
-    * get_context_data
+    * `get_context_data`
         * 返回一个dict, 用于渲染
         * 预定义的方法只是把view这个对象交给context['view']并没有其他操作
 ## ListView
