@@ -1,10 +1,6 @@
 #### Xiang Wang @ 2016-09-30 16:14:18
 
 
-* [数据操作](#数据操作)  
-* [其他属性设置](#其他属性设置)
-
-
 <div id="数据操作"></div>
 # 数据操作
 
@@ -115,12 +111,3 @@
     Shop.objects.bulk_create([  # 这个create需要把foriegnkey的对象传递进去，但是不会去校验, 只要这个对象有pk这个属性就可以了
         Shop(user=user, name='test'),
         Shop(user=user, name='test2')])
-
-
-<div id="其他属性设置"></div>
-# 其他属性设置
-
-## Meta
-    db_table: "设置使用的表的名称"
-    verbose_name: "在admin界面显示的内容"
-    verbose_name_plural: "用于复数的时候显示的内容"

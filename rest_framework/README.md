@@ -4,6 +4,7 @@
 * [Views](./view.md)
 * [serializer序列化](./serializer.md)
 * [Permissions权限](./permissions.md)  
+* [Filter过滤](./filter.md)
 
 ###### 基础  
     from rest_framework import permissions
