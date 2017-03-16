@@ -6,8 +6,8 @@
     sudo uwsgi --chdir=/home/wangx/proj \
         --module=proj.wsgi:application \
         --env DJANGO_SETTINGS_MODULE=proj.settings \
-        --master --pidfile=/tmp/project-master.pid \
-        --http=127.0.0.1:49159 --processes=5 \
+        --master --pidfile=/home/wangx/proj/project-master.pid \
+        --http=0.0.0.0:49159 --processes=5 \
         --uid=1000 --gid=2000 \
         --harakiri=20 \
         --max-requests=50000 \

@@ -9,6 +9,7 @@
 * [排序](#排序)
 * [操作符号](#操作符号)
 * [创建](#创建)
+* [删除](#删除)
 
 <div id="查找"></div>
 ## 查找
@@ -111,3 +112,16 @@
     Shop.objects.bulk_create([  # 这个create需要把foriegnkey的对象传递进去，但是不会去校验, 只要这个对象有pk这个属性就可以了
         Shop(user=user, name='test'),
         Shop(user=user, name='test2')])
+
+
+<div id="删除"></div>
+## 删除数据
+* 基础
+```
+    obj.delete()
+```
+* 关联
+```
+    obj.othermodel_set.clear()  # 删除关联的数据
+    obj.readers.remove(*queryset)  # 删除manytomany的字段
+```

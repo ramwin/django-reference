@@ -30,11 +30,13 @@
     users = serializers.PrimaryKeyRelatedField(many=True)
 
 #### 参数
-    many=True, 允许传入多个
-    allow_null=False, 如果设置了many=True的话，这个设置就没有效果了
+* many=True, 允许传入多个
+* allow_null=False, 如果设置了many=True的话，这个设置就没有效果了
 
 
 ## JSONField
+```
+```
 
 ## BooleanField
 

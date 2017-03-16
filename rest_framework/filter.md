@@ -7,6 +7,13 @@
     class MyFilter(django_filters.rest_framework.FilterSet):
         type = django_filters.NumberFilter(name="type", lookup_expr="gte")
         name = django_filters.CharFilter(name='name')
+        has_reply = django_filters.BooleanFilter(method='filter_reply')
+        def filter_reply(self, queryset, name, value):
+            if value is True:
+                return queryset.exclude(reply="")
+            else:
+                return queryset.filter(reply="")
+
         class Meta:
             model = models.Model
             fields = ("type", "name")

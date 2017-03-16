@@ -18,3 +18,4 @@ A quick reference  for django
 
 # 其他
 * [自定义指令](./command自定义指令.md)
+* [uwsgi部署](./uwsgi部署.md)
