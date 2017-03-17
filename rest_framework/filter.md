@@ -19,7 +19,11 @@
             fields = ("type", "name")
     class MyView(ListAPIView):
         filter_class = MyFilter
+    queryset = MyFilter({'type': 'type1'}, models.Model.objects.all()).qs
 ```
 
 ## 参数
+* `name` 查找哪个字段
 * `lookup_expr` 查找的时候的后缀添加属性
+* `help_text` 备注信息
+* `method` 使用哪个方法来过滤
