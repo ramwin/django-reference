@@ -10,3 +10,7 @@
 ## 获取查询语句
     from django.db import connection
     print connection.queries
+
+
+## url
+    from django.utils.six.moves.urllib.parse import urlparse, urlunparse
