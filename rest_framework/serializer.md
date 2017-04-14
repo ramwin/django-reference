@@ -24,6 +24,10 @@
 
 
 * 添加额外的数据: filed = serializers.ReadOnlyField(source="profile.avatar")
+* 通用参数:
+    help_text: 文档
+    label: 标签
+    allow_blank: False, 是否允许text为空值
 
 
 ## PrimaryKeyRelatedField
