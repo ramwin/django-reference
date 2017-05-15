@@ -52,7 +52,15 @@
         queryset = backend().filter_queryset(self.request, queryset, self)
     def get_queryset(self):
         return self.queryset
+
+    page = self.paginate_queryset(queryset)
+    if page is not None:
+        serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
+    serializer = self.get_serializer(queryset, many=True)
+    return Response(serializer.data)
 ```
+
 * POST请求顺序
 ```
     1. ListCreateAPIView.post  # 没有什么操作
@@ -83,6 +91,10 @@
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+    def get_serializer(self, *args, **kwargs)
+        serializer_class = self.get_serializer_class()
+        kwargs['context'] = self.get_serializer_context()
+        return serializer_class(*args, **kwargs)
     def get_object(self):
         queryset = self.filter_queryset(self.get_queryset())
         lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
@@ -116,4 +128,8 @@
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request, data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+    self.perform_update(serializer)
+        serializer.save()
 ```

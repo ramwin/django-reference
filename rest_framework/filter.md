@@ -26,4 +26,25 @@
 * `name` 查找哪个字段
 * `lookup_expr` 查找的时候的后缀添加属性
 * `help_text` 备注信息
+* `required` 默认False，是否需要。如果为True的话，就会返回空的queryset
 * `method` 使用哪个方法来过滤
+
+
+## Filter
+* ModelChoiceFilter [参考](http://django-filter.readthedocs.io/en/develop/ref/filters.html#modelchoicefilter)
+```
+    author = django_filters.ModelChoiceFilter(queryset=Author.objects.all())
+    def myqueryset(request):
+        return request.user.friends.all()
+    user = django_filters.ModelChoiceFilter(queryset=myqueryset)  # 当然也可以自定义一个queryset函数，必须接受一个request参数
+```
+
+* ChoiceFilter [参考](https://django-filter.readthedocs.io/en/develop/ref/filters.html#choicefilter)
+```
+    STATUS_CHOICES = (
+        (0, 'regular'),
+        (1, 'manager'), 
+        (2, 'admin'),
+    )
+    status = ChoiceFilter(choices=STATUS_CHOICES)
+```

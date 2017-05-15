@@ -9,6 +9,7 @@
 # 数据结构
 * [通用](#通用)
 * [字符串](#字符串)
+* [数字](#数字)
 * [时间](#时间)  
 * [日期](#日期)  
 * [关联](#关联)  
@@ -50,6 +51,7 @@
     unique = False  # 是否允许重复, 如果设置了True，并且一个model里面有2个True，get_or_create就必须把每个这样的字段设置好，不然就会报错
 ```
 
+
 <div id="字符串"></div>
 ## 字符串
 
@@ -85,14 +87,16 @@
     auto_now = True # 保存未当前时间，每次保存时候会自动变更
 ```
 
-<div id="日期"></div>
+<div id="日期"></div>  
+
 ## 日期
 #### 对于日期,不存在时区的概念,都是直接存入的日期,没有转化成utc
 
 <div id="数字"></div>
-## 数字
 
-```
+## 数字
+* 基础
+    ```
     models.IntegerField()   # 整数 -2147483648 - -2147483648
     models.PositiveSmallIntegerField()  # 0 - 32767
     models.SmallIntegerField()  #  -32767 - 32767
@@ -102,7 +106,12 @@
         如果设置了unique的话，就会在数据库层面设置unique。不过数据库显示的时候偶尔会看上去一样
         实际上二者的二进制数据有点区别，换成是十进制后显示不出来。在python内部可以显示
     models.DecimalField()   # 精确小数
-```
+    ```
+* AutoField
+    ```
+    # 不使用原来的id，而是使用自定义的主键。注意一个model里面primary_key只能有一个，autofield也只能有一个
+    models.AutoField(primary_key=True)
+    ```
 
 #### 必须参数(decimal)
 
@@ -171,6 +180,10 @@
 
 #### 其他
 * 如果调用了本身，可以使用 `models.ForeignKey('self', on_delete=models.CASCADE)`
+* 如果单独的manytomany, 可以使用through获取那个隐藏的model
+```
+    school.students.through.objects.filter(school=school)
+```
 
 
 ## 特殊

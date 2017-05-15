@@ -28,6 +28,7 @@
     help_text: 文档
     label: 标签
     allow_blank: False, 是否允许text为空值
+    required: true, 是否允许不传
 
 
 ## PrimaryKeyRelatedField
@@ -50,6 +51,17 @@
 * 会变成True的值: `字符串: true, True, 1,; 布尔值: True; 数字: 1`
 * 会变成False的值: `字符串: False, false, 0; 布尔值: False; 数字: 0`
 * 其他就会报错
+
+## ChoiceField
+
+## SerializerMethodField
+* 使用methodfield来做一些函数的操作，比如班级的序列化类，只看里面有哪些班干部(默认是返回所有学生)
+```
+    good_student = serializers.SerializerMethodField(read_only=True)
+
+    def get_good_student(self, obj):
+        return obj.students(is_class_leader=True)
+```
 
 
 ## 自定义序列化类
