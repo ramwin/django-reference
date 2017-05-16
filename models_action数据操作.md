@@ -20,25 +20,28 @@
     # created 为 True， 代表了obj是新建的
     # 创建的时候的时候会自动保存, 但是要注意, 如果有写field不允许null, 就需要get的时候把参数传进去
 
-### 添加额外字段
-* [官网参考](https://docs.djangoproject.com/en/1.11/ref/models/database-functions/#module-django.db.models.functions.datetime)
-* 代码
-```
-    from django.db.models.functions import ExtractWeekDay
-    TestDate.objects.all().annotate(weekday=ExtractWeekDay('date'))
-```
+* 添加额外字段
+    * [官网参考](https://docs.djangoproject.com/en/1.11/ref/models/database-functions/#module-django.db.models.functions.datetime)
+    * 代码
+    ```
+        from django.db.models.functions import ExtractWeekDay
+        TestDate.objects.all().annotate(weekday=ExtractWeekDay('date'))
+    ```
 
-### 仅仅查询需要的字段
+* 仅仅查询需要的字段
     User.objects.all().values('username')  # 返回 [{'username': 'ramwin'}], 是一个queryset, 可以用来exclude，而如果是自己写的[{'uesrname': 'ramwin'}] 就不可以用来过滤
 
 
 <div id="过滤"></div>
 
 ## 过滤
+* 基础
+    ```
     Search.objects.all()
     Search.objects.filter(text='text')  # 单个条件过滤
     Search.objects.filter(user=wx)  # 外健用对象或者对象id过滤,user_id, user__id也可以
     Search.objects.filter(user__username='wx')  # left join式的过滤。如果没有user，也会被过滤掉
+
     Search.objects.exclude(user__username='wx')  # 如果没有user，也不会过滤掉
     from djabgo.db.models import Count
     User.objects.filter(username='wangx').annotate(shop_cnt=Count('shop')  # count
@@ -48,22 +51,34 @@
     User.objects.exclude(shop__title__contains='shop', shop__name__contains='ew')  # 过滤所有title包含shop和name包含ew的
     User.objects.exclude(shop = Shop.objects.filter(location__contains='tian', name__contains='test'))  # 用户
     ts.messages.all().values('type').annotate(cnt=Count('type'))
-### 通过不关联的表字段进行过滤
+    ```
+
+* 通过不关联的表字段进行过滤
+    ```
     visited_ids = Travel.objects.filter(user=uesr).values('interest')
     Interest.objects.exclude(id__in=visited_ids)
+    ```
 
-### 通过外健过滤
+* 通过外健过滤
+    ```
     TestQuery.objects.exclude(user__id=4001)  # 会搜索出user为None的
     TestQuery.objects.filter(user__id=None)  # 会搜索出user为None的
     # user都没有，更没有id，id更不可能属于这个列表
     TestQuery.objects.filter(user__id__in=[4001])  # 不会搜索出user为None的
     # exclude并不没有user__id必须存在这个前提条件
     TestQuery.objects.exclude(user__id__in=[4001])  # 会搜索出user为None的
+    ```
 
-### 时间操作
-```
+* many的字段过滤
+    ```
+    ClassRoom.objects.filter(student__name__contains='王')  # 找到包含名字有王学生的的班级
+    # 但是如果有两个人都包含"王"，那这个班级就会出现两次，所以用distinct()
+    ```
+
+* 时间过滤
+    ```
     TestDate.objects.exclude(date__week_day__in=[6,7])  # 只看周六周日的数据
-```
+    ```
 
 
 <div id="排序"></div>
