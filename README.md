@@ -15,6 +15,7 @@ A quick reference  for django
 * [其他工具utils](./utils.md)
 * [validator表单验证](validator表单验证.md)
 * [rest_framework框架](./rest_framework/README.md)
+* [信号](./signal信号.md)
 
 # 其他
 * [自定义指令](./command自定义指令.md)

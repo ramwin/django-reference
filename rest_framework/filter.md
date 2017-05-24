@@ -28,6 +28,12 @@
 * `help_text` 备注信息
 * `required` 默认False，是否需要。如果为True的话，就会返回空的queryset
 * `method` 使用哪个方法来过滤
+    ```
+    inbox = django_filters.BooleanFilter(method="filter_inbox")
+
+    def filter_inbox(self, queryset, name, value):
+        return queryset
+    ```
 
 
 ## Filter
@@ -40,11 +46,15 @@
 ```
 
 * ChoiceFilter [参考](https://django-filter.readthedocs.io/en/develop/ref/filters.html#choicefilter)
-```
+    ```
     STATUS_CHOICES = (
         (0, 'regular'),
         (1, 'manager'), 
         (2, 'admin'),
     )
     status = ChoiceFilter(choices=STATUS_CHOICES)
-```
+    ```
+
+* BooleanFilter [参考](http://django-filter.readthedocs.io/en/develop/ref/filters.html#booleanfilter)
+    ```
+    ```
