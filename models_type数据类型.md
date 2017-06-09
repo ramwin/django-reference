@@ -195,6 +195,8 @@
         ordering = "-id"  # 指定默认排序方式
         db_table = "table"  # 指定表的名称
         abstract = True # 表不进行创建，只用来继承
+        verbose_name = '显示名字'
+        verbose_name_plural = '显示名字'
 ```
 #### property的作用
 * views里面可以直接调用,不用加括号
