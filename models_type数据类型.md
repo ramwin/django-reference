@@ -36,6 +36,7 @@
 
 
 <div id="通用"></div>
+
 ## 通用
 #### 参数
 
@@ -53,11 +54,12 @@
 
 
 <div id="字符串"></div>
+
 ## 字符串
 
 ```
     models.CharField(max_length=255)
-    models.TextField()  # 不能为None，默认会为""
+    models.TextField()  # 默认会为""
         max_length  # 不是数据库底层支持的。
     models.EmailField()
         # 底层还是 CharField 只不过用 EmailValidator 去校验
@@ -169,8 +171,16 @@
 ```
     label = models.ManyToManyField(Label, verbose_name=u'标签', null=True)
     todos = models.ManyToManyField(TodoList, through="WeeklyPaperTodoRef")
-    model.todos.add('1','2')  # 可以是数字，可以是字符串，可以是对象。只要是一个一个传入的即可
 ```
+
+* add:
+    ```
+    model.todos.add('1','2')  # 可以是数字，可以是字符串，可以是对象。只要是一个一个传入的即可，add以后就立刻添加进入了数据库
+    1. return None
+    2. 如果已经在里面了，不会二次添加
+    3. 如果不再这个里面，就会直接加进去
+    return None
+    ```
 
 ###### 参数
 ```
@@ -210,6 +220,11 @@
 # 其他属性设置
 
 ## Meta
+```
     db_table: "设置使用的表的名称"
     verbose_name: "在admin界面显示的内容"
     verbose_name_plural: "用于复数的时候显示的内容"
+```
+
+## Signal
+**注意,model的signal不是异步的，而是同步的。如果有异步的需求，请使用celery**

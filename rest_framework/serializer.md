@@ -30,14 +30,23 @@
     allow_blank: False, 是否允许text为空值
     required: true, 是否允许不传
 
-
 * 方法:
     * `to_representation`
         def to_representation(self, value):  # 展示用户数据
     * `save`
         save会根据有没有instance来调用 create 获取 update
         调用完以后，会把data里面的字段用instance重新去渲染
-        
+        return instance
+
+## meta:
+```
+    fields = "__all__"
+    exclude = ["is_superuser", "is_active"]
+    extra_kwargs = {
+        "password": {'write_only': True}
+    }
+```
+
 ## Fields
 * JSONField
     ```
@@ -108,3 +117,5 @@
             fields = TestPermissionSerializer.Meta.fields + ["extra"]
             read_only_fields = TestPermissionSerializer.Meta.read_only_fields + "date"]
 ```
+
+## 关联的序列化类
