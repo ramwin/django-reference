@@ -41,6 +41,34 @@
         else:
             return self.form_invalid(form)
         ```
+        1. `FormMixin.get_form(self, form_class=None)`
+            ```
+            if form_class is None:
+                form_class = self.get_form_class()
+            return form_class(**self.get_form_kwargs())
+            ```
+        2. `ModelFormMixin.get_form_kwargs`:
+            ```
+            kwargs = super(ModelFormMixin, self).get_form_kwargs()
+            if hasattr(self, 'object'):
+                kwargs.update({'instance': self.object})
+            return kwargs
+            ```
+        3. `FormMixin.get_form_kwargs(self)`:
+            ```
+            kwargs = {                                  
+                'initial': self.get_initial(),          
+                'prefix': self.get_prefix(),            
+            }                                           
+                                                        
+            if self.request.method in ('POST', 'PUT'):  
+                kwargs.update({                         
+                    'data': self.request.POST,          
+                    'files': self.request.FILES,        
+                })                                      
+            return kwargs                               
+            ```
+
     3. 如果成功
         1. `ModelFormMixin.form_valid(self, form):`
             ```
