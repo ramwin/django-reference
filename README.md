@@ -16,6 +16,11 @@ A quick reference  for django
 * [validator表单验证](validator表单验证.md)
 * [rest_framework框架](./rest_framework/README.md)
 * [信号](./signal信号.md)
+* [form](./form.md)
+    * 属性
+        * errors  *具体的报错信息*
+    * 方法
+        * `clean()`  *其实就是调用了clean_data*
 
 # 其他
 * [自定义指令](./command自定义指令.md)

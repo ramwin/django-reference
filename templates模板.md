@@ -1,6 +1,6 @@
-# 功能
+### 功能
 
-# Filters过滤
+### Filters过滤
 * `add`: 增加
     * {{ 4 | add: "2" }}  ==> 6  
     * {{ [1,2,3] | add: [4,5,6] }} ==> [1,2,3,4,5,6]  
@@ -21,11 +21,16 @@
 * `length`: 长度
 * `filesizeformat`: 文件尺寸,自动从Byte变成 KB MB
 
-# url 写法
+### url 写法
     {% url 'some-url-name' [v1 v2 arg1=v1 arg2=v2] %}
 
-# 自定义标签
+### 自定义标签
     {% templatetag openvariable %} message {% templatetag closevariable %}  # 临时输出个花括号标签
     {% verbatim %}
         {{if dying}}Still alive.{{/if}}  # 这样中间的代码就不会进行渲染了。
     {% endverbatim %}
+
+
+### 时间
+* [官方文档](https://docs.djangoproject.com/en/1.11/ref/templates/builtins/#date)
+* {{register_time|date:"o年m月d日"}}
