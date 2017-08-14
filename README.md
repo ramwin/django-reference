@@ -15,6 +15,7 @@ A quick reference  for django
 * [其他工具utils](./utils.md)
 * [validator表单验证](validator表单验证.md)
 * [rest_framework框架](./rest_framework/README.md)
+    * [swagger效果](http://api-docs.easemob.com/#/)
 * [信号](./signal信号.md)
 * [form](./form.md)
     * 属性

@@ -86,6 +86,9 @@
     # 输入的是name，但是会根据username去搜索，返回一个user对象出来
     name = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field="username")
     ```
+* ListField  
+    `advantages = serializers.ListField(child=serializers.CharField())`
+
 
 ## 自定义序列化类
 
