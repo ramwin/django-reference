@@ -22,13 +22,22 @@
 * `filesizeformat`: 文件尺寸,自动从Byte变成 KB MB
 
 ### url 写法
-    {% url 'some-url-name' [v1 v2 arg1=v1 arg2=v2] %}
+```
+    {% url 'some-url-name' [v1 v2 arg1=v1 arg2=v2] %}  # 这些参数必须直接放入
+    {% url 'some-url-name' [v1 v2 arg1=v1 arg2=v2] %}?id=3  # 额外的参数放后面
+```
 
 ### 自定义标签
     {% templatetag openvariable %} message {% templatetag closevariable %}  # 临时输出个花括号标签
     {% verbatim %}
         {{if dying}}Still alive.{{/if}}  # 这样中间的代码就不会进行渲染了。
     {% endverbatim %}
+
+
+### for
+    {% for i in list %}
+    {% empty %}
+    {% endfor %}
 
 
 ### 时间
