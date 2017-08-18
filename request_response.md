@@ -14,6 +14,10 @@
         chunks(): 一个迭代器
         size: 文件字节数
 ```
+* 参数
+    * `path`: `/reqres/request/`
+* 方法
+    * `get_full_path`: `/reqres/request/?key=bar`
 
 ## 获取cookie
     request.COOKIES
