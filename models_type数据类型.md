@@ -50,6 +50,7 @@
     through = ''
     choices = TUPLE
     unique = False  # 是否允许重复, 如果设置了True，并且一个model里面有2个True，get_or_create就必须把每个这样的字段设置好，不然就会报错
+    primary_key = True # 是否为主键。最多一个，并且会自动加上null=False, unique=True
 ```
 
 

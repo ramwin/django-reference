@@ -3,12 +3,14 @@
 # 基础
 * [官方教程](https://docs.djangoproject.com/en/1.11/ref/signals/#pre-save)
 * 示例
+
 ```
     def my_callback(sender, **kwargs):
         log.info("Request finished!")
 
 
     def my_signal(sender, *args, **kwargs):
+        print(kwargs['instance'])
         print("calling my_signal")
 
 

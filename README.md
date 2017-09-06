@@ -22,6 +22,12 @@ A quick reference  for django
         * errors  *具体的报错信息*
     * 方法
         * `clean()`  *其实就是调用了clean_data*
+* url
+    ```
+    from django.urls import reverse
+    >>> reverse('reqres:ajax')
+    /reqres/ajax/
+    ```
 
 # 其他
 * [自定义指令](./command自定义指令.md)

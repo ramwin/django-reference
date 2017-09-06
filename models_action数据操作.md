@@ -80,6 +80,11 @@
     TestDate.objects.exclude(date__week_day__in=[6,7])  # 只看周六周日的数据
     ```
 
+* 高级搜索
+    ```
+    from django.db.models import Q
+    User.objects.filter(Q(mobile_number='xxx') | Q(username='xxx'))
+    ```
 
 <div id="排序"></div>
 

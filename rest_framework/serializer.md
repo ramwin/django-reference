@@ -2,7 +2,10 @@
 
 
 # Serializer
+* [基础使用](#basic)
+* [属性和方法](#method)
 
+<div id="basic"></div>
 ## 基础使用
 ```
     from rest_framework import serializers
@@ -27,11 +30,36 @@
     required: true, 是否允许不传
 * 方法:
     * `to_representation`
+        ```
         def to_representation(self, value):  # 展示用户数据
+        ```
     * `save`
         save会根据有没有instance来调用 create 获取 update
         调用完以后，会把data里面的字段用instance重新去渲染
         return instance
+
+
+<div id="method"></div>
+## 属性和方法
+* context
+    ```
+    {'view': <views.DetailView object>,
+     'format': None,
+     'request': <rest_framework.request.Request object>}
+    ```
+
+* to_representation(self, instance)
+    ```
+    # 返回数据
+
+    # 如果要根据不同的instance返回不同的字段怎么办。比如高私密文件就不能看detail
+    def to_representation(self, instance):
+        if self.context['request'].user.level >= instance.level:
+            pass
+        else:
+            self.fields.pop('detail')
+        return super(Serializer, self).to_representation(instance)
+    ```
 
 ## meta:
 ```
