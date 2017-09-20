@@ -61,6 +61,11 @@
         return super(Serializer, self).to_representation(instance)
     ```
 
+* fields
+    ```
+    返回一个 BindingDict {'text': Field }
+    ```
+
 ## meta:
 ```
     fields = "__all__"
@@ -116,6 +121,21 @@
     ```
 * ListField  
     `advantages = serializers.ListField(child=serializers.CharField())`
+* 自定义序列化类
+    ```
+    class MySerializer(serializers.Field):
+        def to_internal_value(self, data):
+            # 把传递过来的数据转化成python可以用的数据。
+            pass
+        def to_representation(self, data):
+            # 把pyhton的值转化成用于显示的值。在create的时候，会先调用to_internal_value，然后save，然后调用to_representation
+            pass
+    ```
+* 属性
+    context
+        {'view': object, 'request': object} 可以获取上下文
+    parent
+        可以获取field的序列化类
 
 
 ## 自定义序列化类

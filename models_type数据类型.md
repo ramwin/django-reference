@@ -153,7 +153,7 @@
         return User.objects.first()
 
     models.ForeignKey(Model,
-        on_delete=models.CASCADE # 默认连带删除(2.0以后默认不连带删除) 
+        on_delete=models.CASCADE # 默认连带删除(2.0以后参数必须传)
         on_delete=models.SET(get_default_user)  # 删除后调用函数设置连带关系的默认直
     )
 * [on_delete参数参考](https://docs.djangoproject.com/en/1.10/ref/models/fields/#django.db.models.CASCADE)  

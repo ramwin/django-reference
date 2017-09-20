@@ -11,6 +11,7 @@
 * [操作符号](#操作符号)
 * [创建](#创建)
 * [删除](#删除)
+* [事务](#事务)
 
 <div id="查找"></div>
 
@@ -115,7 +116,7 @@
     from django.db.models import F
     obj = Model.objects.get(name='test')
     obj.friends = F('friends') + 1
-    obj.save()
+    obj.save()  # 注意哦，每次save都会触发底层的mysql更新，所以save只能执行一次
 
 ## 计算
 ### 求和
@@ -164,3 +165,15 @@
     obj.othermodel_set.clear()  # 删除关联的数据
     obj.readers.remove(*queryset)  # 删除manytomany的字段
 ```
+
+<div id="事务"></div>
+* 例子
+    ```
+    from django.db import transaction
+    with transaction.atomic():
+        # 如果这个时候有其他的代码执行了save，就会报错
+        # 但是不能保证这个atomic一定执行，可能是其他的执行
+        n = Number.objects.first()
+        n.integer += 1
+        n.save()
+    ```
