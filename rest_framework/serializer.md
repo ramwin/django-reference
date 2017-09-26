@@ -121,6 +121,8 @@
     ```
 * ListField  
     `advantages = serializers.ListField(child=serializers.CharField())`
+* FileField
+    * `use_url=False` 这样就不会被渲染成url了，因为大部分都是用media处理，这个url生成的方式完全部队
 * 自定义序列化类
     ```
     class MySerializer(serializers.Field):

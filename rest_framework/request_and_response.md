@@ -6,6 +6,8 @@
 ## request
 
 ## response
+* 定义
+    Response(<dict>, status=200)
 * 属性
     * `status_code` 状态码
     * `data` 数据

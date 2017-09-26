@@ -35,5 +35,5 @@
     * 如果有外键关联到这个model，那这个外键被删除的时候，触发的联合删除也会触发,并且是先有依赖的外键的model被删除，这个instance本身是最后被删除的
     * 参数:
         * sender
-        * instance
+        * instance, 注意此时 instance.id 还是可以获取的
         * using
