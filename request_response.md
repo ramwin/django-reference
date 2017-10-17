@@ -28,6 +28,11 @@
 
 # response
 
+## [参数](https://docs.djangoproject.com/en/1.11/ref/request-response/#httpresponse-objects)
+    * content
+    * charset
+    * status_code
+
 ## 返回文件
 ```
     from django.http import FileResponse

@@ -40,7 +40,8 @@
 ## 通用
 #### 参数
 
-```
+* 基础
+    ```
     null = True,    # 是否可以是NULL
     default = '0',  # 默认的数值
     blank=True      # admin界面是不是可以不填写。不填写的话就是NULL
@@ -51,7 +52,9 @@
     choices = TUPLE
     unique = False  # 是否允许重复, 如果设置了True，并且一个model里面有2个True，get_or_create就必须把每个这样的字段设置好，不然就会报错
     primary_key = True # 是否为主键。最多一个，并且会自动加上null=False, unique=True
-```
+    ```
+* unique
+    * [关于null和unique同时存在的问题](https://stackoverflow.com/questions/454436/unique-fields-that-allow-nulls-in-django), unique校验只对非null的进行唯一校验，包括空字符串，也不能重复
 
 
 <div id="字符串"></div>
@@ -152,6 +155,8 @@
     def get_default_user():
         return User.objects.first()
 
+    limit_choices_to={'is_staff': True}, # 只能设置给 is_staff 的User
+    related_name = "+" # 设置成+或者以+结尾，就会没有反向查找
     models.ForeignKey(Model,
         on_delete=models.CASCADE # 默认连带删除(2.0以后参数必须传)
         on_delete=models.SET(get_default_user)  # 删除后调用函数设置连带关系的默认直
