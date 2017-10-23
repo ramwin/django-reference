@@ -49,17 +49,26 @@ from rest_framework.generics import ListCreateAPIView
         ```
         def list(self, request, *args, **kwargs):
             queryset = self.filter_queryset(self.get_queryset())
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
         def filter_queryset(self, queryset):
             queryset = backend().filter_queryset(self.request, queryset, self)
         def get_queryset(self):
             return self.queryset
-    
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        def get_paginated_response(self, data):
+            assert self.paginator is not None
+            return self.paginator.get_paginated_response(data)
+        def paginator.get_paginated_response(self, data):
+            return Response(OrderedDict([
+                ('count', self.page.paginator.count),
+                ('next', self.get_next_link()),
+                ('previous', self.get_previous_link()),
+                ('results', data)
+            ]))
         ```  
     * POST请求顺序  
         ```
@@ -109,12 +118,12 @@ from rest_framework.generics import ListCreateAPIView
     ```
 
 * DestroyAPIView
-    * DELETE请求顺序
-
-* DestroyAPIView
     ```
     self.delete(self, request, *args, **kwargs)
-    self.destroy(self, request, *args, **kwargs)
+    self.destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
     ```
 
 * UpdateAPIView

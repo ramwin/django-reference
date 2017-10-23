@@ -37,6 +37,9 @@
 
 
 ## Filter
+
+
+### [所有的filter](http://django-filter.readthedocs.io/en/develop/ref/filters.html)
 * ModelChoiceFilter [参考](http://django-filter.readthedocs.io/en/develop/ref/filters.html#modelchoicefilter)
 ```
     author = django_filters.ModelChoiceFilter(queryset=Author.objects.all())
