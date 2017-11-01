@@ -39,7 +39,7 @@
 ## Filter
 
 
-### [所有的filter](http://django-filter.readthedocs.io/en/develop/ref/filters.html)
+### [所有的filter](https://django-filter.readthedocs.io/en/master/ref/filters.html)
 * ModelChoiceFilter [参考](http://django-filter.readthedocs.io/en/develop/ref/filters.html#modelchoicefilter)
 ```
     author = django_filters.ModelChoiceFilter(queryset=Author.objects.all())
@@ -58,6 +58,9 @@
     status = ChoiceFilter(choices=STATUS_CHOICES)
     ```
 
-* BooleanFilter [参考](http://django-filter.readthedocs.io/en/develop/ref/filters.html#booleanfilter)
+* BooleanFilter [参考](http://django-filter.readthedocs.io/en/master/ref/filters.html#booleanfilter)
     ```
+    def filter_bool(self, queryset, name, value):
+        # 前端必须传递 True 和 False 的首字母大写字符串。如果传递错了，就不进行过滤
+        assert value in [True, False]
     ```

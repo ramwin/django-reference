@@ -17,6 +17,7 @@ A quick reference  for django
 * [rest_framework框架](./rest_framework/README.md)
     * [swagger效果](http://api-docs.easemob.com/#/)
     * [serializer序列化](./rest_framework/serializer.md)
+    * [filters](./rest_framework/filter.md)
 * [信号](./signal信号.md)
 * [form](./form.md)
     * 属性

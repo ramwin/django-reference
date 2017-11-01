@@ -76,6 +76,9 @@
 ```
 
 ## Fields
+* CharField
+    * 参数
+        * `trim_whitespace`: *默认`True`, 把字符的前后空白字符删除*
 * JSONField
     ```
     # 别用，因为mysql，sqlite不支持json，所以储存的时候会直接把json数据str保存进去。用我自己创建的 MyJSONField

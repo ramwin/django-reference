@@ -4,6 +4,10 @@
 # 基础
 
 ## request
+* 属性
+    * `request` 返回django的[request](../request_response.md)
+    * `POST` 只会返回 POST 的数据
+    * `data` patch, put, post的数据都能获取到
 
 ## response
 * 定义
