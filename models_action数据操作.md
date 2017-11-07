@@ -14,6 +14,7 @@
 * [事务](#事务)
 
 * [高级操作-aggregation](#aggregation)
+    * [分组](#groupby)
 
 <div id="查找"></div>
 
@@ -88,6 +89,10 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     ```
     ClassRoom.objects.filter(student__name__contains='王')  # 找到包含名字有王学生的的班级
     # 但是如果有两个人都包含"王"，那这个班级就会出现两次，所以用distinct()
+    Blog.objects.filter(entry__authors__name__isnull=True)
+    # 这个会导致没有authors的也会被筛选出来
+    Blog.objects.filter(entry__authors__isnull=False,
+        entry__authors__name__isnull=True)  # 这个会是筛选出有作者并且作者名字是null的
     ```
 
 * 时间过滤
@@ -223,6 +228,19 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     {'max_price': Decimal('200000.00'), 'min_price': Decimal('3.00')}
     # 查看每家书店的书的名字的种类（并且还去重)
     >>> Store.objects.annotate(c=Count('books__name', distinct=True))[0]
+    >>> Publisher.objects.annotate(avg_rating=Avg('book__rating')).filter(book__rating__gt=3.0)
+    (<Publisher: A>, 4.5)  # (5+4)/2
+    (<Publisher: B>, 2.5)  # (1+4)/2
+    >>> Publisher.objects.filter(book__rating__gt=3.0).annotate(avg_rating=Avg('book__rating'))
+    (<Publisher: A>, 4.5)  # (5+4)/2
+    (<Publisher: B>, 4.0)  # 4/1 (book with rating 1 excluded)
+    Author.objects.values('name').annotate(average_rating=Avg('book__rating'))
+    # 把用户按照name来排序，并算出排序
+    ```
+* #### groupby
+    ```python
+    Travel.objects.values('interest2').annotate(Count('user', distinct=True))
+    # 对所有的旅行记录排序，看看那个经典(去的人次/去过的人, 有distinct就是一个人只能算去一次)最多
     ```
 
 ### end
