@@ -241,8 +241,8 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     ```python
     Travel.objects.values('interest2').annotate(Count('user', distinct=True))
     # 对所有的旅行记录排序，看看那个经典(去的人次/去过的人, 有distinct就是一个人只能算去一次)最多
-    Book.objects.values('name').annotate(Count('id'))
-    # group the book by its name
+    Book.objects.values('name').annotate(Count('id')).order_by()
+    # group the book by its name, order_by is required or the the group will not have effect.
     ```
 
 ### end
