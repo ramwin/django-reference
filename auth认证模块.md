@@ -18,6 +18,7 @@
 ```
     from django.contrib.auth import authenticate
     user = authenticate( username = 'john', password = 'secret')
+    authenticate(username='ramwin', password='wangx')
     if user    # 有这个账户
     if user.is_active:    # 账户是激活的
     else:     # 认证失败

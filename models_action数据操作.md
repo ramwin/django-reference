@@ -10,12 +10,14 @@
 * [排序](#排序)
 * [操作符号](#操作符号)
 * [创建](#创建)
-* [删除](#删除)
+* [删除](#delete)
 * [事务](#事务)
+
+* [高级操作-aggregation](#aggregation)
 
 <div id="查找"></div>
 
-## 查找
+### 查找
 ```
 obj, created = <model>.objects.get_or_create(user__name='wangx')
 # 不存在用户就不登录而是注册
@@ -40,7 +42,7 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
 
 <div id="过滤"></div>
 
-## 过滤
+### 过滤
 * 基础
     ```
     Search.objects.all()
@@ -101,7 +103,7 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
 
 <div id="排序"></div>
 
-## 排序
+### 排序
 * 基础
     ```
     User.objects.all().ordey_by('username', 'id')  # 通过2个字段排序
@@ -122,13 +124,13 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     # 这样不用考虑sql注入
     ```
 
-## 创建
+### 创建
     Model.objects.bulk_create([Model1, Model2]) # 如果后面的创建失败，整个就不会创建。类似事务，但是无法调用每个instance的save函数
     Model.objects.create(name='王')  # 创建一个对象，会调用Model的save函数
     Model.objects.get_or_create(text='w')  # 如果是创建的话会调用save函数
     创建后会把创建对象的列表返回
 
-## 修改
+### 修改
     objs = model.objects.filter(status=1).update(status=1)
 
 #### 原子操作
@@ -137,7 +139,6 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     obj.friends = F('friends') + 1
     obj.save()  # 注意哦，每次save都会触发底层的mysql更新，所以save只能执行一次
 
-## 计算
 ### 求和
     from django.db.modes import Sum
     >>> Number.objects.filter(id__lte=3).aggregate(s = Sum('integer'))
@@ -146,7 +147,7 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
 
 <div id="操作符号"></div>
 
-## 操作符号
+### 操作符号
 [官方教程](https://docs.djangoproject.com/en/1.10/ref/models/querysets/#field-lookups)
 #### 基础
 * 过滤: Model.objects.filter()  Model.objects.all()  # 如果是外键，可以使用 user=obj, user=id, user_id=id 这三种方式。 id可以字符串，也可以是数字
@@ -161,22 +162,24 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
 
 <div id="创建"></div>
 
-## 创建数据
-#### 基础
+### 创建数据
+* 基础
+    ```
     instance = Text(text='text')
     instance.save()
+    ```
 
-#### 其他
+* 其他
+    ```
     Shop.objects.bulk_create([  # 这个create需要把foriegnkey的对象传递进去，但是不会去校验, 只要这个对象有pk这个属性就可以了
         Shop(user=user, name='test'),
         Shop(user=user, name='test2')])
+    ```
 
 
-<div id="删除"></div>
-
-## 删除数据
+### delete
 * 基础
-```
+```python
     obj.delete()
 ```
 * 关联
@@ -187,7 +190,7 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
 
 <div id="事务"></div>
 * 例子
-    ```
+    ```python
     from django.db import transaction
     with transaction.atomic():
         # 如果这个时候有其他的代码执行了save，就会报错
@@ -196,3 +199,30 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
         n.integer += 1
         n.save()
     ```
+
+
+### aggregation
+* [官方文档](https://docs.djangoproject.com/en/1.11/topics/db/aggregation/)
+* [Cheat Sheet](https://docs.djangoproject.com/en/1.11/topics/db/aggregation/#cheat-sheet)
+    ```python
+    from django.db.models import Avg, Max, FloatField, Count, Min
+    Book.objects.all().aggregate(Avg('price'))
+    Book.objects.all().aggregate(Max('price'))
+    Book.objects.all().aggregate(price_diff=Max('price', output_field=FloatField()) - Avg('price'))
+    # https://groups.google.com/forum/#!topic/django-users/QVo-fHwiRks
+    pubs = Publisher.objects.annotage(num_books=Count('book'))
+    ```
+* 对一个queryset创建聚合aggregate
+    * [聚合的函数参考](https://docs.djangoproject.com/en/1.11/ref/models/querysets/#aggregation-functions)
+        * Avg, Count, Max, Min
+* 对queryset里面的每一个item创建annotate
+    ```python
+    Book.objects.annotate(Count('authors', distinct=True))  # 找到每一本书的作者数量
+    # 找到每个商店的最贵的书的价格和最便宜的书的价格
+    >>> Store.objects.annotate(min_price=Min('books__price'), max_price=Max('books__price'))
+    {'max_price': Decimal('200000.00'), 'min_price': Decimal('3.00')}
+    # 查看每家书店的书的名字的种类（并且还去重)
+    >>> Store.objects.annotate(c=Count('books__name', distinct=True))[0]
+    ```
+
+### end

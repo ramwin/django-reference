@@ -3,7 +3,8 @@ A quick reference  for django
 
 # 基础
 * [用户认证](./auth认证模块.md)
-* [管理员](./admin.md)
+* [管理员 & admin界面](./admin.md)
+* [用户认证 user auth and login](./auth认证模块.md)
 * [URL分配](./urls.md)
 * [Model数据库基础](./models_type数据类型.md)
 * [Model数据库方法](./models_action数据操作.md)
