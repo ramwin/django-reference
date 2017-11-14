@@ -172,12 +172,15 @@
 
 #### 多对一
 * 请使用ForeignKey [参考](https://docs.djangoproject.com/en/1.10/topics/db/examples/many_to_one/)
-#### 多对多 [参考文档](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
 
-```
+#### 多对多 [参考文档](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
+[api](https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_many/)
+
+* 基础
+    ```
     label = models.ManyToManyField(Label, verbose_name=u'标签', null=True)
     todos = models.ManyToManyField(TodoList, through="WeeklyPaperTodoRef")
-```
+    ```
 
 * add:
     ```
@@ -186,6 +189,21 @@
     2. 如果已经在里面了，不会二次添加
     3. 如果不再这个里面，就会直接加进去
     return None
+    ```
+
+* remove:
+    ```
+    model.label.remove(label1, label2)  # 可以重复，可以多个
+    ```
+
+* set:
+    ```
+    model.label.set([label1, label2])
+    ```
+
+* clear:
+    ```
+    model.label.clear()
     ```
 
 ###### 参数
