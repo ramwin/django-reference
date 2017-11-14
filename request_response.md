@@ -3,8 +3,6 @@
 
 # request
 ```
-    request.GET['key']
-    request.POST['key']
     request.POST.getlist('multi_select')  # 获取一个多选的select的数值
     request.method == "GET" | "POST"
     json.loads(request.read().encode(request.encoding))
@@ -16,14 +14,16 @@
 ```
 * 参数
     * `path`: `/reqres/request/`
+    * `GET`: 返回GET的参数, ImmutableDict
+    * `body`: 返回二进制内容
+    * `POST`: 类似GET, 用于POST的方法
 * 方法
     * `get_full_path`: `/reqres/request/?key=bar`
 
-## 获取cookie
-    request.COOKIES
+* cookie: `request.COOKIES`
 
-## 其他
-    request.META['REMOTE_ADDR']  # 获取IP地址
+* 其他
+    * `request.META['REMOTE_ADDR']`  # 获取IP地址
 
 
 # response
