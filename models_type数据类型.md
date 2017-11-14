@@ -174,6 +174,7 @@
 * 请使用ForeignKey [参考](https://docs.djangoproject.com/en/1.10/topics/db/examples/many_to_one/)
 
 #### 多对多 [参考文档](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
+[api](https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_many/)
 
 * 基础
     ```

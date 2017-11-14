@@ -12,7 +12,7 @@
 * `cut`: 去除指定字符
 * `date`: 格式化时间
     * {{ value|date:"D d M Y" }}
-* `default`: 默认的值
+* `default`: 默认的值  {{ event.source|default:"未知来源" }}
 * `default_if_none`: None才是default
 * `dictsort`: 按照dict的某个key排序
     {{ value|dictsort:"name" }}
