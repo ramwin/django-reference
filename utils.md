@@ -14,3 +14,9 @@
 
 ## url
     from django.utils.six.moves.urllib.parse import urlparse, urlunparse
+
+
+## global
+    from django.utils import timezone
+    timezone.now()  # utf的时间
+    timezone.localtime()  # 服务器的时间

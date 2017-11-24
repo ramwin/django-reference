@@ -20,6 +20,11 @@
 * `divisibleby`: 能否被值整除
 * `length`: 长度
 * `filesizeformat`: 文件尺寸,自动从Byte变成 KB MB
+* `with`:
+    ```
+    {% with shor_name=longname.longsubname.longrealname %}
+    {% endwith %}
+    ```
 
 ### url 写法
 ```

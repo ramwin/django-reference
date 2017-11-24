@@ -31,6 +31,8 @@ A quick reference  for django
     >>> reverse('reqres:ajax')
     /reqres/ajax/
     ```
+* unittest单元测试
+    * [assertions](https://docs.djangoproject.com/en/1.11/topics/testing/tools/#assertions)
 
 # 其他
 * [自定义指令](./command自定义指令.md)
