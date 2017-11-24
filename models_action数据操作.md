@@ -160,7 +160,7 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
 #### 操作符列表
 * =: 值等于 或者 field__exact="value"
 * iexact: 忽略大小写  name_iexact="wang"
-* contains: 包含
+* contains: 包含区分大小写。但是注意，sqlite默认不区分的，所以仍旧不区分
 * icontains: 不区分大小写的包含
 * startswith, endswith, istartswith, iendswith
 
