@@ -20,3 +20,4 @@
     from django.utils import timezone
     timezone.now()  # utf的时间
     timezone.localtime()  # 服务器的时间
+    timezone.now().isoformat()

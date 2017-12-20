@@ -1,16 +1,14 @@
-# 基础的模块
+## 基础的模块
 ```
     from django.db import models
     from django.contrib.auth.models import User  
 ```
 
-* [数据结构](#数据结构)  
-
-# 数据结构
+## 数据结构
 * [通用](#通用)
 * [字符串](#字符串)
 * [数字](#数字)
-* [时间](#时间)  
+* [时间](#time)  
 * [日期](#日期)  
 * [关联](#关联)  
 * [其他属性设置](#其他属性设置)
@@ -34,8 +32,6 @@
         lastlogin = models.DateTimeField()
 ```
 
-
-<div id="通用"></div>
 
 ## 通用
 #### 参数
@@ -72,26 +68,34 @@
 * [EmailValidator](https://docs.djangoproject.com/en/1.10/ref/validators/#django.core.validators.EmailValidator)
 
 ### UUIDField
-
 ```
     import uuid
     models.UUIDField(default=uuid.uuid4)
 ```
 
-<div id="时间"></div>
-## 时间  
-#### django 都是存储的0时区的时间  
 
-```
-    models.DateTimeField()
-```
+## DateTimeField
 
-#### 可以有的参数
+* 参数
+    * `auto_now_add = True`: 保存为当前时间，不再改变
+    * `auto_now = True`: 保存未当前时间，每次保存时候会自动变更
+* 示例
+    * 如果`timezone = 'UTC'`
+        ```
+        DateTimeModel.objects.create(time=timezone.now())  # 没问题
+        DateTimeModel.objects.create(time=datetime.now())  # 自动保存为当前时间, 因为datetime.now()会自动变化，所以这个时间也是正确的
+        DateTimeModel.objects.create(time='2017-12-12 10:24:00')  # 保存为UTC的10点了，如果是客户直接上传的，就会到处差了8小时
+        DateTimeModel.objects.create(time='2017-12-12T10:24:00+08:00')  # 这么精确，也没问题
+        ```
+    * 如果`timezone = 'Asia/Shanghai'
+        ```
+        DateTimeModel.objects.create(time=timezone.now())  # 没问题
+        DateTimeModel.objects.create(time=datetime.now())  # 自动保存为当前时间, 因为datetime.now()会自动变化，所以这个时间也是正确的
+        DateTimeModel.objects.create(time='2017-12-12 10:24:00')  # 保存为Asia/Shanghai的10点了，如果是客户直接上传的，因为恰好客户和我们的服务器是同一个时区，所以也没问题
+        DateTimeModel.objects.create(time='2017-12-12T10:24:00+08:00')  # 这么精确，也没问题
+        ```
+    * 结论: 服务器端都用timezone，客户端都用带iso 8601
 
-```
-    auto_now_add = True   # 保存为当前时间，不再改变
-    auto_now = True # 保存未当前时间，每次保存时候会自动变更
-```
 
 <div id="日期"></div>  
 
