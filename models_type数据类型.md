@@ -1,10 +1,10 @@
-## 基础的模块
+# 基础的模块
 ```
     from django.db import models
     from django.contrib.auth.models import User  
 ```
 
-## 数据结构
+# 数据结构
 * [通用](#通用)
 * [字符串](#字符串)
 * [数字](#数字)
@@ -14,7 +14,7 @@
 * [其他属性设置](#其他属性设置)
 
 
-## 示例
+# 示例
 ```
     class profile(models.Model):
         SEX_CHOICE = (
@@ -33,14 +33,14 @@
 ```
 
 
-## 通用
-#### 参数
+# 通用
+## 参数
 
 * 基础
     ```
     null = True,    # 是否可以是NULL
     default = '0',  # 默认的数值
-    blank=True      # admin界面是不是可以不填写。不填写的话就是NULL
+    blank=True      # admin界面是不是可以不填写。不填写的话就是NULL, 但是不影响model的创建
     related_name = 'table'  # 设置反向查找的功能
     verbose_name = '名字'   # admin界面用来给人看的名称,账号，而不是username
     help_text = ''  # 在每个model的form下面有一小行字符串。显示帮助信息。账号必须多于6个字符等等
@@ -55,7 +55,7 @@
 
 <div id="字符串"></div>
 
-## 字符串
+# 字符串
 
 ```
     models.CharField(max_length=255)
@@ -67,14 +67,14 @@
 
 * [EmailValidator](https://docs.djangoproject.com/en/1.10/ref/validators/#django.core.validators.EmailValidator)
 
-### UUIDField
+# UUIDField
 ```
     import uuid
     models.UUIDField(default=uuid.uuid4)
 ```
 
 
-## DateTimeField
+# DateTimeField
 
 * 参数
     * `auto_now_add = True`: 保存为当前时间，不再改变
@@ -99,12 +99,12 @@
 
 <div id="日期"></div>  
 
-## 日期
-#### 对于日期,不存在时区的概念,都是直接存入的日期,没有转化成utc
+# 日期
+## 对于日期,不存在时区的概念,都是直接存入的日期,没有转化成utc
 
 <div id="数字"></div>
 
-## 数字
+# 数字
 * 基础
     ```
     models.IntegerField()   # 整数 -2147483648 - -2147483648
@@ -123,15 +123,14 @@
     models.AutoField(primary_key=True)
     ```
 
-#### 必须参数(decimal)
+## 必须参数(decimal)
 
 ```
     decimal_places = 2  # 小数尾数
     max_digits = 3  # 数字的位数(包括小数)
 ```
 
-#### 参数
-#### 保存
+## 保存
 
 ```
     integer:    1, '1', 不可以是 '2.9', 但是可以是 2.9(之后存入2), 调用的是int函数
@@ -139,22 +138,19 @@
     decimal:    '1.1', 1.1, decimal.Decimal('1.1')
 ```
 
-### 获取
 
-<div id="布尔值"></div>
 # 布尔值
     models.BooleanField()   # 布尔值
 
-<div id="关联"></div>
-## 关联
-#### 一对一
+# 关联
+## 一对一
 
 ```
     models.ForeignKey(Model)    # 关联到另一个Model
     models.OneToOneField(Model, related_name="profile", db_index=True)
 ```
 
-###### 参数
+### 参数
 
     def get_default_user():
         return User.objects.first()
@@ -174,16 +170,16 @@
 
 
 
-###### 使用
+### 使用
     
 ```
     user.profile
 ```
 
-#### 多对一
+## 多对一
 * 请使用ForeignKey [参考](https://docs.djangoproject.com/en/1.10/topics/db/examples/many_to_one/)
 
-#### 多对多 [参考文档](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
+## 多对多 [参考文档](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
 [api](https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_many/)
 
 * 基础
@@ -216,13 +212,13 @@
     model.label.clear()
     ```
 
-###### 参数
+### 参数
 ```
     through = "ModelRefName"  # 可以把中间关联的表拿出来写成model加参数
     db_table = "关联的表名"  # 关联的数据库的表名称
 ```
 
-#### 其他
+## 其他
 * 如果调用了本身，可以使用 `models.ForeignKey('self', on_delete=models.CASCADE)`
 * 如果单独的manytomany, 可以使用through获取那个隐藏的model
 ```
@@ -230,8 +226,8 @@
 ```
 
 
-## 特殊
-#### Meta的作用
+# 特殊
+## Meta的作用
 ```
     class Meta:
         unique_together = ("user","date")   # 同一个用户同一个时间只允许一次(比如投票)
@@ -242,15 +238,15 @@
         verbose_name = '显示名字'
         verbose_name_plural = '显示名字'
 ```
-#### property的作用
+## property的作用
 * views里面可以直接调用,不用加括号
 **但是不能在aggregrate或者filter里面使用**
-#### str的作用
+
+## str的作用
 * 可以让shell里面查看model更加好看一点，但是要注意，尽量不要把id放在里面，
 * 不然在model没有save的时候，会报错。就算放，也用 instance.pk or 0的形式
 
 
-<div id="其他属性设置"></div>
 # 其他属性设置
 
 ## Meta
@@ -260,5 +256,5 @@
     verbose_name_plural: "用于复数的时候显示的内容"
 ```
 
-## Signal
+# Signal
 **注意,model的signal不是异步的，而是同步的。如果有异步的需求，请使用celery**

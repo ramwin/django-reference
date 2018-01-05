@@ -1,12 +1,12 @@
-#### Xiang Wang @ 2016-09-28 15:54:49
+** Xiang Wang @ 2016-09-28 15:54:49 **
 
 
-# Serializer
+# 总缆
 * [基础使用](#basic)
 * [属性和方法](#method)
+* [返回rest\_framework](./README.md);  [返回django\_reference](../README.md)
 
-<div id="basic"></div>
-## 基础使用
+# 基础使用
 ```
     from rest_framework import serializers
     class ShopSerializer(serializers.ModelSerializer):
@@ -38,9 +38,7 @@
         调用完以后，会把data里面的字段用instance重新去渲染
         return instance
 
-
-<div id="method"></div>
-## 属性和方法
+# 属性和方法
 * context
     ```
     {'view': <views.DetailView object>,
@@ -66,7 +64,7 @@
     返回一个 BindingDict {'text': Field }
     ```
 
-## meta:
+# meta:
 ```
     fields = "__all__"
     exclude = ["is_superuser", "is_active"]
@@ -75,7 +73,7 @@
     }
 ```
 
-## Fields
+# Fields
 * CharField
     * 参数
         * `trim_whitespace`: *默认`True`, 把字符的前后空白字符删除*
@@ -141,11 +139,18 @@
         {'view': object, 'request': object} 可以获取上下文
     parent
         可以获取field的序列化类
+* 嵌套的序列化类
+这种嵌套的需要B本来就有A的`manytomany`或者`a_set`的字段。如果需要过滤的话就要手动写method
+    ```
+    class ASerializer
+    class BSerializer:
+        as = ASerializer(many=True)
+    ```
 
 
-## 自定义序列化类
+# 自定义序列化类
 
-## 进阶
+# 进阶
 ```
     TestPermissionSerializer(serializers.ModelSerializer):
         class Meta:
@@ -159,4 +164,5 @@
             read_only_fields = TestPermissionSerializer.Meta.read_only_fields + "date"]
 ```
 
-## 关联的序列化类
+# 序列化类的继承
+* `class CSerializer(ASerializer, BSerializer)`: 对于A和B都有的field，C会继承第一个class的（既A的)
