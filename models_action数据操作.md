@@ -22,8 +22,10 @@
 ```
 obj, created = <model>.objects.get_or_create(user__name='wangx')
 # 不存在用户就不登录而是注册
-# created 为 True， 代表了obj是新建的
+# created 为 True， 代表了obj是新建
+# 如果返回多条数据，会报错的
 # 创建的时候的时候会自动保存, 但是要注意, 如果有写field不允许null, 就需要get的时候把参数传进去
+# <model>.objects.get_or_create(text='text', time__gt=timezone.now() - timezone.timedelte(0, 60*5)), 这样也会先去找最近5分钟的，然后才会反追
 ```
 
 * 添加额外字段
