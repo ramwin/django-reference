@@ -17,7 +17,12 @@
 
 
 ## global
+* ### [时区](https://docs.djangoproject.com/en/2.0/topics/i18n/timezones/)
+```
     from django.utils import timezone
     timezone.now()  # utf的时间
+    timezone.timedelta(days, secon
     timezone.localtime()  # 服务器的时间
     timezone.now().isoformat()
+    timezone.timedelta(days, seconds, microseconds)
+```

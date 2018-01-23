@@ -8,6 +8,9 @@
 * `search_fields`: 在列表页面的搜索框搜索的字段
 * `readonly_fields`: 在详情页面，哪些字段只能读，不能写。一般用于auto_now_add 和 auto_now 的时间，以及id
 
+# [自定义]
+* [自定义一个字段](#设置样式)
+
 # [设置](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.has_add_permission)
 * `has_add_permission(request)`: 能否添加
 * `has_delete_permission(request, obj=None)`: 能否删除
@@ -20,6 +23,9 @@
         ]
         list_display = ('text','project')
         list_filter = ['time','leve']
-        search_fields = ['text','project']
+        search_fields = ['text','project', 'get_users']
+        def get_users(self, obj):  # 自定义一个字段
+            return obj.users.all()
+        get_users.short_description = '用户'
     admin.site.register(<models>, SampleAdmin)
 ```

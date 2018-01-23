@@ -22,7 +22,7 @@ from rest_framework.generics import ListCreateAPIView
     ```
 
 # 常用的view
-* GenericAPIView
+* ### GenericAPIView
     ```
     def get_serializer(instance, *args, **kwargs):
         serializer_class = self.get_serializer_class()
@@ -44,7 +44,7 @@ from rest_framework.generics import ListCreateAPIView
         self.check_object_permissions(self.request, obj)
     ```
 
-* ListCreateAPIView
+* ### ListCreateAPIView
     * GET请求顺序  
         ```
         def list(self, request, *args, **kwargs):
@@ -84,12 +84,12 @@ from rest_framework.generics import ListCreateAPIView
         1. CreateModelMixin.perform_create  # serializer.save()  如果要save后进行其他操作，修改这个函数
         ```
 
-* CreateAPIView
+* ### CreateAPIView
     * POST请求顺序
         1. CreateAPIView.post  # 没有什么操作
         2. CreateModelMixin.create  # 验证数据
 
-* RetrieveAPIView
+* ### RetrieveAPIView
     ```
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -117,7 +117,7 @@ from rest_framework.generics import ListCreateAPIView
         return obj
     ```
 
-* DestroyAPIView
+* ### DestroyAPIView
     ```
     self.delete(self, request, *args, **kwargs)
     self.destroy(self, request, *args, **kwargs):
@@ -126,11 +126,15 @@ from rest_framework.generics import ListCreateAPIView
         return Response(status=status.HTTP_204_NO_CONTENT)
     ```
 
-* UpdateAPIView
+* ### UpdateAPIView
     ```
     def patch(self, request, *args, **kwargs)
-    self.partial_update(request, *args, **kwargs)
+        return self.partial_update(request, *args, **kwargs)
+
+    def partial_update(self, request, *args, **kwargs)
         kwargs['partial'] = True
+        return self.update(request, *args, **kwargs)
+
     self.update(request, *args, **kwargs)
         partial = kwargs.pop('partial', False)
         instance = self.get_object()

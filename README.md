@@ -3,9 +3,9 @@
 *A quick reference  for django*
 
 # 基础
-## [用户认证](./auth认证模块.md)
 ## [管理员 & admin界面](./admin.md)
 ## [用户认证 user auth and login](./auth认证模块.md)
+## [cache缓存](https://docs.djangoproject.com/en/2.0/topics/cache/)
 ## [URL分配](./urls.md)
 ## [Model基础参考](./models_type数据类型.md)
 ## [queryset参考](./models_action数据操作.md)
@@ -17,9 +17,10 @@
 ## [其他工具utils](./utils.md)
 ## [validator表单验证](validator表单验证.md)
 ## [rest_framework框架](./rest_framework/README.md)
-* [swagger效果](http://api-docs.easemob.com/#/)
-* [serializer序列化](./rest_framework/serializer.md)
-* [filters](./rest_framework/filter.md)
+* ### [swagger效果](http://api-docs.easemob.com/#/)
+* ### [serializer序列化](./rest_framework/serializer.md)
+* ### [filters](./rest_framework/filter.md)
+* ### [views](./rest_framework/view.md)
 
 ## [信号](./signal信号.md)
 ## [form](./form.md)
