@@ -6,6 +6,14 @@
 ## [管理员 & admin界面](./admin.md)
 ## [用户认证 user auth and login](./auth认证模块.md)
 ## [cache缓存](https://docs.djangoproject.com/en/2.0/topics/cache/)
+```
+    from django.core.cache import cache
+    from django.core.cache import caches
+
+    cache.set('foo', 'bar', timeout=3600)
+    cache = caches['thirdparty']
+    cache.set('foo', 'bar', timeout=3600*24*60)
+```
 ## [URL分配](./urls.md)
 ## [Model基础参考](./models_type数据类型.md)
 ## [queryset参考](./models_action数据操作.md)
