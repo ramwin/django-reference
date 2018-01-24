@@ -13,6 +13,7 @@
     cache.set('foo', 'bar', timeout=3600)
     cache = caches['thirdparty']
     cache.set('foo', 'bar', timeout=3600*24*60)
+    cache.get('cache_list', [])  # 没有默认值就返回None
 ```
 ## [URL分配](./urls.md)
 ## [Model基础参考](./models_type数据类型.md)
