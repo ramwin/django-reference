@@ -47,4 +47,11 @@
 ## unittest单元测试
 * [assertions](https://docs.djangoproject.com/en/1.11/topics/testing/tools/#assertions)
 ## [自定义指令](./command自定义指令.md)
+```
+from django.core.management.base import OutputWrapper
+from django.core.management.color import color_style
+out = OutputWrapper(sys.stdout)
+style = color_style()
+out.write(style.SUCCESS(serializer.data))
+```
 ## [uwsgi部署](./uwsgi部署.md)

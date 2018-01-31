@@ -25,4 +25,8 @@
     timezone.localtime()  # 服务器的时间
     timezone.now().isoformat()
     timezone.timedelta(days, seconds, microseconds)
+
+    import pytz
+    tz = pytz.timezone('Asia/Shanghai')
+    model_instance.createtime.astimezone(tz)
 ```
