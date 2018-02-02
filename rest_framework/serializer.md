@@ -78,6 +78,49 @@
     * 参数
         * `trim_whitespace`: *默认`True`, 把字符的前后空白字符删除*
         * `max_length`, `min_length`, `allow_blank`, `trim_whitespace`, `allow_null`
+* EmailField
+* RegexField
+* SlugField
+* URLField
+* UUIDField
+* FilePathField
+* IPAddressField
+* PrimaryKeyRelatedField
+    * 基础使用
+        users = serializers.PrimaryKeyRelatedField(many=True)
+    * 参数
+        * many=True, 允许传入多个
+        * allow_null=False, 如果设置了many=True的话，这个设置就没有效果了
+* BooleanField
+    * **注意: 由于html里面，当你不选择那个checkbox的时候，就会不传递这个值。所以当你如果用form post的时候，就算没有参数，`rest_framework`也会当成False处理。**
+    * 务必看源码
+    * 会变成True的值: `字符串: true, True, 1,; 布尔值: True; 数字: 1`
+    * 会变成False的值: `字符串: False, false, 0; 布尔值: False; 数字: 0`
+    * 其他就会报错
+* NullBooleanField
+* IntegerField
+* FloatField
+* DateTimeField
+* DateField
+* DurationField
+* ChoiceField
+* MultipleChoiceField
+* SerializerMethodField
+    * 使用methodfield来做一些函数的操作，比如班级的序列化类，只看里面有哪些班干部(默认是返回所有学生)
+    ```
+    good_student = serializers.SerializerMethodField(read_only=True)
+
+    def get_good_student(self, obj):
+        return obj.students(is_class_leader=True)
+    ```
+* SlugRelatedField
+    ```
+    # 输入的是name，但是会根据username去搜索，返回一个user对象出来
+    name = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field="username")
+    ```
+* ListField  
+    `advantages = serializers.ListField(child=serializers.CharField())`
+* DictField
 * JSONField
     ```
     # 别用，因为mysql，sqlite不支持json，所以储存的时候会直接把json数据str保存进去。用我自己创建的 MyJSONField
@@ -95,36 +138,13 @@
         def to_representation(self, value):
             return json.loads(value)
     ```
-* PrimaryKeyRelatedField
-    * 基础使用
-        users = serializers.PrimaryKeyRelatedField(many=True)
-    * 参数
-        * many=True, 允许传入多个
-        * allow_null=False, 如果设置了many=True的话，这个设置就没有效果了
-* BooleanField
-    * **注意: 由于html里面，当你不选择那个checkbox的时候，就会不传递这个值。所以当你如果用form post的时候，就算没有参数，`rest_framework`也会当成False处理。**
-    * 务必看源码
-    * 会变成True的值: `字符串: true, True, 1,; 布尔值: True; 数字: 1`
-    * 会变成False的值: `字符串: False, false, 0; 布尔值: False; 数字: 0`
-    * 其他就会报错
-* ChoiceField
-* SerializerMethodField
-    * 使用methodfield来做一些函数的操作，比如班级的序列化类，只看里面有哪些班干部(默认是返回所有学生)
-    ```
-    good_student = serializers.SerializerMethodField(read_only=True)
-
-    def get_good_student(self, obj):
-        return obj.students(is_class_leader=True)
-    ```
-* SlugRelatedField
-    ```
-    # 输入的是name，但是会根据username去搜索，返回一个user对象出来
-    name = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field="username")
-    ```
-* ListField  
-    `advantages = serializers.ListField(child=serializers.CharField())`
 * FileField
-    * `use_url=False` 这样就不会被渲染成url了，因为大部分都是用media处理，这个url生成的方式完全部队
+    * `use_url=False` 这样就不会被渲染成url了，因为大部分都是用media处理，这个url生成的方式完全不对
+* ImageField
+* ReadOnlyField
+* HiddenField
+* ModelField
+
 * 自定义序列化类
     ```
     class MySerializer(serializers.Field):
