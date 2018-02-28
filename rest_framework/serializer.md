@@ -101,6 +101,8 @@
 * IntegerField
 * FloatField
 * DateTimeField
+没有`auto_now_add`这个参数。必须model里面存在`auto_now_add`
+如果model里面有`auto_now_add`参数，那么就无视任何前端传递的值，变成hiddenfield了
 * DateField
 * DurationField
 * ChoiceField
@@ -143,6 +145,9 @@
 * ImageField
 * ReadOnlyField
 * HiddenField
+```
+只是用来显示，不需要用户传递的数据。包含default的
+```
 * ModelField
 
 * 自定义序列化类
