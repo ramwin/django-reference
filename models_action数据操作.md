@@ -1,8 +1,6 @@
 #### Xiang Wang @ 2016-09-30 16:14:18
 
 
-<div id="数据操作"></div>
-
 # 数据操作
 
 * [查找](#查找)
@@ -15,8 +13,6 @@
 
 * [高级操作-aggregation](#aggregation)
     * [分组](#groupby)
-
-<div id="查找"></div>
 
 ### 查找
 ```
@@ -44,8 +40,6 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
 >>> 返回 [{'username': 'ramwin'}], 是一个queryset, 可以用来exclude，而如果是自己写的[{'uesrname': 'ramwin'}] 就不可以用来过滤
 ```
 
-
-<div id="过滤"></div>
 
 ### 过滤
 * 基础
@@ -110,8 +104,6 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     User.objects.filter(Q(mobile_number='xxx') | Q(username='xxx'))
     ```
 
-<div id="排序"></div>
-
 ### 排序
 * 基础
     ```
@@ -154,8 +146,6 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     >>> {'s': 10}  # 如果没有搜索到，返回的会是None，而不是0哦
 
 
-<div id="操作符号"></div>
-
 ### 操作符号
 [官方教程](https://docs.djangoproject.com/en/1.10/ref/models/querysets/#field-lookups)
 #### 基础
@@ -168,8 +158,6 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
 * icontains: 不区分大小写的包含
 * startswith, endswith, istartswith, iendswith
 
-
-<div id="创建"></div>
 
 ### 创建数据
 * 基础
@@ -197,7 +185,6 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     obj.readers.remove(*queryset)  # 删除manytomany的字段
 ```
 
-<div id="事务"></div>
 * 例子
     ```python
     from django.db import transaction
