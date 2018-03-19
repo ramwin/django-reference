@@ -59,12 +59,25 @@
         return super(Serializer, self).to_representation(instance)
     ```
 
+* save
+```
+def save(self, **kwargs):
+    if self.instance is not None:
+        self.instance = self.update(self.instance, validated_data)
+    else:
+        self.instance = self.create(validated_data)
+    return self.instance
+def create(self, validated_data):
+    instance = ModelClass.objects.create(**validated_data)
+    return instance
+```
+
 * fields
     ```
     返回一个 BindingDict {'text': Field }
     ```
 
-# meta:
+# meta
 ```
     fields = "__all__"
     exclude = ["is_superuser", "is_active"]
@@ -79,7 +92,10 @@
         * `trim_whitespace`: *默认`True`, 把字符的前后空白字符删除*
         * `max_length`, `min_length`, `allow_blank`, `trim_whitespace`, `allow_null`
 * EmailField
-* RegexField
+* [RegexField](http://www.django-rest-framework.org/api-guide/fields/#regexfield)
+```
+regex=r'^tmp-\d+\'
+```
 * SlugField
 * URLField
 * UUIDField
