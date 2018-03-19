@@ -1,35 +1,16 @@
-#### Xiang Wang @ 2016-09-30 16:14:18
+** Xiang Wang @ 2016-09-30 16:14:18 **
 
-
-<div id="数据操作"></div>
-
-# 数据操作
-
-* [查找](#查找)
-* [过滤](#过滤)
-* [排序](#排序)
-* [操作符号](#操作符号)
-* [创建](#创建)
-* [删除](#delete)
-* [事务](#事务)
-
-* [高级操作-aggregation](#aggregation)
-    * [分组](#groupby)
-
-<div id="查找"></div>
-
-### 查找
-```
-obj, created = <model>.objects.get_or_create(user__name='wangx')
-# 不存在用户就不登录而是注册
-# created 为 True， 代表了obj是新建
-# 如果返回多条数据，会报错的
-# 创建的时候的时候会自动保存, 但是要注意, 如果有写field不允许null, 就需要get的时候把参数传进去
-# get_or_create里面如果传递的是过滤参数，就会先用过滤参数过来
-    ```python
-        obj, created = <model>.objects.get_or_create(text='text', time__gt='2017-12-12T10:24:00+08:00')
+# 查找
+* 示例
     ```
-
+    obj, created = <model>.objects.get_or_create(user__name='wangx')
+    # 不存在用户就不登录而是注册
+    # created 为 True， 代表了obj是新建
+    # 如果返回多条数据，会报错的
+    # 创建的时候的时候会自动保存, 但是要注意, 如果有写field不允许null, 就需要get的时候把参数传进去
+    # get_or_create里面如果传递的是过滤参数，就会先用过滤参数过来
+    obj, created = <model>.objects.get_or_create(text='text', time__gt='2017-12-12T10:24:00+08:00')
+    ```
 * 添加额外字段
     * [官网参考](https://docs.djangoproject.com/en/1.11/ref/models/database-functions/#module-django.db.models.functions.datetime)
     * 代码
@@ -39,15 +20,12 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     ```
 
 * 仅仅查询需要的字段
-```
->>> User.objects.all().values('username')
->>> 返回 [{'username': 'ramwin'}], 是一个queryset, 可以用来exclude，而如果是自己写的[{'uesrname': 'ramwin'}] 就不可以用来过滤
-```
-
-
-<div id="过滤"></div>
-
-### 过滤
+    ```
+    >>> User.objects.all().values('username')
+    >>> 返回 [{'username': 'ramwin'}], 是一个queryset, 可以用来exclude，而如果是自己写的[{'uesrname': 'ramwin'}] 就不可以用来过滤
+    ```
+    
+# 过滤
 * 基础
     ```
     Search.objects.all()
@@ -110,9 +88,7 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     User.objects.filter(Q(mobile_number='xxx') | Q(username='xxx'))
     ```
 
-<div id="排序"></div>
-
-### 排序
+# 排序
 * 基础
     ```
     User.objects.all().ordey_by('username', 'id')  # 通过2个字段排序
@@ -133,45 +109,40 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     # 这样不用考虑sql注入
     ```
 
-### 创建
+# 创建
     Model.objects.bulk_create([Model1, Model2]) # 如果后面的创建失败，整个就不会创建。类似事务，但是无法调用每个instance的save函数
     Model.objects.create(name='王')  # 创建一个对象，会调用Model的save函数
     Model.objects.get_or_create(text='w')  # 如果是创建的话会调用save函数
     创建后会把创建对象的列表返回
 
-### 修改
+# 修改
     objs = model.objects.filter(status=1).update(status=1)
 
-#### 原子操作
+## 原子操作
     from django.db.models import F
     obj = Model.objects.get(name='test')
     obj.friends = F('friends') + 1
     obj.save()  # 注意哦，每次save都会触发底层的mysql更新，所以save只能执行一次
 
-### 求和
+# 求和
     from django.db.modes import Sum
     >>> Number.objects.filter(id__lte=3).aggregate(s = Sum('integer'))
     >>> {'s': 10}  # 如果没有搜索到，返回的会是None，而不是0哦
 
 
-<div id="操作符号"></div>
-
-### 操作符号
-[官方教程](https://docs.djangoproject.com/en/1.10/ref/models/querysets/#field-lookups)
-#### 基础
+# 操作符号
+## [官方教程](https://docs.djangoproject.com/en/1.10/ref/models/querysets/#field-lookups)
+## 基础
 * 过滤: Model.objects.filter()  Model.objects.all()  # 如果是外键，可以使用 user=obj, user=id, user_id=id 这三种方式。 id可以字符串，也可以是数字
 * 排除: Model.objects.exclude()
-#### 操作符列表
+## 操作符列表
 * =: 值等于 或者 field__exact="value"
 * iexact: 忽略大小写  name_iexact="wang"
 * contains: 包含区分大小写。但是注意，sqlite默认不区分的，所以仍旧不区分
 * icontains: 不区分大小写的包含
 * startswith, endswith, istartswith, iendswith
 
-
-<div id="创建"></div>
-
-### 创建数据
+# 创建数据
 * 基础
     ```
     instance = Text(text='text')
@@ -185,8 +156,7 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
         Shop(user=user, name='test2')])
     ```
 
-
-### delete
+# delete
 * 基础
 ```python
     obj.delete()
@@ -196,8 +166,6 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     obj.othermodel_set.clear()  # 删除关联的数据
     obj.readers.remove(*queryset)  # 删除manytomany的字段
 ```
-
-<div id="事务"></div>
 * 例子
     ```python
     from django.db import transaction
@@ -209,8 +177,7 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
         n.save()
     ```
 
-
-### aggregation
+# aggregation
 * [官方文档](https://docs.djangoproject.com/en/1.11/topics/db/aggregation/)
 * [Cheat Sheet](https://docs.djangoproject.com/en/1.11/topics/db/aggregation/#cheat-sheet)
     ```python
@@ -241,7 +208,7 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     Author.objects.values('name').annotate(average_rating=Avg('book__rating'))
     # 把用户按照name来排序，并算出排序
     ```
-* #### groupby
+* groupby
     ```python
     Travel.objects.values('interest2').annotate(Count('user', distinct=True))
     # 对所有的旅行记录排序，看看那个经典(去的人次/去过的人, 有distinct就是一个人只能算去一次)最多
@@ -249,5 +216,3 @@ obj, created = <model>.objects.get_or_create(user__name='wangx')
     # group the book by its name, order_by is required or the the group will not have effect.
     GetOrCreateModel.objects.annotate(date=TruncDate('time')).values('date').annotate(Count('id'))
     ```
-
-### end
