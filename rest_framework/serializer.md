@@ -187,6 +187,7 @@ regex=r'^tmp-\d+\'
     class ASerializer
     class BSerializer:
         as = ASerializer(many=True)
+    这个时候如果要save，必须手动修改BSerializer的save函数，并且内部得到的 as 里面每个对象都是一个OrderedDict, 而不是序列化类的instance
     ```
 
 
