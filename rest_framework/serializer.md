@@ -46,7 +46,9 @@
      'request': <rest_framework.request.Request object>}
     ```
 
-* to_representation(self, instance)
+* `validated_data`:  
+返回格式化的数据，注意如果是外间，会变成model的instance  
+* `to_representation`(self, instance)
     ```
     # 返回数据
 
@@ -79,7 +81,7 @@ def create(self, validated_data):
 
 # meta
 ```
-    fields = "__all__"
+    fields = "__all__"  # 不会把method的属性放进去，如果放进去了，那也只是read_only的
     exclude = ["is_superuser", "is_active"]
     extra_kwargs = {
         "password": {'write_only': True}
