@@ -30,6 +30,20 @@
             * 返回一个dict, 用于渲染
             * 预定义的方法只是把view这个对象交给context['view']并没有其他操作
 * ListView
+    ```
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        allow_empty = self.get_allow_empty()
+        if not allow_empty:
+            if self.get_paginate_by(self.object_list) is not None and hasattr(self.object_list, 'exists'):
+                is_empty = not self.objects.exists()
+            else:
+                is_empty = len(self.object_list) == 0
+            if is_empty:
+                raise Http404(_("字符串"))
+        context = self.get_context_data()
+        return self.render_to_response(context)
+    ```
 * DetailView
 * [CreateView](https://docs.djangoproject.com/en/1.11/ref/class-based-views/flattened-index/#createview)
     1. `BaseCreateView.post(self, request, *args, **kwargs):`  
