@@ -1,6 +1,9 @@
 #### Xiang Wang @ 2016-08-04 19:02:28
 
 ### 基础
+* [官方索引](https://docs.djangoproject.com/en/1.11/ref/class-based-views/)
+* 基础
+    ```
     from django.views.generic import View, ListView, DetailView, TemplateView
 
     class ListView(ListView):
@@ -9,6 +12,7 @@
         paginate_by = 2 # 每页的数量
         http_method_names = ['get']
         context_object_name = 'my_favorite_publishers'  # 渲染用的名称
+    ```
 
 ### View
 * 参数
@@ -80,3 +84,19 @@
     4. 如果失败
         1. `FormMixin.form_invalid(self, form):`  
             `return self.render_to_response(self.get_context_data())`
+
+* [UpdateView](https://docs.djangoproject.com/en/1.11/ref/class-based-views/generic-editing/#updateview)
+    * 参数
+    * 执行过程
+        ```
+        def self.post(self, request, *args, **kwargs)
+            self.object = self.get_object()
+            return super(BaseUpdateView, self).post(request, *args, **kwargs)
+        def BaseUpdateView.post(self, request, *args, **kwargs)
+            form = self.get_form()
+            if form.is_valid():
+                return self.form_valid(form)
+        def form_valid(self, form):
+            self.object = form.save()
+            return super(ModelFormMixin, self).form_valid(form)
+        ```
