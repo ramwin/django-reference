@@ -81,6 +81,8 @@ def create(self, validated_data):
 
 # meta
 ```
+    read_only_fields = ["username", "is_staff"]  # 哪些属性不能修改，不过如果指定了field，必须在field里面加read_only
+    write_only_fields = ???  # 这个属性不存在，可惜了
     fields = "__all__"  # 不会把method的属性放进去，如果放进去了，那也只是read_only的
     exclude = ["is_superuser", "is_active"]
     extra_kwargs = {
