@@ -44,9 +44,11 @@
 
 
 ## [方法](https://docs.djangoproject.com/en/2.0/ref/models/instances/)
-### [...] 待更新
+### create...
+### refresh_from_db
+### validate objects..
 ### [save](https://docs.djangoproject.com/en/2.0/ref/models/instances/#saving-objects)
-save的时候，会把model的所有数据全量更新一遍
+save的时候，会把model的所有数据全量更新一遍，所以两个线程来了，只会save最后一个的数据
 * 主键有就是update，主键没有就是insert
 * save的时候发生了什么
     1. 触发model的pre—save信号
@@ -56,6 +58,7 @@ save的时候，会把model的所有数据全量更新一遍
     5. 触发post-save信号
 * django怎么区分update和insert
 * 指定更新哪些field: `product.save(update_fields=["name"])`
+    * 更新后，并不会触发`refresh_from_db`
 
 ### delete...
 ### pickle...
