@@ -36,6 +36,30 @@ def get_serializer_class(self):
     if self.request.method == "GET":
         return serializers.VoteListSerializer
 ```
+3. `DestroyAPIView.perform_destroy`  *你可能要假删除只修改状态*
+```
+def perform_destroy(self, instance):
+    # instance.delete()
+    instance.status = 'delete'
+    instance.save()
+```
+4. `GenericAPIView.get_serializer` *可能你要根据这个instance的user是不是request.user来做不同的序列化类*  
+```
+def get_serializer(self, *args, **kwargs):
+    serializer_class = self.get_serializer_class()
+    kwargs['context'] = self.get_serializer_context()
+    return serializer_class(*args, **kwargs)
+```
+5. `GenericAPIView.get_serializer_context`  *可能你要传递额外的数据进去,最常见的就是request.user了，不过这个已经有了*
+```
+def get_serializer_context(self):
+    return {
+        "request": self.request,
+        "format": self.format_kwarg,  # 尚且不清楚他的用处
+        "view": self    # 这个有用，可以在ClassView里面加入类似 level_require 或者 permission_level 然后在序列化类里面做判断
+    }
+```
+
 
 # 常用的view
 * ### GenericAPIView
