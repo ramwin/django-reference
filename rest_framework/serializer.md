@@ -1,10 +1,13 @@
 ** Xiang Wang @ 2016-09-28 15:54:49 **
 
 
-# 总缆
-* [基础使用](#basic)
-* [属性和方法](#method)
-* [返回rest\_framework](./README.md);  [返回django\_reference](../README.md)
+# 目录
+* [django-reference](../README.md)
+    * [rest-framework](./README.md)
+        * [filter](./filter.md)
+        * [request_and_response](./request_and_response.md)
+        * serializer
+        * [view.md](./view.md)
 
 # 基础使用
 ```
@@ -45,6 +48,14 @@
      'format': None,
      'request': <rest_framework.request.Request object>}
     ```
+
+* fields
+    ```
+    返回一个 BindingDict {'text': Field }
+    ```
+
+* `validate_<field_name>`:
+校验某个字段,这个字段是已经通过序列化转化的数据，所以是校验后才会调用
 
 * `validated_data`:  
 返回格式化的数据，注意如果是外键，会变成model的instance  
@@ -94,12 +105,6 @@ def update(self, instance, validated_data):
 
     return instance
 ```
-
-* fields
-    ```
-    返回一个 BindingDict {'text': Field }
-    ```
-
 # meta
 ```
     read_only_fields = ["username", "is_staff"]  # 哪些属性不能修改，不过如果指定了field，必须在field里面加read_only

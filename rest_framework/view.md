@@ -181,6 +181,7 @@ def get_serializer_context(self):
         serializer = self.get_serializer(instance, data=request, data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
+        return Response(serializer.data)
     self.perform_update(serializer)
         serializer.save()
     ```
