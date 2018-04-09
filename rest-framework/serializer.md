@@ -49,6 +49,31 @@
      'request': <rest_framework.request.Request object>}
     ```
 
+* data
+访问了这个属性以后，就无法再调用save函数了，所以如果要之前看data，必须使用`validated_data`
+    ```
+    @property
+    def data(self)
+        if hasattr(self, 'initial_data') and not hasattr(self, '_validated_data'):
+            msg = (
+                'When a serializer is passed a `data` keyword argument you '
+                'must call `.is_valid()` before attempting to access the '
+                'serialized `.data` representation.\n'
+                'You should either call `.is_valid()` first, '
+                'or access `.initial_data` instead.'
+            )
+            raise AssertionError(msg)
+
+        if not hasattr(self, '_data'):
+            if self.instance is not None and not getattr(self, '_errors', None):
+                self._data = self.to_representation(self.instance)
+            elif hasattr(self, '_validated_data') and not getattr(self, '_errors', None):
+                self._data = self.to_representation(self.validated_data)
+            else:
+                self._data = self.get_initial()
+        return self._data
+    ```
+
 * fields
     ```
     返回一个 BindingDict {'text': Field }
@@ -59,7 +84,8 @@
 
 * `validated_data`:  
 返回格式化的数据，注意如果是外键，会变成model的instance  
-* `to_representation`(self, instance)
+* `to_representation`(self, instance/validated_data)
+如果直接在`is_valid`后调用`.data`就会导致输入是OrderedDict而不是instance
     ```
     # 返回数据
 
