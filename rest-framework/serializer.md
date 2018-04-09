@@ -49,7 +49,7 @@
      'request': <rest_framework.request.Request object>}
     ```
 
-* data
+* data  
 访问了这个属性以后，就无法再调用save函数了，所以如果要之前看data，必须使用`validated_data`
     ```
     @property
@@ -84,7 +84,7 @@
 
 * `validated_data`:  
 返回格式化的数据，注意如果是外键，会变成model的instance  
-* `to_representation`(self, instance/validated_data)
+* `to_representation`(self, instance/validated_data)  
 如果直接在`is_valid`后调用`.data`就会导致输入是OrderedDict而不是instance
     ```
     # 返回数据
