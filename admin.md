@@ -10,6 +10,16 @@
 
 # [自定义]
 * [自定义一个字段](#设置样式)
+* [自定义缩略图](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display)
+```python
+    from django.utils.html import format_html
+
+    class PersonAdmin(admin.ModelAdmin):
+        list_display = ('name', 'thumbnail')
+
+        def thumbnail(self, obj):
+            return format_html('<img src="%s">' % obj.avatar)
+```
 
 # [设置](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.has_add_permission)
 * `has_add_permission(request)`: 能否添加
