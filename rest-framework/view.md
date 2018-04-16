@@ -47,7 +47,7 @@ def perform_destroy(self, instance):
 ```
 def get_serializer(self, *args, **kwargs):
     serializer_class = self.get_serializer_class()
-    kwargs['context'] = self.get_serializer_context()
+    kwargs['context'] = self.get_serializer_context()  # 一般来说这个kwargs是空的
     return serializer_class(*args, **kwargs)
 ```
 5. `GenericAPIView.get_serializer_context`  *可能你要传递额外的数据进去,最常见的就是request.user了，不过这个已经有了*
@@ -110,6 +110,8 @@ def get_serializer_context(self):
                 ('results', data)
             ]))
         ```  
+
+* ### CreateAPIView
     * POST请求顺序  
         ```
         ListCreateAPIView.post  # 没有什么操作
@@ -124,11 +126,6 @@ def get_serializer_context(self):
         1. CreateModelMixin.perform_create  # serializer.save()  如果要save后进行其他操作，修改这个函数
         ```
 
-* ### CreateAPIView
-    * POST请求顺序
-        1. CreateAPIView.post  # 没有什么操作
-        2. CreateModelMixin.create  # 验证数据
-
 * ### RetrieveAPIView
     ```
     def get(self, request, *args, **kwargs):
@@ -136,7 +133,7 @@ def get_serializer_context(self):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance)
+        serializer = self.get_serializer(instance)  # 注意，这里的get_serializer里面没有加入kwargs参数，不然会因为有id这个参数而导致报错
         return Response(serializer.data)
     def get_serializer(self, *args, **kwargs)
         serializer_class = self.get_serializer_class()
