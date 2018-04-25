@@ -1,8 +1,21 @@
 *admin界面设置*
 
 # 最简单的
-    admin.site.register(models)
-# [参数](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#modeladmin-options):
+```
+admin.site.register(models)
+@admin.register(models.Model)
+class MyModelAdmin(admin.ModelAdmin):
+    ...
+```
+
+# [全局参数](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#adminsite-attributes)
+```
+admin.site.site_header = 'Django administration'
+```
+* `site_header`: 修改全局的标题，默认 `Django administration`
+* `site_title`: 页面的title
+
+# [ModelAdmin](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#modeladmin-objects):
 * `list_display`: 在列表页面需要显示的字段数据
 * `list_filter`: 在列表页面，可以进行分类查看的数据
 * `search_fields`: 在列表页面的搜索框搜索的字段
