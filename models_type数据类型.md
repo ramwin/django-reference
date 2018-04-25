@@ -41,6 +41,10 @@
     ```
 * unique
     * [关于null和unique同时存在的问题](https://stackoverflow.com/questions/454436/unique-fields-that-allow-nulls-in-django), unique校验只对非null的进行唯一校验，包括空字符串，也不能重复
+* null 和 blank
+    * [null和blank的问题](https://stackoverflow.com/questions/8609192/differentiate-null-true-blank-true-in-django/50015717#50015717)
+    * [关于如何在django里面插入null](https://code.djangoproject.com/ticket/4136)
+    * 如果是其他field，空值会变成null。但是如果是charfield和textfield，因为form的缺陷，无法传递null，所以会导致永远不可能insertnull，只会insert空字符串。
 
 
 ## [方法](https://docs.djangoproject.com/en/2.0/ref/models/instances/)
