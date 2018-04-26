@@ -74,7 +74,8 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
 
 ## 待更新
 
-# 字符串
+# [Field类型](https://docs.djangoproject.com/en/2.0/ref/models/fields/#field-types)
+## 字符串
 
 ```
     models.CharField(max_length=255)
@@ -86,14 +87,14 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
 
 * [EmailValidator](https://docs.djangoproject.com/en/1.10/ref/validators/#django.core.validators.EmailValidator)
 
-# UUIDField
+## UUIDField
 ```
     import uuid
     models.UUIDField(default=uuid.uuid4)
 ```
 
 
-# DateTimeField
+## DateTimeField
 
 * 参数
     * `auto_now_add = True`: 保存为当前时间，不再改变
@@ -116,11 +117,11 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
     * 结论: 服务器端都用timezone，客户端都用带iso 8601
 
 
-# 日期
+## 日期
 ## 对于日期,不存在时区的概念,都是直接存入的日期,没有转化成utc
 
 
-# 数字
+## 数字
 * 基础
     ```
     models.IntegerField()   # 整数 -2147483648 - -2147483648
@@ -139,14 +140,14 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
     models.AutoField(primary_key=True)
     ```
 
-## 必须参数(decimal)
+### 必须参数(decimal)
 
 ```
     decimal_places = 2  # 小数尾数
     max_digits = 3  # 数字的位数(包括小数)
 ```
 
-## 保存
+### 保存
 
 ```
     integer:    1, '1', 不可以是 '2.9', 但是可以是 2.9(之后存入2), 调用的是int函数
@@ -154,19 +155,23 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
     decimal:    '1.1', 1.1, decimal.Decimal('1.1')
 ```
 
+## [SlugField](https://docs.djangoproject.com/en/2.0/ref/models/fields/#slugfield)
+    * 包含`[a-zA-Z_-]`，可以用在一些变量名上面
+    * max_length 默认50
+    * allow_unicode: 默认False，是否允许非ascii的名字
 
-# 布尔值
+## 布尔值
     models.BooleanField()   # 布尔值
 
-# 关联
-## 一对一
+## 关联
+### 一对一
 
 ```
     models.ForeignKey(Model)    # 关联到另一个Model
     models.OneToOneField(Model, related_name="profile", db_index=True)
 ```
 
-### 参数
+#### 参数
 
     def get_default_user():
         return User.objects.first()
@@ -186,16 +191,16 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
 
 
 
-### 使用
+#### 使用
     
 ```
     user.profile
 ```
 
-## 多对一
+### 多对一
 * 请使用ForeignKey [参考](https://docs.djangoproject.com/en/1.10/topics/db/examples/many_to_one/)
 
-## 多对多 [参考文档](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
+### 多对多 [参考文档](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
 [api](https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_many/)
 
 * 基础
@@ -228,13 +233,13 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
     model.label.clear()
     ```
 
-### 参数
+#### 参数
 ```
     through = "ModelRefName"  # 可以把中间关联的表拿出来写成model加参数
     db_table = "关联的表名"  # 关联的数据库的表名称
 ```
 
-## 其他
+### 其他
 * 如果调用了本身，可以使用 `models.ForeignKey('self', on_delete=models.CASCADE)`
 * 如果单独的manytomany, 可以使用through获取那个隐藏的model
 ```
@@ -242,8 +247,8 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
 ```
 
 
-# 特殊
-## Meta的作用
+## 特殊
+### Meta的作用
 ```
     class Meta:
         unique_together = ("user","date")   # 同一个用户同一个时间只允许一次(比如投票)
@@ -254,23 +259,23 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
         verbose_name = '显示名字'
         verbose_name_plural = '显示名字'
 ```
-## property的作用
+### property的作用
 * views里面可以直接调用,不用加括号
 **但是不能在aggregrate或者filter里面使用**
 
-## str的作用
+### str的作用
 * 可以让shell里面查看model更加好看一点，但是要注意，尽量不要把id放在里面，
 * 不然在model没有save的时候，会报错。就算放，也用 instance.pk or 0的形式
 
 
-# 其他属性设置
+## 其他属性设置
 
-## Meta
+### Meta
 ```
     db_table: "设置使用的表的名称"
     verbose_name: "在admin界面显示的内容"
     verbose_name_plural: "用于复数的时候显示的内容"
 ```
 
-# Signal
+## Signal
 **注意,model的signal不是异步的，而是同步的。如果有异步的需求，请使用celery**
