@@ -116,25 +116,34 @@
     创建后会把创建对象的列表返回
 
 # 修改
+    ```
     objs = model.objects.filter(status=1).update(status=1)
+    ```
 
 ## 原子操作
+    ```
     from django.db.models import F
     obj = Model.objects.get(name='test')
     obj.friends = F('friends') + 1
     obj.save()  # 注意哦，每次save都会触发底层的mysql更新，所以save只能执行一次
+    ```
 
 # 求和
+    ```
     from django.db.modes import Sum
     >>> Number.objects.filter(id__lte=3).aggregate(s = Sum('integer'))
     >>> {'s': 10}  # 如果没有搜索到，返回的会是None，而不是0哦
+    ```
 
 
 # 操作符号
+
 ## [官方教程](https://docs.djangoproject.com/en/1.10/ref/models/querysets/#field-lookups)
+
 ## 基础
 * 过滤: Model.objects.filter()  Model.objects.all()  # 如果是外键，可以使用 user=obj, user=id, user_id=id 这三种方式。 id可以字符串，也可以是数字
-* 排除: Model.objects.exclude()
+* 排除: Model.objects.exclude()  
+
 ## 操作符列表
 * =: 值等于 或者 field__exact="value"
 * iexact: 忽略大小写  name_iexact="wang"
@@ -158,14 +167,14 @@
 
 # delete
 * 基础
-```python
+    ```python
     obj.delete()
-```
+    ```
 * 关联
-```
+    ```
     obj.othermodel_set.clear()  # 删除关联的数据
     obj.readers.remove(*queryset)  # 删除manytomany的字段
-```
+    ```
 * 例子
     ```python
     from django.db import transaction
