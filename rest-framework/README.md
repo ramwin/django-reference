@@ -1,17 +1,17 @@
 # django rest framework 参考
 
-* [rest_framework基础](./rest_framework.md)
+* [rest_framework基础](./rest-framework.md)
 * [Views](./view.md)
 * [serializer序列化](./serializer.md)
 * [Permissions权限](./permissions.md)  
-    ```
-    from rest_framework.permissions import BasePermission
-    class MyPermission(BasePermission):
-        def has_permission(self, request, view):
-            ...
-        def has_object_permission(self, request, view, obj):
-            ...
-    ```
+```python
+from rest_framework.permissions import BasePermission
+class MyPermission(BasePermission):
+    def has_permission(self, request, view):
+        ...
+    def has_object_permission(self, request, view, obj):
+        ...
+```
 * [Filter过滤](./filter.md)
 * [request and response](./request_and_response.md)
 * [throtte限速](./throtte.md)

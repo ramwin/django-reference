@@ -4,16 +4,6 @@
     from django.contrib.auth.models import User  
 ```
 
-# 数据结构
-* [通用](#通用)
-* [字符串](#字符串)
-* [数字](#数字)
-* [时间](#time)  
-* [日期](#日期)  
-* [关联](#关联)  
-* [其他属性设置](#其他属性设置)
-
-
 # 示例
 ```
     class profile(models.Model):
@@ -51,9 +41,38 @@
     ```
 * unique
     * [关于null和unique同时存在的问题](https://stackoverflow.com/questions/454436/unique-fields-that-allow-nulls-in-django), unique校验只对非null的进行唯一校验，包括空字符串，也不能重复
+* null 和 blank
+    * [null和blank的问题](https://stackoverflow.com/questions/8609192/differentiate-null-true-blank-true-in-django/50015717#50015717)
+    * [关于如何在django里面插入null](https://code.djangoproject.com/ticket/4136)
+    * 如果是其他field，空值会变成null。但是如果是charfield和textfield，因为form的缺陷，无法传递null，所以会导致永远不可能insertnull，只会insert空字符串。
 
 
-<div id="字符串"></div>
+## [方法](https://docs.djangoproject.com/en/2.0/ref/models/instances/)
+### create...
+### refresh_from_db
+### validate objects..
+### [save](https://docs.djangoproject.com/en/2.0/ref/models/instances/#saving-objects)
+save的时候，会把model的所有数据全量更新一遍，所以两个线程来了，只会save最后一个的数据
+* 主键有就是update，主键没有就是insert
+* save的时候发生了什么
+    1. 触发model的pre—save信号
+    2. 处理数据，每个field触发`pre_save`，比如`auto_now_add`和`auto_now`
+    3. 处理给数据库的数据，每个field触发`get_db_prep_save`
+    4. 插入数据
+    5. 触发post-save信号
+* django怎么区分update和insert
+* 指定更新哪些field: `product.save(update_fields=["name"])`
+    * 更新后，并不会触发`refresh_from_db`
+
+### delete...
+### pickle...
+### `__str__`
+### `__eq__`
+### `__hash__`
+### `get_absolute_url`
+
+
+## 待更新
 
 # 字符串
 
@@ -97,12 +116,9 @@
     * 结论: 服务器端都用timezone，客户端都用带iso 8601
 
 
-<div id="日期"></div>  
-
 # 日期
 ## 对于日期,不存在时区的概念,都是直接存入的日期,没有转化成utc
 
-<div id="数字"></div>
 
 # 数字
 * 基础

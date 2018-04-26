@@ -1,10 +1,13 @@
 ** Xiang Wang @ 2016-09-28 15:54:49 **
 
 
-# 总缆
-* [基础使用](#basic)
-* [属性和方法](#method)
-* [返回rest\_framework](./README.md);  [返回django\_reference](../README.md)
+# 目录
+* [django-reference](../README.md)
+    * [rest-framework](./README.md)
+        * [filter](./filter.md)
+        * [request_and_response](./request_and_response.md)
+        * serializer
+        * [view.md](./view.md)
 
 # 基础使用
 ```
@@ -46,7 +49,43 @@
      'request': <rest_framework.request.Request object>}
     ```
 
-* to_representation(self, instance)
+* data  
+访问了这个属性以后，就无法再调用save函数了，所以如果要之前看data，必须使用`validated_data`
+    ```
+    @property
+    def data(self)
+        if hasattr(self, 'initial_data') and not hasattr(self, '_validated_data'):
+            msg = (
+                'When a serializer is passed a `data` keyword argument you '
+                'must call `.is_valid()` before attempting to access the '
+                'serialized `.data` representation.\n'
+                'You should either call `.is_valid()` first, '
+                'or access `.initial_data` instead.'
+            )
+            raise AssertionError(msg)
+
+        if not hasattr(self, '_data'):
+            if self.instance is not None and not getattr(self, '_errors', None):
+                self._data = self.to_representation(self.instance)
+            elif hasattr(self, '_validated_data') and not getattr(self, '_errors', None):
+                self._data = self.to_representation(self.validated_data)
+            else:
+                self._data = self.get_initial()
+        return self._data
+    ```
+
+* fields
+    ```
+    返回一个 BindingDict {'text': Field }
+    ```
+
+* `validate_<field_name>`:
+校验某个字段,这个字段是已经通过序列化转化的数据，所以是校验后才会调用
+
+* `validated_data`:  
+返回格式化的数据，注意如果是外键，会变成model的instance  
+* `to_representation`(self, instance/validated_data)  
+如果直接在`is_valid`后调用`.data`就会导致输入是OrderedDict而不是instance
     ```
     # 返回数据
 
@@ -59,14 +98,44 @@
         return super(Serializer, self).to_representation(instance)
     ```
 
-* fields
-    ```
-    返回一个 BindingDict {'text': Field }
-    ```
-
-# meta:
+* save
 ```
-    fields = "__all__"
+def save(self, **kwargs):
+    if self.instance is not None:
+        self.instance = self.update(self.instance, validated_data)
+    else:
+        self.instance = self.create(validated_data)
+    return self.instance
+def create(self, validated_data):
+    instance = ModelClass.objects.create(**validated_data)
+    return instance
+```
+
+* update
+```
+def update(self, instance, validated_data):
+    raise_errors_on_nested_writes('update', self, validated_data)
+    info = model_meta.get_field_info(instance)
+
+    # Simply set each attribute on the instance, and then save it.
+    # Note that unlike `.create()` we don't need to treat many-to-many
+    # relationships as being a special case. During updates we already
+    # have an instance pk for the relationships to be associated with.
+    for attr, value in validated_data.items():
+        if attr in info.relations and info.relations[attr].to_many:
+            field = getattr(instance, attr)
+            field.set(value)
+        else:
+            setattr(instance, attr, value)
+    instance.save()
+
+    return instance
+```
+# meta
+```
+    read_only_fields = ["username", "is_staff"]  # 哪些属性不能修改，不过如果指定了field，必须在field里面加read_only
+    write_only_fields = ???  # 这个属性不存在，可惜了
+    fields = "__all__"  # 不会把method的属性放进去，如果放进去了，那也只是read_only的
     exclude = ["is_superuser", "is_active"]
     extra_kwargs = {
         "password": {'write_only': True}
@@ -79,18 +148,22 @@
         * `trim_whitespace`: *默认`True`, 把字符的前后空白字符删除*
         * `max_length`, `min_length`, `allow_blank`, `trim_whitespace`, `allow_null`
 * EmailField
-* RegexField
+* [RegexField](http://www.django-rest-framework.org/api-guide/fields/#regexfield)
+```
+regex=r'^tmp-\d+\'
+```
 * SlugField
 * URLField
 * UUIDField
 * FilePathField
 * IPAddressField
-* PrimaryKeyRelatedField
+* [PrimaryKeyRelatedField](http://www.django-rest-framework.org/api-guide/relations/#primarykeyrelatedfield)
     * 基础使用
         users = serializers.PrimaryKeyRelatedField(many=True)
     * 参数
         * many=True, 允许传入多个
         * allow_null=False, 如果设置了many=True的话，这个设置就没有效果了
+        * queryset, 从那个queryset里面搜索
 * BooleanField
     * **注意: 由于html里面，当你不选择那个checkbox的时候，就会不传递这个值。所以当你如果用form post的时候，就算没有参数，`rest_framework`也会当成False处理。**
     * 务必看源码
@@ -171,6 +244,7 @@
     class ASerializer
     class BSerializer:
         as = ASerializer(many=True)
+    这个时候如果要save，必须手动修改BSerializer的save函数，并且内部得到的 as 里面每个对象都是一个OrderedDict, 而不是序列化类的instance
     ```
 
 
