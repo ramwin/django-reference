@@ -1,4 +1,4 @@
-#### Xiang Wang @ 2016-10-08 10:38:43
+**Xiang Wang @ 2016-10-08 10:38:43**
 
 # 目录
 * [django-reference](../README.md)
@@ -97,6 +97,21 @@ def get_serializer_context(self):
             return Response(serializer.data)
         def filter_queryset(self, queryset):
             queryset = backend().filter_queryset(self.request, queryset, self)
+        def paginate_queryset(queryset):
+            if self.paginator is None:
+                return None
+            else:
+                return self.paginator.paginate_queryset(queryset, self.request, view=self)
+
+        @property
+        def paginator(self):
+            if not hasattr(self, '_paginator'):
+                if self.pagination_class is None:
+                    self._paginator = None
+                else:
+                    self._paginator = self.pagination_class()
+            return self._paginator
+
         def get_queryset(self):
             return self.queryset
         def get_paginated_response(self, data):
@@ -110,6 +125,23 @@ def get_serializer_context(self):
                 ('results', data)
             ]))
         ```  
+    * page分页
+        self._paginator = self.pagination_class()
+        self._paginator.paginate_queryset(queryset, self.request, view=self)
+        def paginate_queryset(self, queryset, request, view=None):
+            page_size = self.get_page_size(request)
+        def get_page_size(self, request):
+            if self.page_size_query_param:
+                try:
+                    return _positive_int(
+                        request.query_params[self.page_size_query_param],
+                        strict=True,
+                        cutoff=self.max_page_size
+                    )
+                except (KeyError, ValueError):
+                    pass
+
+            return self.page_size
 
 * ### CreateAPIView
     * POST请求顺序  
