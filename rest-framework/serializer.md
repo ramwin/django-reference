@@ -98,6 +98,9 @@
         return super(Serializer, self).to_representation(instance)
     ```
 
+* `validate`(self, data)  
+在所有的默认validate和自定义的validate_field都成功后才调用,用来校验整体的数据一致性
+
 * save
 ```
 def save(self, **kwargs):
