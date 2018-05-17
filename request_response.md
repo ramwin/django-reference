@@ -17,6 +17,11 @@
     * `GET`: 返回GET的参数, ImmutableDict
     * `body`: 返回二进制内容
     * `POST`: 类似GET, 用于POST的方法
+    * `FILES`: 获取文件
+        request.FILES.getlist("images") 获取上传的图表列表 `django.core.files.uploadedfile.InMemoryUploadedFile`
+    * `django.core.files.uploadedfile.InMemoryUploadedFile`:
+        * name: 返回文件名
+        * read(): 返回二进制内容
 * 方法
     * `get_full_path`: `/reqres/request/?key=bar`
 

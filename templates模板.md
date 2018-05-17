@@ -9,6 +9,17 @@
 {% include "name_snippet.html" with person="Jane" greeting="Hello" %}
 {% include "name_snippet.html" with greeting="Hi" only %}
 ```
+### [if](https://docs.djangoproject.com/en/2.0/ref/templates/builtins/#if)
+```
+{% if condition %}
+    block1
+{% elif condition %}
+    block2
+{% else %}
+    block3
+{% endif %}
+```
+### [ifequal](https://docs.djangoproject.com/en/2.0/ref/templates/builtins/#ifequal-and-ifnotequal) *deprecated*
 
 ## Filters过滤
 * `add`: 增加
