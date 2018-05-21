@@ -1,8 +1,7 @@
-#### Xiang Wang @ 2017-02-09 13:49:33
+**Xiang Wang @ 2017-02-09 13:49:33**
 
-
-# 基础
-* [教程](https://docs.djangoproject.com/en/1.10/howto/custom-management-commands/#accepting-optional-arguments)
+# example
+* [official document](https://docs.djangoproject.com/en/1.11/howto/custom-management-commands/)
 
 ```
 from django.core.management.base import BaseCommand, CommandError
@@ -28,7 +27,7 @@ class Command(BaseCommand):
 ```
 
 
-## 美化输出
-`self.stdout.write(self.style.SUCCESS('操作成功'))`  
+## beautify output
+`self.stdout.write(self.style.SUCCESS('operate success'))`  
 
-![格式化输出的样式](./img/command_style.png)
+![the style of output](./img/command_style.png)
