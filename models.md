@@ -74,7 +74,7 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
 
 ## 待更新
 
-# [Field类型](https://docs.djangoproject.com/en/2.0/ref/models/fields/#field-types)
+# [Field Types](https://docs.djangoproject.com/en/2.0/ref/models/fields/#field-types)
 ## 字符串
 
 ```
@@ -163,25 +163,25 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
 ## 布尔值
     models.BooleanField()   # 布尔值
 
-## 关联
-### 一对一
-
+## Relationship fields
+### [OneToOneField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#onetoonefield)
 ```
-    models.ForeignKey(Model)    # 关联到另一个Model
-    models.OneToOneField(Model, related_name="profile", db_index=True)
+models.ForeignKey(Model)    # 关联到另一个Model
+models.OneToOneField(Model, related_name="profile", db_index=True)
 ```
 
 #### 参数
+```
+def get_default_user():
+    return User.objects.first()
 
-    def get_default_user():
-        return User.objects.first()
-
-    limit_choices_to={'is_staff': True}, # 只能设置给 is_staff 的User
-    related_name = "+" # 设置成+或者以+结尾，就会没有反向查找
-    models.ForeignKey(Model,
-        on_delete=models.CASCADE # 默认连带删除(2.0以后参数必须传)
-        on_delete=models.SET(get_default_user)  # 删除后调用函数设置连带关系的默认直
-    )
+limit_choices_to={'is_staff': True}, # 只能设置给 is_staff 的User
+related_name = "+" # 设置成+或者以+结尾，就会没有反向查找
+models.ForeignKey(Model,
+    on_delete=models.CASCADE # 默认连带删除(2.0以后参数必须传)
+    on_delete=models.SET(get_default_user)  # 删除后调用函数设置连带关系的默认直
+)
+```
 * [on_delete参数参考](https://docs.djangoproject.com/en/1.10/ref/models/fields/#django.db.models.CASCADE)  
     * models.CASCADE: `连带删除`
     * models.PROTECT: `报错`
@@ -189,12 +189,9 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
     * models.SET_DEFAULT: `设置为默认`
     * models.SET(): `调用函数`
 
-
-
 #### 使用
-    
 ```
-    user.profile
+user.profile
 ```
 
 ### 多对一

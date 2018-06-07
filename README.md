@@ -3,18 +3,22 @@
 *A quick reference  for django*
 
 # [The Model Layer](https://docs.djangoproject.com/en/2.0/#the-model-layer)
-## [Model and Field](./models_type数据类型.md)
-## QuerySets
-### [Making Queries](./queries.md)
-* [Making Queries](making_queries.md)
-* [QuerySet method reference](queryset_method_reference.md)
-* [Lookup expressions](lookup_expressions.md)
 
-## TODO list
-* [ ] Model Instance
-* [ ] Migration
-* [ ] Advanced
-* [ ] Other
+1. ## Model and Field
+    * [Official Document](https://docs.djangoproject.com/en/2.1/#the-model-layer)
+    * [My Reference](./models.md)
+
+2. ## QuerySets
+    * ### [My Reference](./queries.md)
+    * [Making Queries](making_queries.md)
+    * [QuerySet method reference](queryset_method_reference.md)
+    * [Lookup expressions](lookup_expressions.md)
+
+3. ## TODO list
+    * [ ] Model Instance
+    * [ ] Migration
+    * [ ] Advanced
+    * [ ] Other
 
 # [The Development Process](https://docs.djangoproject.com/en/2.0/#the-development-process)
 ## Testing
@@ -63,7 +67,14 @@ cache = caches['thirdparty']
 cache.set('foo', 'bar', timeout=3600*24*60)
 cache.get('cache_list', [])  # 没有默认值就返回None
 ```
+
+
 # [URL](./urls.md)
+```
+from django.urls import reverse
+>>> reverse('reqres:ajax')
+/reqres/ajax/
+```
 # [View](./views.md)
 # [classbaseview](./classbaseView.md)
 # [Request & Response](./request_response.md)
@@ -83,13 +94,6 @@ cache.get('cache_list', [])  # 没有默认值就返回None
     * errors  *具体的报错信息*
 * method
     * `clean()`  *其实就是调用了clean_data*
-
-# url
-```
-from django.urls import reverse
->>> reverse('reqres:ajax')
-/reqres/ajax/
-```
 
 # unittest
 * [assertions](https://docs.djangoproject.com/en/1.11/topics/testing/tools/#assertions)
