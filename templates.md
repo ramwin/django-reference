@@ -21,6 +21,17 @@
 ```
 ### [ifequal](https://docs.djangoproject.com/en/2.0/ref/templates/builtins/#ifequal-and-ifnotequal) *deprecated*
 
+### [for](https://docs.djangoproject.com/en/2.0/ref/templates/builtins/#for)
+```
+<ul>
+{% for athlete in athlete_list %}
+    <li>{{ athlete.name }}</li>
+    {{forloop.counter}} 1-indexed
+    {{forloop.counter0}} 0-indexed
+{% endfor %}
+</ul>
+```
+
 ## Filters过滤
 * `add`: 增加
     * {{ 4 | add: "2" }}  ==> 6  

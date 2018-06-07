@@ -126,6 +126,7 @@ def get_serializer_context(self):
             ]))
         ```  
     * page分页
+        ```
         self._paginator = self.pagination_class()
         self._paginator.paginate_queryset(queryset, self.request, view=self)
         def paginate_queryset(self, queryset, request, view=None):
@@ -142,6 +143,7 @@ def get_serializer_context(self):
                     pass
 
             return self.page_size
+        ```
 
 * ### CreateAPIView
     * POST请求顺序  

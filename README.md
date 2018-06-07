@@ -3,8 +3,9 @@
 *A quick reference  for django*
 
 # [The Model Layer](https://docs.djangoproject.com/en/2.0/#the-model-layer)
-## Models
+## [Model and Field](./models_type数据类型.md)
 ## QuerySets
+### [Making Queries](./queries.md)
 * [Making Queries](making_queries.md)
 * [QuerySet method reference](queryset_method_reference.md)
 * [Lookup expressions](lookup_expressions.md)
@@ -63,12 +64,10 @@ cache.set('foo', 'bar', timeout=3600*24*60)
 cache.get('cache_list', [])  # 没有默认值就返回None
 ```
 # [URL](./urls.md)
-# [Model and Field](./models_type数据类型.md)
-# [Making Queries](./queries.md)
 # [View](./views.md)
 # [classbaseview](./classbaseView.md)
 # [Request & Response](./request_response.md)
-# [templates](./templates模板.md)
+# [templates](./templates.md)
 # [Exceptions](./exceptions错误.md)
 # [utils](./utils.md)
 # [validator](validator表单验证.md)

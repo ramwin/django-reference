@@ -181,7 +181,8 @@ regex=r'^tmp-\d+\'
 如果model里面有`auto_now_add`参数，那么就无视任何前端传递的值，变成hiddenfield了
 * DateField
 * DurationField
-* ChoiceField
+* [ChoiceField](http://www.django-rest-framework.org/api-guide/fields/#choicefield)
+    * `choices`: [('0', 'enabled'), ('1', 'disabled')]
 * MultipleChoiceField
 * SerializerMethodField
     * 使用methodfield来做一些函数的操作，比如班级的序列化类，只看里面有哪些班干部(默认是返回所有学生)
