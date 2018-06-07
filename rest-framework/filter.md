@@ -1,36 +1,37 @@
-#### Xiang Wang @ 2017-03-01 10:04:45
+**Xiang Wang @ 2017-03-01 10:04:45**
 *django-filter的参考*
 
 # 基础
 ```python
-    pip install django-filter
-    import django_filters
-    class MyFilter(django_filters.rest_framework.FilterSet):
-        type = django_filters.NumberFilter(name="type", lookup_expr="gte")
-        name = django_filters.CharFilter(name='name')
-        has_reply = django_filters.BooleanFilter(method='filter_reply')
-        def filter_reply(self, queryset, name, value):
-            if value is True:
-                return queryset.exclude(reply="")
-            else:
-                return queryset.filter(reply="")
+pip install django-filter
+import django_filters
+class MyFilter(django_filters.rest_framework.FilterSet):
+    type = django_filters.NumberFilter(name="type", lookup_expr="gte")
+    name = django_filters.CharFilter(name='name')
+    has_reply = django_filters.BooleanFilter(method='filter_reply')
+    def filter_reply(self, queryset, name, value):
+        if value is True:
+            return queryset.exclude(reply="")
+        else:
+            return queryset.filter(reply="")
 
-        class Meta:
-            model = models.Model
-            fields = ("type", "name")
-    class MyView(ListAPIView):
-        filter_class = MyFilter
-    queryset = MyFilter({'type': 'type1'}, models.Model.objects.all()).qs
+    class Meta:
+        model = models.Model
+        fields = ("type", "name")
+class MyView(ListAPIView):
+    filter_class = MyFilter
+queryset = MyFilter({'type': 'type1'}, models.Model.objects.all()).qs
 ```
 
-# 参数
+# core arguments
 * `name` 查找哪个字段
 * `lookup_expr` 查找的时候的后缀添加属性
 * `help_text` 备注信息
 * `required` 默认False，是否需要。如果为True的话，就会返回空的queryset
 * `method` 使用哪个方法来过滤
     ```
-    inbox = django_filters.BooleanFilter(method="filter_inbox")
+    inbox = django_filters.BooleanFilter(method="filter_inbox")  # 如果是BooleanFilter, 那么 MyFilter({'inbox': 'false'}, queryset).qs 会导致无法过滤。必须validated_data才能进行过滤
+    # TODO 如果是前端传递的bool值，会怎么样。rest-framework会进行validate吗
 
     def filter_inbox(self, queryset, name, value):
         return queryset
