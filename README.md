@@ -5,14 +5,23 @@
 # [The Model Layer](https://docs.djangoproject.com/en/2.0/#the-model-layer)
 
 1. ## Model and Field
-    * [Official Document](https://docs.djangoproject.com/en/2.1/#the-model-layer)
-    * [My Reference](./models.md)
+    * [Official Document(官方文档)](https://docs.djangoproject.com/en/2.1/#the-model-layer)
+    * [My Reference(以前的文档)](./models.md)
 
 2. ## QuerySets
-    * ### [My Reference](./queries.md)
-    * [Making Queries](making_queries.md)
-    * [QuerySet method reference](queryset_method_reference.md)
-    * [Lookup expressions](lookup_expressions.md)
+
+    * ### [My Reference(我的文档)](./queries.md)  
+    * [ ] Making Queries  
+    * [QuerySet method reference](queryset_method_reference.md)  
+        * Queryset API
+            * Methods that return new Querysets
+            `filter, exclude, annotate`
+            * Methods that do not return QuerySets
+            `get, create, get_or_create`
+            * [Field lookups](./queryset_method_reference.md#Field lookups)
+                * exact
+                * date
+    * [ ] Lookup expressions  
 
 3. ## TODO list
     * [ ] Model Instance

@@ -144,13 +144,6 @@
 * 过滤: Model.objects.filter()  Model.objects.all()  # 如果是外键，可以使用 user=obj, user=id, user_id=id 这三种方式。 id可以字符串，也可以是数字
 * 排除: Model.objects.exclude()  
 
-## 操作符列表
-* =: 值等于 或者 field__exact="value"
-* iexact: 忽略大小写  name_iexact="wang"
-* contains: 包含区分大小写。但是注意，sqlite默认不区分的，所以仍旧不区分
-* icontains: 不区分大小写的包含
-* startswith, endswith, istartswith, iendswith
-
 # 创建数据
 * 基础
     ```

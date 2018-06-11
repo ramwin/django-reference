@@ -109,7 +109,7 @@ def save(self, **kwargs):
     else:
         self.instance = self.create(validated_data)
     return self.instance
-def create(self, validated_data):
+def create(self, validated_data):  # 如果你自定了create方法，一般来说你也需要自定义to_representation方法
     instance = ModelClass.objects.create(**validated_data)
     return instance
 ```

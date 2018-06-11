@@ -12,6 +12,11 @@
 ## Methods that return new Querysets
 ## Methods that do not return Querysets
 ## [Field lookups](https://docs.djangoproject.com/en/2.1/ref/models/querysets/#field-lookups)
+* exact
+* iexact
+* contains
+* icontains
+* startswith
 * date:  
 When `USE_TZ` is True, fields are converted to the current time zone before filtering.  
 `Entry.objects.filter(pub_date__date=datetime.date(2005, 1, 1))`  
