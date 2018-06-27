@@ -160,9 +160,6 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
     * max_length 默认50
     * allow_unicode: 默认False，是否允许非ascii的名字
 
-## 布尔值
-    models.BooleanField()   # 布尔值
-
 ## Relationship fields
 ### [OneToOneField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#onetoonefield)
 ```

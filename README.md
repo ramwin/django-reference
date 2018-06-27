@@ -2,11 +2,21 @@
 
 *A quick reference  for django*
 
-# [The Model Layer](https://docs.djangoproject.com/en/2.0/#the-model-layer)
+# [The Model Layer 数据库model层](https://docs.djangoproject.com/en/2.0/#the-model-layer)
 
 1. ## Model and Field
     * [Official Document(官方文档)](https://docs.djangoproject.com/en/2.1/#the-model-layer)
     * [My Reference(以前的文档)](./models.md)
+    * [Field Options](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-options)
+    * [Field Types](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-types)
+        * AutoField, BigAutoField, BigIntegerField, BinaryField
+        * [BooleanField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#booleanfield)  
+        > before 1.11 version: use NullBooleanField  
+        > after 2.0 version: user BooleanField(null=True)
+        * CharField, DateField, DateTimeField, DecimalField, DurationField, EmailField, FileField, FileField and FieldFile, FilePathField, FloatField, ImageField, IntegerField, GenericIPAddressField
+        * NullBooleanField
+        > Like BooleanField with null=True. Use that instead of this field as it’s likely to be deprecated in a future version of Django.
+        * PositiveIntegerField, PositiveSmallIntegerField, SlugField, SmallIntegerField, TextField, TimeField, URLField, UUIDField
 
 2. ## QuerySets
 
@@ -28,6 +38,31 @@
     * [ ] Migration
     * [ ] Advanced
     * [ ] Other
+
+
+# [The View Layer 视图层](https://docs.djangoproject.com/en/2.0/#the-view-layer)
+3. ## FILE uploads 文件上传
+    ```
+    request.FILES['file']
+    ```
+4. ## Class-based View
+    * [API reference](https://docs.djangoproject.com/en/2.0/ref/class-based-views/)
+        * Context Mixin
+            * extra_context: `TemplateView.as_view(extra_context={"title": "Common Title"})`
+            * get_context_data:  
+            ```
+            from django.views.generic.base import ContextMixin
+            def get_context_data(self, **kwargs):
+                if "view" not in kwargs:
+                    kwargs["view"] = self
+                return kwargs
+
+            def get_context_data(self, **kwargs):
+                context = super(TemplateView, self).get_context_data(**kwargs)
+                context["number"] = random.randrange(1, 100)
+                return context
+            ```
+
 
 # [The Development Process](https://docs.djangoproject.com/en/2.0/#the-development-process)
 ## Testing
@@ -53,15 +88,23 @@
 * [Running Tests](https://docs.djangoproject.com/en/2.0/topics/testing/overview/#running-tests)
 * [ ] to be continued
 
+
+# [Security](https://docs.djangoproject.com/en/2.0/#security)
+## [Cross Site Request Forgery protection](https://docs.djangoproject.com/en/2.0/ref/csrf/)
+```
+    from django.views.decorators.csrf import csrf_exempt
+    @csrf_exempt
+    def view(request):
+        return HttpResponse('csrf')
+```
+
+
 # TODO list
 * [ ] [Document](https://docs.djangoproject.com/en/2.0/#how-the-documentation-is-organized)
 * [ ] [First Steps](https://docs.djangoproject.com/en/2.0/#first-steps)
-* [ ] [The Model Layer](https://docs.djangoproject.com/en/2.0/#the-model-layer)
-* [ ] [The View Layer](https://docs.djangoproject.com/en/2.0/#the-view-layer)
 * [ ] [The Template Layer](https://docs.djangoproject.com/en/2.0/#the-template-layer)
 * [ ] [Forms](https://docs.djangoproject.com/en/2.0/#forms)
 * [ ] [The Admin](https://docs.djangoproject.com/en/2.0/#the-admin)
-* [ ] [Security](https://docs.djangoproject.com/en/2.0/#security)
 * [ ] [Internationalization and Localization](https://docs.djangoproject.com/en/2.0/#internationalization-and-localization)
 
 # [admin site](./admin.md)
