@@ -1,6 +1,5 @@
 ** Xiang Wang @ 2016-09-28 15:54:49 **
 
-
 # 目录
 * [django-reference](../README.md)
     * [rest-framework](./README.md)
@@ -8,6 +7,7 @@
         * [request_and_response](./request_and_response.md)
         * serializer
         * [view.md](./view.md)
+
 
 # 基础使用
 ```
@@ -41,15 +41,16 @@
         调用完以后，会把data里面的字段用instance重新去渲染
         return instance
 
+
 # 属性和方法
-* context
+## context
     ```
     {'view': <views.DetailView object>,
      'format': None,
      'request': <rest_framework.request.Request object>}
     ```
 
-* data  
+## data  
 访问了这个属性以后，就无法再调用save函数了，所以如果要之前看data，必须使用`validated_data`
     ```
     @property
@@ -74,17 +75,18 @@
         return self._data
     ```
 
-* fields
+## fields
     ```
     返回一个 BindingDict {'text': Field }
     ```
 
-* `validate_<field_name>`:
+## `validate_<field_name>`:
 校验某个字段,这个字段是已经通过序列化转化的数据，所以是校验后才会调用
 
-* `validated_data`:  
+## `validated_data`:  
 返回格式化的数据，注意如果是外键，会变成model的instance  
-* `to_representation`(self, instance/validated_data)  
+
+## `to_representation`(self, instance/validated_data)  
 如果直接在`is_valid`后调用`.data`就会导致输入是OrderedDict而不是instance
     ```
     # 返回数据
@@ -98,23 +100,30 @@
         return super(Serializer, self).to_representation(instance)
     ```
 
-* `validate`(self, data)  
+## `validate`(self, data)  
 在所有的默认validate和自定义的validate_field都成功后才调用,用来校验整体的数据一致性
 
-* save
+## save
 ```
 def save(self, **kwargs):
+    validated_data = dict(
+        list(self.validated_data.items()) + 
+        list(kwargs.items())
+    )
     if self.instance is not None:
         self.instance = self.update(self.instance, validated_data)
     else:
         self.instance = self.create(validated_data)
+        assert self.instance is not None, (
+            '`create()` did not return an object instance.'
+        )
     return self.instance
 def create(self, validated_data):  # 如果你自定了create方法，一般来说你也需要自定义to_representation方法
     instance = ModelClass.objects.create(**validated_data)
     return instance
 ```
 
-* update
+## update
 ```
 def update(self, instance, validated_data):
     raise_errors_on_nested_writes('update', self, validated_data)
