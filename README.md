@@ -7,8 +7,16 @@
 1. ## Model and Field
     * [Official Document(官方文档)](https://docs.djangoproject.com/en/2.1/#the-model-layer)
     * [My Reference(以前的文档)](./models.md)
-    * [Field Options](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-options)
-    * [Field Types 字段](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-types)
+    * [Instance methods 实例方法](https://docs.djangoproject.com/en/2.1/ref/models/instances/)
+        * Refreshing objects from database
+        ```
+        obj = MyModel.objects.first()
+        del obj.field
+        obj.field  # loads the only field from database 会重载这个field, 不会重载其他的field
+        obj.refresh_from_db()  # reload all the fields
+        ```
+    * [Field Options 字段选项](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-options)
+    * [Field Types 字段类型](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-types)
         * AutoField, BigAutoField, BigIntegerField, BinaryField
         * [BooleanField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#booleanfield)  
         > before 1.11 version: use NullBooleanField  
@@ -44,15 +52,15 @@
         models.OneToOneField(Model, related_name="profile", db_index=True)
         ```
 
-
 2. ## QuerySets
-
     * ### [My Reference(我的文档)](./queries.md)  
     * [ ] Making Queries  
     * [QuerySet method reference](queryset_method_reference.md)  
         * Queryset API
-            * Methods that return new Querysets
-            `filter, exclude, annotate`
+            * Methods that return new Querysets  
+                * `filter, exclude, annotate, defer`
+                * defer
+                `Entry.objects.defer("body")`: only access the body field when you use the `body` field to optimize the performance
             * Methods that do not return QuerySets
             `get, create, get_or_create`
             * [Field lookups](./queryset_method_reference.md#Field lookups)
