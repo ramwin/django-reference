@@ -56,16 +56,6 @@
     * ### [My Reference(我的文档)](./queries.md)  
     * [ ] Making Queries  
     * [QuerySet method reference](queryset_method_reference.md)  
-        * Queryset API
-            * Methods that return new Querysets  
-                * `filter, exclude, annotate, defer`
-                * defer
-                `Entry.objects.defer("body")`: only access the body field when you use the `body` field to optimize the performance
-            * Methods that do not return QuerySets
-            `get, create, get_or_create`
-            * [Field lookups](./queryset_method_reference.md#Field lookups)
-                * exact
-                * date
     * [ ] Lookup expressions  
 
 3. ## TODO list
