@@ -9,6 +9,12 @@ class MyFilter(django_filters.rest_framework.FilterSet):
     type = django_filters.NumberFilter(name="type", lookup_expr="gte")
     name = django_filters.CharFilter(name='name')
     has_reply = django_filters.BooleanFilter(method='filter_reply')
+    order_by = django_filters.OrderingFilter(
+        fields=(
+            ("level", "level"),
+            ("customer__focus", "customer__focus"),
+        )
+    )
     def filter_reply(self, queryset, name, value):
         if value is True:
             return queryset.exclude(reply="")
