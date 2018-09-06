@@ -154,7 +154,24 @@ def update(self, instance, validated_data):
     }
 ```
 
-# Fields
+# [Fields](https://www.django-rest-framework.org/api-guide/fields/)
+* ## [core arguments核心参数](https://www.django-rest-framework.org/api-guide/fields/#core-arguments)
+    * [ ] read_only
+    * [ ] write_only
+    * [ ] required
+    * [ ] default
+    * [ ] allow_null
+    * [source](https://www.django-rest-framework.org/api-guide/fields/#source)
+        1. [ ] method that only takes a self argument like `URLField(source='get_absolute_url')`
+        2. [ ] dotted notation to traverse attributes like `EmailField(source='user.email')`  
+        如果user是None, 不会报错，返回None
+        3. [ ] `source="*"` means entire object should be passed through to the field
+    * [ ] validators
+    * [ ] error_messages
+    * [ ] label
+    * [ ] help_text
+    * [ ] initial
+    * [ ] style
 * [CharField](http://www.django-rest-framework.org/api-guide/fields/#charfield)
     * 参数
         * `trim_whitespace`: *默认`True`, 把字符的前后空白字符删除*
@@ -183,7 +200,8 @@ regex=r'^tmp-\d+\'
     * 会变成False的值: `字符串: False, false, 0; 布尔值: False; 数字: 0`
     * 其他就会报错
 * NullBooleanField
-* IntegerField
+* [IntegerField](http://www.django-rest-framework.org/api-guide/fields/#integerfield)
+    serializer.IntegerField(max_value=None, min_value=None)
 * FloatField
 * DateTimeField
 没有`auto_now_add`这个参数。必须model里面存在`auto_now_add`
