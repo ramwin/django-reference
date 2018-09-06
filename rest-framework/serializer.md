@@ -194,7 +194,7 @@ regex=r'^tmp-\d+\'
         * allow_null=False, 如果设置了many=True的话，这个设置就没有效果了
         * queryset, 从那个queryset里面搜索
 * BooleanField
-    * **注意: 由于html里面，当你不选择那个checkbox的时候，就会不传递这个值。所以当你如果用form post的时候，就算没有参数，`rest_framework`也会当成False处理。**
+    * **注意: 由于html里面，当你不选择那个checkbox的时候，就会不传递这个值。所以当你如果用form post的时候，就算没有参数，`rest-framework`也会当成False处理。**
     * 务必看源码
     * 会变成True的值: `字符串: true, True, 1,; 布尔值: True; 数字: 1`
     * 会变成False的值: `字符串: False, false, 0; 布尔值: False; 数字: 0`

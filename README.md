@@ -118,7 +118,7 @@ from django.urls import reverse
 # [Exceptions](./exceptions错误.md)
 # [utils](./utils.md)
 # [validator](validator表单验证.md)
-# [rest_framework](./rest-framework/README.md)
+# [rest-framework](./rest-framework/README.md)
 * ## [swagger](http://api-docs.easemob.com/#/)
 * ## [serializer](./rest-framework/serializer.md)
 * ## [filters](./rest-framework/filter.md)

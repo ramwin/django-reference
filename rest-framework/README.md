@@ -1,6 +1,6 @@
 # django rest framework 参考
 
-* [rest_framework基础](./rest-framework.md)
+* [rest-framework基础](./rest-framework.md)
 * [Views](./view.md)
 * [serializer序列化](./serializer.md)
 * [Permissions权限](./permissions.md)  
