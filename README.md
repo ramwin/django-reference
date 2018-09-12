@@ -67,6 +67,11 @@
 * [Running Tests](https://docs.djangoproject.com/en/2.0/topics/testing/overview/#running-tests)
 * [ ] to be continued
 
+# [The Admin 后台管理系统cms](./admin.md)
+* [Admin site](./admin.md)
+* [ ] Admin actions
+* [ ] Admin documentation generator
+
 
 # [Security](https://docs.djangoproject.com/en/2.0/#security)
 ## [Cross Site Request Forgery protection](https://docs.djangoproject.com/en/2.0/ref/csrf/)
@@ -77,16 +82,15 @@
         return HttpResponse('csrf')
 ```
 
+# [Internationalization and Localization 国际化和本地化](https://docs.djangoproject.com/en/2.0/#internationalization-and-localization)
+## [Time zones 时区](timezone时区.md)
 
 # TODO list
 * [ ] [Document](https://docs.djangoproject.com/en/2.0/#how-the-documentation-is-organized)
 * [ ] [First Steps](https://docs.djangoproject.com/en/2.0/#first-steps)
 * [ ] [The Template Layer](https://docs.djangoproject.com/en/2.0/#the-template-layer)
 * [ ] [Forms](https://docs.djangoproject.com/en/2.0/#forms)
-* [ ] [The Admin](https://docs.djangoproject.com/en/2.0/#the-admin)
-* [ ] [Internationalization and Localization](https://docs.djangoproject.com/en/2.0/#internationalization-and-localization)
 
-# [admin site](./admin.md)
 # [user auth and login](./auth认证模块.md)
 # [cache](https://docs.djangoproject.com/en/2.0/topics/cache/)
 ```
@@ -123,6 +127,7 @@ from django.urls import reverse
 * ## [serializer](./rest-framework/serializer.md)
 * ## [filters](./rest-framework/filter.md)
 * ## [views](./rest-framework/view.md)
+* ## [exceptions](./rest-framework/README.md)
 
 # [signal](./signal信号.md)
 # [form](./form.md)
