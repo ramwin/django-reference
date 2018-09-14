@@ -1,12 +1,11 @@
 **Xiang Wang @ 2018-08-07 15:25:20**
 
-# 目录
+### 目录
 * [return django 返回文档](./README.md)
 * [Official Document(官方文档)](https://docs.djangoproject.com/en/2.1/#the-model-layer)
-* [My Reference(以前的文档)](./models.md)
 
-# [Instance methods 实例方法](https://docs.djangoproject.com/en/2.1/ref/models/instances/)
-## Refreshing objects from database
+### [Instance methods 实例方法](https://docs.djangoproject.com/en/2.1/ref/models/instances/)
+#### Refreshing objects from database
 ```
 obj = MyModel.objects.first()
 del obj.field
@@ -14,7 +13,7 @@ obj.field  # loads the only field from database 会重载这个field, 不会重�
 obj.refresh_from_db()  # reload all the fields
 ```
 
-## [save](https://docs.djangoproject.com/en/2.1/ref/models/instances/#django.db.models.Model.save)
+#### [save](https://docs.djangoproject.com/en/2.1/ref/models/instances/#django.db.models.Model.save)
 save的时候，会把model的所有数据全量更新一遍，所以两个线程来了，只会save最后一个的数据
 * 主键有就是update，主键没有就是insert
 * save的时候发生了什么
@@ -28,7 +27,7 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
     * 更新后，并不会触发`refresh_from_db`
 * 如果是queryset的update操作，不会触发自定义的save方法。比如save的时候计算总分，如果update某个分数，总分并不会自动更新 `python3 manage.py test testapp.test_queries.TestMethodTestCase`
 
-## to be continued
+#### to be continued
 * [ ] creating objects 创建数据
 * [ ] validating objects 数据校验
 * [ ] deleting objects 删除数据
@@ -37,19 +36,22 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
 * [ ] extra instance methods 额外方法
 * [ ] other attributes 其他属性
 
-# [Field Options 字段选项](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-options)
+### [Field Options 字段选项](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-options)
 
-# [Field Types 字段类型](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-types)
+### [Field Types 字段类型](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-types)
 * AutoField, BigAutoField, BigIntegerField, BinaryField
 * [BooleanField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#booleanfield)  
 > before 1.11 version: use NullBooleanField  
 > after 2.0 version: user BooleanField(null=True)
-* CharField, DateField, DateTimeField, DecimalField, DurationField, EmailField, FileField, FileField and FieldFile, FilePathField, FloatField, ImageField, IntegerField, GenericIPAddressField
+* CharField, DateField, DateTimeField, DecimalField, DurationField, EmailField
+#### FileField:
+`class FileField(upload_to="uploads/%Y/%m/%d")`
+* FilePathField, FloatField, ImageField, IntegerField, GenericIPAddressField
 * NullBooleanField
 > Like BooleanField with null=True. Use that instead of this field as it’s likely to be deprecated in a future version of Django.
 * PositiveIntegerField, PositiveSmallIntegerField, SlugField, SmallIntegerField, TextField, TimeField, URLField, UUIDField
 
-# [Relationship fields 关联字段](https://docs.djangoproject.com/en/2.1/ref/models/fields/#module-django.db.models.fields.related)
+### [Relationship fields 关联字段](https://docs.djangoproject.com/en/2.1/ref/models/fields/#module-django.db.models.fields.related)
     * [ ] ForeignKey
         * Example 例子  
             ```

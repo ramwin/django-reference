@@ -1,10 +1,12 @@
 **Xiang Wang @ 2017-01-23 14:05:03**
 
 *A quick reference for django, the test example is in rest-framework-test repository*
+* [official documents 官网文档](https://docs.djangoproject.com/en/2.0/)
 
 # [The Model Layer 数据库model层](https://docs.djangoproject.com/en/2.0/#the-model-layer)
 
 1. ## [Model and Field](./model.md)
+    ### [Field Types 字段类型](./model.md#field-types-字段类型)
 
 2. ## QuerySets
     * ### [My Reference(我的文档)](./queries.md)  
@@ -20,7 +22,9 @@
 
 
 # [The View Layer 视图层](https://docs.djangoproject.com/en/2.0/#the-view-layer)
-3. ## FILE uploads 文件上传
+2. Requests and Response
+    * 获取请求的文件: `request.FILES['file']`
+3. FILE uploads 文件上传
     ```
     request.FILES['file']
     ```
@@ -43,7 +47,7 @@
             ```
 
 
-# [The Development Process](https://docs.djangoproject.com/en/2.0/#the-development-process)
+# [The Development Process 开发工具](https://docs.djangoproject.com/en/2.0/#the-development-process)
 ## Testing
 * Introduction
 * Writting and running tests
@@ -65,6 +69,14 @@
             self.assertEqual(cat.speak(), 'The cat says "meow"')
     ```
 * [Running Tests](https://docs.djangoproject.com/en/2.0/topics/testing/overview/#running-tests)
+
+## [Exceptions 报错](./exceptions错误.md)
+* Django Core Exceptions
+    * ValidationError()
+    * PermissionDenied()
+    * model.DoesNotExist `from django.core.exceptions import ObjectDoesNotExist`
+
+## [WSGI servers, uwsgi](./uwsgi部署.md)
 * [ ] to be continued
 
 # [The Admin 后台管理系统cms](./admin.md)
@@ -75,6 +87,7 @@
 
 # [Security](https://docs.djangoproject.com/en/2.0/#security)
 ## [Cross Site Request Forgery protection](https://docs.djangoproject.com/en/2.0/ref/csrf/)
+form表单提交的csrf数据: csrfmiddlewaretoken="wfjdaefefewajfklajsf"
 ```
     from django.views.decorators.csrf import csrf_exempt
     @csrf_exempt
@@ -85,13 +98,33 @@
 # [Internationalization and Localization 国际化和本地化](https://docs.djangoproject.com/en/2.0/#internationalization-and-localization)
 ## [Time zones 时区](timezone时区.md)
 
+# [Python Compatibility 23兼容](https://docs.djangoproject.com/en/1.11/topics/python3/)
+```
+from django.utils.encoding import python_2_unicode_compatible
+from __future__ import unicode_literals
+```
+
+# [Common Web application tools](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
+## [Authentication](./auth认证模块.md)
+## [Pagination](https://docs.djangoproject.com/en/2.1/topics/pagination/)
+```
+from django.core.pagiator import Paginator
+objects = Model.objects.all()
+p = Paginator(objects, 2)   # 每页显示2个元素
+p.count # 获取一共多少个元素
+p.num_pages # 获取页数
+objectslist = p.page(n)   # 获取第n页
+objectslist.has_previous | has_next # 判断是否有下一页
+objectslist.previous_page_number | next_page_number # 获取上一页或下一页的页码
+objectslist.number  # 当前页码
+```
+
 # TODO list
 * [ ] [Document](https://docs.djangoproject.com/en/2.0/#how-the-documentation-is-organized)
 * [ ] [First Steps](https://docs.djangoproject.com/en/2.0/#first-steps)
 * [ ] [The Template Layer](https://docs.djangoproject.com/en/2.0/#the-template-layer)
 * [ ] [Forms](https://docs.djangoproject.com/en/2.0/#forms)
 
-# [user auth and login](./auth认证模块.md)
 # [cache](https://docs.djangoproject.com/en/2.0/topics/cache/)
 ```
 from django.core.cache import cache
@@ -119,7 +152,6 @@ from django.urls import reverse
 # [classbaseview](./classbaseView.md)
 # [Request & Response](./request_response.md)
 # [templates](./templates.md)
-# [Exceptions](./exceptions错误.md)
 # [utils](./utils.md)
 # [validator](validator表单验证.md)
 # [rest-framework](./rest-framework/README.md)
@@ -147,5 +179,3 @@ out = OutputWrapper(sys.stdout)
 style = color_style()
 out.write(style.SUCCESS(serializer.data))
 ```
-
-# [uwsgi deploy](./uwsgi部署.md)
