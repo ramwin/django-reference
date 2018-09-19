@@ -1,29 +1,34 @@
 **Xiang Wang @ 2017-01-23 14:05:03**
 
 *A quick reference for django, the test example is in rest-framework-test repository*
-* [official documents 官网文档](https://docs.djangoproject.com/en/2.0/)
 
-# [The Model Layer 数据库model层](https://docs.djangoproject.com/en/2.0/#the-model-layer)
+# The Model Layer 数据库model层
 
-1. ## [Model and Field](./model.md)
-    ### [Field Types 字段类型](./model.md#field-types-字段类型)
+## Model and Field
+### [Field Options 字段选项](./model.md#field-options-字段选项)
+unique, blank, null的用法，歧义解释
 
-2. ## QuerySets
-    * ### [My Reference(我的文档)](./queries.md)  
-    * [ ] Making Queries  
-        * 查看查询的SQL语句
-        ```
-        from django.db import connection
-        print connection.queries
-        ```
-    * [QuerySet method reference](queryset_method_reference.md)  
-    * [ ] Lookup expressions  
+### [Field Types 字段类型](./model.md#field-types-字段类型)
+* FileField
 
-3. ## TODO list
-    * [ ] Model Instance
-    * [ ] Migration
-    * [ ] Advanced
-    * [ ] Other
+### [Instance methods 实例方法](./models.md#instance-methods-实例方法)
+
+## QuerySets
+* ### [My Reference(我的文档)](./queries.md)  
+* [ ] Making Queries  
+    * 查看查询的SQL语句
+    ```
+    from django.db import connection
+    print connection.queries
+    ```
+* [QuerySet method reference](queryset_method_reference.md)  
+* [ ] Lookup expressions  
+
+## TODO list
+* [ ] Model Instance
+* [ ] Migration
+* [ ] Advanced
+* [ ] Other
 
 
 # [The View Layer 视图层](https://docs.djangoproject.com/en/2.0/#the-view-layer)
