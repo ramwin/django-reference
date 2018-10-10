@@ -1,15 +1,6 @@
 ** Xiang Wang @ 2016-09-28 15:54:49 **
 
-# 目录
-* [django-reference](../README.md)
-    * [rest-framework](./README.md)
-        * [filter](./filter.md)
-        * [request_and_response](./request_and_response.md)
-        * serializer
-        * [view.md](./view.md)
-
-
-# 基础使用
+### 基础使用
 ```
     from rest_framework import serializers
     class ShopSerializer(serializers.ModelSerializer):
@@ -42,15 +33,15 @@
         return instance
 
 
-# 属性和方法
-## context
+### 属性和方法
+#### context
     ```
     {'view': <views.DetailView object>,
      'format': None,
      'request': <rest_framework.request.Request object>}
     ```
 
-## data  
+#### data  
 访问了这个属性以后，就无法再调用save函数了，所以如果要之前看data，必须使用`validated_data`
     ```
     @property
@@ -75,18 +66,18 @@
         return self._data
     ```
 
-## fields
+#### fields
     ```
     返回一个 BindingDict {'text': Field }
     ```
 
-## `validate_<field_name>`:
+#### `validate_<field_name>`:
 校验某个字段,这个字段是已经通过序列化转化的数据，所以是校验后才会调用
 
-## `validated_data`:  
+#### `validated_data`:  
 返回格式化的数据，注意如果是外键，会变成model的instance  
 
-## `to_representation`(self, instance/validated_data)  
+#### `to_representation`(self, instance/validated_data)  
 如果直接在`is_valid`后调用`.data`就会导致输入是OrderedDict而不是instance
     ```
     # 返回数据
@@ -100,10 +91,10 @@
         return super(Serializer, self).to_representation(instance)
     ```
 
-## `validate`(self, data)  
+#### `validate`(self, data)  
 在所有的默认validate和自定义的validate_field都成功后才调用,用来校验整体的数据一致性
 
-## save
+#### save
 ```
 def save(self, **kwargs):
     validated_data = dict(
@@ -123,7 +114,7 @@ def create(self, validated_data):  # 如果你自定了create方法，一般来�
     return instance
 ```
 
-## update
+#### update
 ```
 def update(self, instance, validated_data):
     raise_errors_on_nested_writes('update', self, validated_data)
@@ -143,7 +134,7 @@ def update(self, instance, validated_data):
 
     return instance
 ```
-# meta
+### meta
 ```
     read_only_fields = ["username", "is_staff"]  # 哪些属性不能修改，不过如果指定了field，必须在field里面加read_only
     write_only_fields = ???  # 这个属性不存在，可惜了
@@ -154,18 +145,23 @@ def update(self, instance, validated_data):
     }
 ```
 
-# [Fields](https://www.django-rest-framework.org/api-guide/fields/)
-* ## [core arguments核心参数](https://www.django-rest-framework.org/api-guide/fields/#core-arguments)
+### [Fields](https://www.django-rest-framework.org/api-guide/fields/)
+* #### [core arguments核心参数](https://www.django-rest-framework.org/api-guide/fields/#core-arguments)
     * [ ] read_only
     * [ ] write_only
     * [ ] required
     * [ ] default
     * [ ] allow_null
-    * [source](https://www.django-rest-framework.org/api-guide/fields/#source)
+    * ### [source](https://www.django-rest-framework.org/api-guide/fields/#source)
         1. [ ] method that only takes a self argument like `URLField(source='get_absolute_url')`
         2. [ ] dotted notation to traverse attributes like `EmailField(source='user.email')`  
         如果user是None, 不会报错，返回None
         3. [ ] `source="*"` means entire object should be passed through to the field
+        4. [ ] 如果不设置 `read_only=True` 在, save的时候要处理好这个数据
+        ```
+        name = CharField(source="user.name")
+        source = 'user.name'  如果写入的话，数据是这样 {'user': {'name': 'new name'}}, 而不是直接的{'user': 'new name'}
+        ```
     * [ ] validators
     * [ ] error_messages
     * [ ] label
@@ -280,9 +276,9 @@ regex=r'^tmp-\d+\'
     ```
 
 
-# 自定义序列化类
+### 自定义序列化类
 
-# 进阶
+### 进阶
 ```
     TestPermissionSerializer(serializers.ModelSerializer):
         class Meta:
@@ -296,5 +292,5 @@ regex=r'^tmp-\d+\'
             read_only_fields = TestPermissionSerializer.Meta.read_only_fields + "date"]
 ```
 
-# 序列化类的继承
+### 序列化类的继承
 * `class CSerializer(ASerializer, BSerializer)`: 对于A和B都有的field，C会继承第一个class的（既A的)
