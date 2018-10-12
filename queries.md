@@ -33,48 +33,10 @@
     Search.objects.filter(user=wx)  # 外健用对象或者对象id过滤,user_id, user__id也可以
     ```
 
-* 联表查询，left join
-    ```
-    Search.objects.filter(user__username='wx')  # left join式的过滤。如果没有user，也会被过滤掉
-    Search.objects.exclude(user__username='wx')  # 如果没有user，也不会过滤掉
-    from djabgo.db.models import Count
-    User.objects.filter(username='wangx').annotate(shop_cnt=Count('shop')  # count
-    ```
-
-* 多字段查询关联的歧义
-    ```
-    User.objects.filter(shop__title__contains='shop', shop__gmt_create__year=2008)  # 于2008年注册过商店名包含'shop'的所有用户
-    User.objects.filter(shop__title__contains='shop').filter(shop__gmt_create__year=2008)  # 商店名有shop，并且于2008年注册过商店的用户
-    User.objects.exclude(shop__title__contains='shop', shop__id=3)  # 过滤到有店id是3并且名字有shop的用户
-    User.objects.exclude(shop__title__contains='shop', shop__name__contains='ew')  # 过滤所有title包含shop和name包含ew的
-    User.objects.exclude(shop = Shop.objects.filter(location__contains='tian', name__contains='test'))  # 用户
-    ts.messages.all().values('type').annotate(cnt=Count('type'))
-    ```
-
 * 通过不关联的表字段进行过滤
     ```
     visited_ids = Travel.objects.filter(user=uesr).values('interest')
     Interest.objects.exclude(id__in=visited_ids)
-    ```
-
-* 通过外健过滤
-    ```
-    TestQuery.objects.exclude(user__id=4001)  # 会搜索出user为None的
-    TestQuery.objects.filter(user__id=None)  # 会搜索出user为None的
-    # user都没有，更没有id，id更不可能属于这个列表
-    TestQuery.objects.filter(user__id__in=[4001])  # 不会搜索出user为None的
-    # exclude并不没有user__id必须存在这个前提条件
-    TestQuery.objects.exclude(user__id__in=[4001])  # 会搜索出user为None的
-    ```
-
-* many的字段过滤
-    ```
-    ClassRoom.objects.filter(student__name__contains='王')  # 找到包含名字有王学生的的班级
-    # 但是如果有两个人都包含"王"，那这个班级就会出现两次，所以用distinct()
-    Blog.objects.filter(entry__authors__name__isnull=True)
-    # 这个会导致没有authors的也会被筛选出来
-    Blog.objects.filter(entry__authors__isnull=False,
-        entry__authors__name__isnull=True)  # 这个会是筛选出有作者并且作者名字是null的
     ```
 
 * 时间过滤
