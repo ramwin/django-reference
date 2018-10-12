@@ -2,7 +2,14 @@
 
 *A quick reference for django, the test example is in rest-framework-test repository*
 
-# The Model Layer 数据库model层
+# [rest-framework restful框架](./rest-framework/README.md)
+* ## [swagger](http://api-docs.easemob.com/#/)
+* ## [serializer](./rest-framework/serializer.md)
+* ## [filters](./rest-framework/filter.md)
+* ## [views](./rest-framework/view.md)
+* ## [exceptions](./rest-framework/README.md)
+
+# Django The Model Layer 数据库model层
 
 ## Model and Field
 ### [Field Options 字段选项](./model.md#field-options-字段选项)
@@ -181,9 +188,3 @@ get_random_string(length=6)
 
 # [utils](./utils.md)
 
-# [rest-framework restful框架](./rest-framework/README.md)
-* ## [swagger](http://api-docs.easemob.com/#/)
-* ## [serializer](./rest-framework/serializer.md)
-* ## [filters](./rest-framework/filter.md)
-* ## [views](./rest-framework/view.md)
-* ## [exceptions](./rest-framework/README.md)
