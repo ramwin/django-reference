@@ -51,3 +51,4 @@ class MyPermission(BasePermission):
 
 ## Exceptions
 * `rest_framework.exceptions.ValidationError`
+* `raise rest_framework.exceptions.Throttled(second)`

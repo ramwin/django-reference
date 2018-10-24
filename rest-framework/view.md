@@ -1,15 +1,6 @@
 **Xiang Wang @ 2016-10-08 10:38:43**
 
-# 目录
-* [django-reference](../README.md)
-    * [rest-framework](./README.md)
-        * [filter](./filter.md)
-        * [request_and_response](./request_and_response.md)
-        * [serializer](./serializer.md)
-        * view.md
-
-
-# APIView
+## APIView [官网](https://www.django-rest-framework.org/api-guide/views/)
 * 基础
 ```
 from rest_framework.views import APIView
@@ -19,8 +10,20 @@ from rest_framework.generics import ListCreateAPIView
 * 参数  
     * `http_method_names = ['post','get']`  *设置允许的请求方法*
     * `self.kwargs['key']`  *获取url里面的参数*
+* 方法
+    * `dispatch(self, request, *args, **kwargs)`
+    ```
+    def dispatch(self, request, *args, **kwargs):
+        try:
+        except Exception as exc:
+            response = self.handle_exception(exc)
+        self.response = self.finalize_response(request, response, *args, **kwargs)
+        return self.response
+    ```
+    * `handle_exception`  
+    处理各种`APIException`
 
-# 常用方法
+## 常用方法
 
 1. `GenericAPIView.get_queryset`  *可能你需要根据请求来过滤*
 ```
@@ -61,7 +64,7 @@ def get_serializer_context(self):
 ```
 
 
-# 常用的view
+## 常用的view
 * ### GenericAPIView
     ```
     def get_serializer(instance, *args, **kwargs):
