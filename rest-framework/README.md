@@ -1,7 +1,17 @@
 # django rest framework 参考
 
-## [rest-framework基础](./rest-framework.md)
+* [rest-framework官网](https://www.django-rest-framework.org/)
 ## [Views](./view.md)
+## ViewSets [官网](https://www.django-rest-framework.org/api-guide/viewsets/)
+```
+class UserViewSet(viewsets.ViewSet):
+    
+from rest_framework import mixins
+from rest_framework import viewsets
+
+class MyViewSet(mixins.RetrieveModelMixin,
+                viewsets.GenericViewSet)
+```
 ## [serializer序列化](./serializer.md)
 ## [Permissions权限](./permissions.md)  
 ```python
