@@ -1,6 +1,7 @@
 *admin界面设置*
 
-# [Admin管理界面](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/)
+# Admin Site 管理界面
+[官网](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/)
 ## 最简单的
 ```
 from django.contrib import admin
@@ -76,3 +77,8 @@ class FlatPageAdmin(admin.ModelAdmin):
         get_users.short_description = '用户'
     admin.site.register(<models>, SampleAdmin)
 ```
+
+
+# Admin actions
+
+# Admin documentation generator

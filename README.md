@@ -160,7 +160,7 @@ out.write(style.SUCCESS(serializer.data))
 ## [WSGI servers, uwsgi](./uwsgi部署.md)
 * [ ] to be continued
 
-# [The Admin 后台管理系统cms](./admin.md)
+# The Admin 后台管理系统cms
 * [Admin site](./admin.md)
 * [ ] Admin actions
 * [ ] Admin documentation generator
