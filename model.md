@@ -1,8 +1,8 @@
 **Xiang Wang @ 2018-08-07 15:25:20**
 
-### [Introduction to models 简介](https://docs.djangoproject.com/en/2.1/topics/db/models/)
+### Introduction to models 简介 [官网](https://docs.djangoproject.com/en/2.1/topics/db/models/)
 
-### [Field Options 字段选项](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-options)
+### Field Options 字段选项 [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-options)
 * null = True,    # 是否可以是NULL
 * default = '0',  # 默认的数值
 * blank=True      # admin界面是不是可以不填写。不填写的话就是NULL, 但是不影响model的创建
@@ -21,7 +21,7 @@
     * [关于如何在django里面插入null](https://code.djangoproject.com/ticket/4136)
     * 如果是其他field，空值会变成null。但是如果是charfield和textfield，因为form的缺陷，无法传递null，所以会导致永远不可能insertnull，只会insert空字符串。
 
-### [Field Types 字段类型](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-types)
+### Field Types 字段类型 [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-types)
 * AutoField, BigAutoField, BigIntegerField, BinaryField
 * [BooleanField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#booleanfield)  
 > before 1.11 version: use NullBooleanField  
@@ -47,13 +47,15 @@
             DateTimeModel.objects.create(time='2017-12-12T10:24:00+08:00')  # 这么精确，也没问题
             ```
         * 结论: 服务器端都用timezone，客户端都用带iso 8601
-* #### DecimalField
+
+* #### DecimalField [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#decimalfield)
 decimal:    '1.1', 1.1, decimal.Decimal('1.1')
-```
-decimal_places = 2  # 小数尾数
-max_digits = 3  # 数字的位数(包括小数)
-```
-* DurationField, EmailField
+    1. required 参数
+    ```
+    max_digits = 3  # 数字的位数(包括小数), >= decimal_places
+    decimal_places = 2  # 小数尾数
+    ```
+* [ ] DurationField, EmailField
 * #### FileField:
 `class FileField(upload_to="uploads/%Y/%m/%d")`
 * FilePathField, FloatField, ImageField
