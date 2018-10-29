@@ -50,11 +50,16 @@
 
 * #### DecimalField [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#decimalfield)
 decimal:    '1.1', 1.1, decimal.Decimal('1.1')
-    1. required 参数
+    * required 参数
     ```
     max_digits = 3  # 数字的位数(包括小数), >= decimal_places
     decimal_places = 2  # 小数尾数
     ```
+    * 注意事项
+        * 整数部分的最大长度就是 max_digits - decimal_places, 不会因为某个数字小数部分没有而导致整数部分可以变得更长
+        * 不能传"", 或者None
+        * 有了default就可以不传
+        * 如果设置了blank=True, admin页面就能传递None(就算有default也不会设置成default, 而是这是成None), 后台不支持null=True的话就会报错
 * [ ] DurationField, EmailField
 * #### FileField:
 `class FileField(upload_to="uploads/%Y/%m/%d")`
