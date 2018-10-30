@@ -57,6 +57,7 @@ decimal:    '1.1', 1.1, decimal.Decimal('1.1')
     ```
     * 注意事项
         * 整数部分的最大长度就是 max_digits - decimal_places, 不会因为某个数字小数部分没有而导致整数部分可以变得更长
+        * 小数部分的最大长度就是 decimal_places, 不会因为整数部分短了这个就长
         * 不能传"", 或者None
         * 有了default就可以不传
         * 如果设置了blank=True, admin页面就能传递None(就算有default也不会设置成default, 而是这是成None), 后台不支持null=True的话就会报错

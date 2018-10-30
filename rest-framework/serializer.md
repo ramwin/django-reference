@@ -1,5 +1,10 @@
 ** Xiang Wang @ 2016-09-28 15:54:49 **
 
+# [rest-framework](./README.md)
+
+## serializer
+[官网](https://www.django-rest-framework.org/api-guide/serializers/)
+
 ### 基础使用
 ```
     from rest_framework import serializers
@@ -190,14 +195,14 @@ def update(self, instance, validated_data):
     }
 ```
 
-### [Fields](https://www.django-rest-framework.org/api-guide/fields/)
+### [Fields](https://www.django-rest-framework.org/api-guide/fields/) [官网](https://www.django-rest-framework.org/api-guide/fields/)
 * #### [core arguments核心参数](https://www.django-rest-framework.org/api-guide/fields/#core-arguments)
     * [ ] read_only
     * [ ] write_only
     * [ ] required
     * [ ] default
     * [ ] allow_null
-    * ### [source](https://www.django-rest-framework.org/api-guide/fields/#source)
+    * ##### [source](https://www.django-rest-framework.org/api-guide/fields/#source)
         1. [ ] method that only takes a self argument like `URLField(source='get_absolute_url')`
         2. [ ] dotted notation to traverse attributes like `EmailField(source='user.email')`  
         如果user是None, 不会报错，返回None
@@ -213,12 +218,12 @@ def update(self, instance, validated_data):
     * [ ] help_text
     * [ ] initial
     * [ ] style
-* [CharField](http://www.django-rest-framework.org/api-guide/fields/#charfield)
+* #### [CharField](http://www.django-rest-framework.org/api-guide/fields/#charfield)
     * 参数
         * `trim_whitespace`: *默认`True`, 把字符的前后空白字符删除*
         * `max_length`, `min_length`, `allow_blank`, `trim_whitespace`, `allow_null`
 * EmailField
-* [RegexField](http://www.django-rest-framework.org/api-guide/fields/#regexfield)
+* #### [RegexField](http://www.django-rest-framework.org/api-guide/fields/#regexfield)
 ```
 regex=r'^tmp-\d+\'
 ```
