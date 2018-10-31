@@ -48,7 +48,7 @@
             ```
         * 结论: 服务器端都用timezone，客户端都用带iso 8601
 
-* #### DecimalField [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#decimalfield)
+#### DecimalField [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#decimalfield)
 decimal:    '1.1', 1.1, decimal.Decimal('1.1')
     * required 参数
     ```
@@ -100,31 +100,73 @@ integer:    1, '1', 不可以是 '2.9', 但是可以是 2.9(之后存入2), 调�
 ```
 
 ### [Relationship fields 关联字段](https://docs.djangoproject.com/en/2.1/ref/models/fields/#module-django.db.models.fields.related)
-    * [ ] ForeignKey
-        * Example 例子  
-            ```
-            def get_default_user():
-                return User.objects.first()
-            
-            limit_choices_to={'is_staff': True}, # 只能设置给 is_staff 的User
-            related_name = "+" # 设置成+或者以+结尾，就会没有反向查找
-            models.ForeignKey(Model,
-                on_delete=models.CASCADE # 默认连带删除(2.0以后参数必须传)
-                on_delete=models.SET(get_default_user)  # 删除后调用函数设置连带关系的默认直
-            )
-            ```
-        * [on_delete参数参考](https://docs.djangoproject.com/en/1.10/ref/models/fields/#django.db.models.CASCADE)  
-            * models.CASCADE: `连带删除`
-            * models.PROTECT: `报错`
-            * models.SET_NULL: `设置为空`
-            * models.SET_DEFAULT: `设置为默认`
-            * models.SET(): `调用函数`
+#### [ ] ForeignKey
+* Example 例子  
+    ```
+    def get_default_user():
+        return User.objects.first()
+    
+    limit_choices_to={'is_staff': True}, # 只能设置给 is_staff 的User
+    related_name = "+" # 设置成+或者以+结尾，就会没有反向查找
+    models.ForeignKey(Model,
+        on_delete=models.CASCADE # 默认连带删除(2.0以后参数必须传)
+        on_delete=models.SET(get_default_user)  # 删除后调用函数设置连带关系的默认直
+    )
+    ```
+* [on_delete参数参考](https://docs.djangoproject.com/en/1.10/ref/models/fields/#django.db.models.CASCADE)  
+    * models.CASCADE: `连带删除`
+    * models.PROTECT: `报错`
+    * models.SET_NULL: `设置为空`
+    * models.SET_DEFAULT: `设置为默认`
+    * models.SET(): `调用函数`
 
-    * [OneToOneField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#onetoonefield)
+#### [OneToOneField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#onetoonefield)
+```
+models.ForeignKey(Model)    # 关联到另一个Model
+models.OneToOneField(Model, related_name="profile", db_index=True)
+```
+
+#### ManyToManyField [官网](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
+[api](https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_many/)
+* 基础
     ```
-    models.ForeignKey(Model)    # 关联到另一个Model
-    models.OneToOneField(Model, related_name="profile", db_index=True)
+    label = models.ManyToManyField(Label, verbose_name=u'标签', null=True)
+    todos = models.ManyToManyField(TodoList, through="WeeklyPaperTodoRef")
     ```
+* add:
+    ```
+    model.todos.add('1','2')  # 可以是数字，可以是字符串，可以是对象。只要是一个一个传入的即可，add以后就立刻添加进入了数据库
+    1. return None
+    2. 如果已经在里面了，不会二次添加
+    3. 如果不再这个里面，就会直接加进去
+    return None
+    ```
+* remove:
+    ```
+    model.label.remove(label1, label2)  # 可以重复，可以多个
+    ```
+* set:
+    ```
+    model.label.set([label1, label2])
+    ```
+* clear:
+    ```
+    model.label.clear()
+    ```
+
+#### 参数
+```
+    through = "ModelRefName"  # 可以把中间关联的表拿出来写成model加参数
+    db_table = "关联的表名"  # 关联的数据库的表名称
+```
+#### 其他
+* 如果调用了本身，可以使用 `models.ForeignKey('self', on_delete=models.CASCADE)`
+* 如果单独的manytomany, 可以使用through获取那个隐藏的model
+```
+school.students.through.objects.filter(school=school)
+```
+
+### [ ] Field attribute reference [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-attribute-reference)
 
 ### [Instance methods 实例方法](https://docs.djangoproject.com/en/2.1/ref/models/instances/)
 #### Refreshing objects from database

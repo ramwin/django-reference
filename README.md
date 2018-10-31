@@ -10,7 +10,7 @@
 * ## [views](./rest-framework/view.md)
 * ## [exceptions](./rest-framework/README.md)
 
-# [Django The Model Layer 数据库model层](https://docs.djangoproject.com/en/2.1/#the-model-layer)
+# [Django The Model Layer 数据库model层](./model.md), [官网](https://docs.djangoproject.com/en/2.1/#the-model-layer)
 
 ## Model and Field
 ### [Field Options 字段选项](./model.md#field-options-字段选项)
