@@ -168,6 +168,18 @@ school.students.through.objects.filter(school=school)
 
 ### [ ] Field attribute reference [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-attribute-reference)
 
+### Meta
+```
+class Meta:
+    unique_together = ("user","date")   # 同一个用户同一个时间只允许一次(比如投票)
+如果不符合，会报错  django.db.utils.IntegrityError
+    ordering = "-id"  # 指定默认排序方式
+    db_table = "table"  # 指定表的名称
+    abstract = True # 表不进行创建，只用来继承
+    verbose_name = '显示名字'
+    verbose_name_plural = '显示名字'
+```
+
 ### [Instance methods 实例方法](https://docs.djangoproject.com/en/2.1/ref/models/instances/)
 #### Refreshing objects from database
 ```
