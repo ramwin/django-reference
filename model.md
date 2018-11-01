@@ -127,7 +127,21 @@ models.OneToOneField(Model, related_name="profile", db_index=True)
 ```
 
 #### ManyToManyField [官网](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
-[api](https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_many/)
+
+##### 参数
+* [ ] `related_name, related_query_name, limit_choices_to`
+* [ ] symmetrical: 这个能决定是否是正向反向的
+* through = "ModelRefName"  *可以把中间关联的表拿出来写成model加参数*
+* `through_fields` [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#django.db.models.ManyToManyField.through_fields)
+`through_fields = ("source_field_name", "target_field_name")`
+当through定义的时候才有效, 如果through的表里面有多个field外键到同一张表, 第一个字段代表那个field代表了自己这个model, 第二个字段代表哪个field代表了manytomany的field
+
+* `db_table` = "关联的表名"  *关联的数据库的表名称*
+* [ ] `db_constraint`
+* [ ] swappable
+* null对于ManyToManyField没有任何效果
+
+##### api
 * 基础
     ```
     label = models.ManyToManyField(Label, verbose_name=u'标签', null=True)
@@ -154,11 +168,6 @@ models.OneToOneField(Model, related_name="profile", db_index=True)
     model.label.clear()
     ```
 
-#### 参数
-```
-    through = "ModelRefName"  # 可以把中间关联的表拿出来写成model加参数
-    db_table = "关联的表名"  # 关联的数据库的表名称
-```
 #### 其他
 * 如果调用了本身，可以使用 `models.ForeignKey('self', on_delete=models.CASCADE)`
 * 如果单独的manytomany, 可以使用through获取那个隐藏的model
