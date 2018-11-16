@@ -1,8 +1,6 @@
 ** Xiang Wang @ 2016-09-28 15:54:49 **
 
-# [rest-framework](./README.md)
-
-## serializer
+serializer  
 [官网](https://www.django-rest-framework.org/api-guide/serializers/)
 
 ### 基础使用
@@ -80,7 +78,7 @@
 校验某个字段,这个字段是已经通过序列化转化的数据，所以是校验后才会调用
 
 #### `validated_data`:  
-返回格式化的数据，注意如果是外键，会变成model的instance  
+返回格式化的数据，注意*如果是外键，会变成model的instance*
 
 #### `to_representation`(self, instance/validated_data)  
 如果直接在`is_valid`后调用`.data`就会导致输入是OrderedDict而不是instance
@@ -205,7 +203,7 @@ def update(self, instance, validated_data):
     * ##### [source](https://www.django-rest-framework.org/api-guide/fields/#source)
         1. [ ] method that only takes a self argument like `URLField(source='get_absolute_url')`
         2. [ ] dotted notation to traverse attributes like `EmailField(source='user.email')`  
-        如果user是None, 不会报错，返回None
+        ~~如果user是None, 不会报错，返回None~~, 如果user是None, 会报错, 所以要设置一个default
         3. [ ] `source="*"` means entire object should be passed through to the field
         4. [ ] 如果不设置 `read_only=True` 在, save的时候要处理好这个数据
         ```
@@ -233,6 +231,7 @@ regex=r'^tmp-\d+\'
 * FilePathField
 * IPAddressField
 * [PrimaryKeyRelatedField](http://www.django-rest-framework.org/api-guide/relations/#primarykeyrelatedfield)
+用来代表外键, 当request.data输入进去后, validated_data得到的是一个model的Instance
     * 基础使用
         users = serializers.PrimaryKeyRelatedField(many=True)
     * 参数
@@ -316,7 +315,8 @@ regex=r'^tmp-\d+\'
         {'view': object, 'request': object} 可以获取上下文
     parent
         可以获取field的序列化类
-* 嵌套的序列化类
+
+* #### 嵌套的序列化类
 这种嵌套的需要B本来就有A的`manytomany`或者`a_set`的字段。如果需要过滤的话就要手动写method
     ```
     class ASerializer

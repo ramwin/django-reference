@@ -1,5 +1,24 @@
 * [官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
 
+### Using the authentication system 使用认证系统 [官网](https://docs.djangoproject.com/en/2.1/topics/auth/default/#authentication-in-web-requests)
+
+#### Authentication in Web requests
+##### How to log a user in 如何让一个用户登录
+* `django.contrib.auth.login(request, user, backend=None)`
+```
+from django.contrih.auth import login, authenticate
+def my_view(request):
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+```
+
+* to be continued
+    * [ ] How to log a user out 如何退出一个用户
+    * [ ] Limiting access to logged-in users
+    * [ ] Redirecting unauthorized requests in class-based views
+    * [ ] other
+
 ### 创建users:
 ```
     from django.contrib.auth.models import User
@@ -7,7 +26,7 @@
 ```
 
 ### 根据明文创建密码
-   from django.contrib.auth.hashers import make_password
+`from django.contrib.auth.hashers import make_password`
 
 ### 修改密码:
 ```

@@ -1,7 +1,9 @@
 # django rest framework 参考
 
 * [rest-framework官网](https://www.django-rest-framework.org/)
+
 ## [Views](./view.md)
+
 ## ViewSets [官网](https://www.django-rest-framework.org/api-guide/viewsets/)
 ```
 class UserViewSet(viewsets.ViewSet):
@@ -24,7 +26,7 @@ class MyPermission(BasePermission):
 ```
 ## [Filter过滤](./filter.md)
 ## [request and response](./request_and_response.md)
-## [throtte限速](./throtte.md)
+## throtte限速 [官网](https://www.django-rest-framework.org/api-guide/throttling/)
     ```
     from rest_framework.throttling import BaseThrottle, ScopedRateThrottle
     class MyThrottle(BaseThrottle):

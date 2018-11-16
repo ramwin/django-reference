@@ -77,6 +77,14 @@ unique, blank, null的用法，歧义解释
 
 # [The View Layer 视图层](https://docs.djangoproject.com/en/2.0/#the-view-layer)
 1. ## [URLconfs](./urls.md)
+    * ### django.urls utility functions [官网](https://docs.djangoproject.com/en/2.1/ref/urlresolvers/#resolve)
+        * resolve
+        ```
+        resolve_match = resolve(url)
+        resolve_match.name_space
+        ```
+        * ResolverMatch
+        r.namespace url的namespace
     * 根据name生成url
     ```
     from django.urls import reverse
@@ -120,7 +128,9 @@ unique, blank, null的用法，歧义解释
     * errors  *具体的报错信息*
 * method
     * `clean()`  *其实就是调用了clean_data*
+
 # [The Development Process 开发工具](https://docs.djangoproject.com/en/2.0/#the-development-process)
+## Applications
 ## Testing
 * Introduction
 * Writting and running tests
