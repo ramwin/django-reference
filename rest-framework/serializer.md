@@ -245,8 +245,14 @@ regex=r'^tmp-\d+\'
     * 会变成False的值: `字符串: False, false, 0; 布尔值: False; 数字: 0`
     * 其他就会报错
 * NullBooleanField
-* [IntegerField](http://www.django-rest-framework.org/api-guide/fields/#integerfield)
+
+* #### [IntegerField](http://www.django-rest-framework.org/api-guide/fields/#integerfield)
+实际上django的默认id用的是`Integer(label='ID', read_only=True)`, 因为有了`read_only`的存在,所以会不修改  
+`min_value`和`max_value`可以用来代表数值大小的约束
+```
     serializer.IntegerField(max_value=None, min_value=None)
+```
+
 * FloatField
 * DateTimeField
     * 没有`auto_now_add`这个参数。必须model里面存在`auto_now_add`
