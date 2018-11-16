@@ -131,26 +131,14 @@ unique, blank, null的用法，歧义解释
 
 # [The Development Process 开发工具](https://docs.djangoproject.com/en/2.0/#the-development-process)
 ## Applications
-## Testing
-* Introduction
-* Writting and running tests
-    * Writing tests
-    ```
-    from django.test import TestCase
-    from myapp.models import Animal
 
-    class AnimalTestCase(TestCase):
-        def setUp(self):
-            Animal.objects.create(name="lion", sound="roar")
-            Animal.objects.create(name="cat", sound="meow")
+## [Exceptions 报错](./exceptions错误.md)
+* Django Core Exceptions
+    * ValidationError()
+    * PermissionDenied()
+    * model.DoesNotExist `from django.core.exceptions import ObjectDoesNotExist`
 
-        def test_animals_can_speak(self):
-            """Animals that can speak are correctly identified"""
-            lion = Animal.objects.get(name="lion")
-            cat = Animal.objects.get(name="cat")
-            self.assertEqual(lion.speak(), 'The lion says "roar"')
-            self.assertEqual(cat.speak(), 'The cat says "meow"')
-    ```
+## django-admin and manage.py
 * [Adding custom commands 自定义指令](./customcommand.md)
 ```
 from django.core.management.base import OutputWrapper
@@ -159,15 +147,12 @@ out = OutputWrapper(sys.stdout)
 style = color_style()
 out.write(style.SUCCESS(serializer.data))
 ```
-* [Running Tests](https://docs.djangoproject.com/en/2.0/topics/testing/overview/#running-tests)
 
-## [Exceptions 报错](./exceptions错误.md)
-* Django Core Exceptions
-    * ValidationError()
-    * PermissionDenied()
-    * model.DoesNotExist `from django.core.exceptions import ObjectDoesNotExist`
+## [Testing 测试](./test测试.md)
+### [The test client](./test测试.md#The-test-client)
 
-## [WSGI servers, uwsgi](./uwsgi部署.md)
+## Deployment 部署
+### [WSGI servers, uwsgi](./uwsgi部署.md)
 * [ ] to be continued
 
 # The Admin 后台管理系统cms
