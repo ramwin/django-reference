@@ -7,7 +7,9 @@
 * 属性
     * `_request` 返回django的[request](../request_response.md)
     * `POST` 只会返回 POST 的数据
-    * `data` patch, put, post的数据都能获取到
+    * data  
+    类型就是 `django.http.request.QueryDict` [参考django的request](../request_response.md)  
+    patch, put, post的数据都能获取到
     * `accepted_renderer` *可以用来渲染的类* 
         * `.format` >>> *html, api, json*
         * `.charset` *utf-8*
