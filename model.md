@@ -130,7 +130,14 @@ models.OneToOneField(Model, related_name="profile", db_index=True)
 
 ##### 参数
 * [ ] `related_name, related_query_name, limit_choices_to`
-* [ ] symmetrical: 这个能决定是否是正向反向的
+* symmetrical [官网](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ManyToManyField.symmetrical)
+```
+class Person(models.Model):
+    friends = models.ManyToManyField("self")
+```
+默认为`True`, 代表如果personA的friends有personB, 那么personB的friends也就有A了, 所以也不存在`friends_set`属性
+如果需要分别计算, 需要设置symmetrical为`False`, 这样A把B当朋友, B就可以不把A当朋友了
+
 * through = "ModelRefName"  *可以把中间关联的表拿出来写成model加参数*
 * `through_fields` [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#django.db.models.ManyToManyField.through_fields)
 `through_fields = ("source_field_name", "target_field_name")`
@@ -141,7 +148,7 @@ models.OneToOneField(Model, related_name="profile", db_index=True)
 * [ ] swappable
 * null对于ManyToManyField没有任何效果
 
-##### api
+##### api [官网](https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_many/)
 * 基础
     ```
     label = models.ManyToManyField(Label, verbose_name=u'标签', null=True)
