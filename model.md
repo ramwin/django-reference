@@ -135,8 +135,8 @@ models.OneToOneField(Model, related_name="profile", db_index=True)
 class Person(models.Model):
     friends = models.ManyToManyField("self")
 ```
-默认为`True`, 代表如果personA的friends有personB, 那么personB的friends也就有A了, 所以也不存在`friends_set`属性
-如果需要分别计算, 需要设置symmetrical为`False`, 这样A把B当朋友, B就可以不把A当朋友了
+默认为`True`, 代表如果personA的friends有personB, 那么personB的friends也就有A了, 所以也不存在~~`friends_set`~~ `person_set`属性
+如果需要分别计算, 需要设置symmetrical为`False`, 这样A把B当朋友, B就可以不把A当朋友了, 此时
 
 * through = "ModelRefName"  *可以把中间关联的表拿出来写成model加参数*
 * `through_fields` [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#django.db.models.ManyToManyField.through_fields)
