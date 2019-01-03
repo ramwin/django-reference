@@ -350,3 +350,15 @@ regex=r'^tmp-\d+\'
 
 ### 序列化类的继承
 * `class CSerializer(ASerializer, BSerializer)`: 对于A和B都有的field，C会继承第一个class的（既A的)
+
+
+### ModelSerializer(rest_framework.serializers.ModelSerializer)
+* 方法
+    * [ ] `build_standard_field(self, field_name, model_field)` 这个方法知道作用,但是还没细看函数的作用方式.之后认真看看
+    ```
+    self.build_standard_field(self, "id", django.db.models.fields.AutoField):
+        return {
+            rest_framework.fields.IntegerField,
+            {"label": "ID", "read_only": True}
+        }
+    ```

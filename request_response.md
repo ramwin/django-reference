@@ -1,7 +1,9 @@
-#### Xiang Wang @ 2016-09-23 10:55:46
+**Xiang Wang @ 2016-09-23 10:55:46**
 
 
-# request
+[ ] Quick Overview
+
+### HttpRequest objects
 ```
     request.POST.getlist('multi_select')  # 获取一个多选的select的数值
     request.method == "GET" | "POST"
@@ -30,15 +32,18 @@
 * 其他
     * `request.META['REMOTE_ADDR']`  # 获取IP地址
 
+### QueryDict objects
+* 方法
+    * copy: 用来把request.POST的数据copy, 这样才能修改
 
-# response
+### response
 
-## [参数](https://docs.djangoproject.com/en/1.11/ref/request-response/#httpresponse-objects)
-    * content
-    * charset
-    * status_code
+##### [参数](https://docs.djangoproject.com/en/1.11/ref/request-response/#httpresponse-objects)
+* content
+* charset
+* status_code
 
-## 返回文件
+#### 返回文件
 ```
     from django.http import FileResponse
     response = FileResponse(open('filename', 'rb'))
@@ -46,7 +51,9 @@
     response['Content-Length'] = tmp_file.tell()  # 告诉浏览器文件的大小
     return response
 ```
-## 返回csv
+
+#### 返回csv
+```
     from django.http import HttpResponse
     from import csv
 
@@ -64,4 +71,4 @@
 
 ## 重定向(HttpResponseRedirect)
     return HttpResponseRedirect('http://www.ramwin.com')
-    
+```
