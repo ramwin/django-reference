@@ -1,6 +1,6 @@
 **Xiang Wang @ 2017-01-23 14:05:03**
 
-*A quick reference for django, the test example is in rest-framework-test repository*  
+*[A quick reference for django](https://github.com/ramwin/django-reference), the test example is in rest-framework-test repository*  
 *建议使用markdown工具打开[原始文件](https://raw.githubusercontent.com/ramwin/django-reference/master/README.md)，直接看的话因为github的一级菜单, 二级菜单，三级菜单字体太接近了，所以看上去会有点混乱*
 
 # [rest-framework restful框架](./rest-framework/README.md)
@@ -21,7 +21,7 @@ unique, blank, null的用法，歧义解释
 
 ### [Instance methods 实例方法](./models.md#instance-methods-实例方法)
 
-## [QuerySets](https://docs.djangoproject.com/en/2.1/topics/db/queries/)
+## QuerySets [官网](https://docs.djangoproject.com/en/2.1/topics/db/queries/)
 * [My Reference(以前我的文档)](./queries.md)  
 * [ ] Making Queries  
 一些基础的知识，创建数据，删除数据等等
