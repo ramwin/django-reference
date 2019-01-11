@@ -139,7 +139,7 @@ from __future__ import unicode_literals
 # Common Web application tools 常用的网站应用 [官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
 ## [Authentication 用户认证](./auth认证模块.md), [官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
 * [ ] 总览
-* [ ] 使用认证系统
+* [使用认证系统](./auth认证模块#Using_the_authentication_system_适用认证系统)
 * [ ] 密码管理
 * [ ] 自定义认证系统
 * [ ] API参考
