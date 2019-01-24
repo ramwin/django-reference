@@ -2,7 +2,7 @@
 
 ### Using the authentication system 使用认证系统 [官网](https://docs.djangoproject.com/en/2.1/topics/auth/default/#authentication-in-web-requests)
 
-#### Authentication in Web requests
+#### Authentication in Web requests 网页里面的认证
 ##### How to log a user in 如何让一个用户登录
 * `django.contrib.auth.login(request, user, backend=None)`
 ```

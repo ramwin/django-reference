@@ -47,7 +47,16 @@ queryset = MyFilter({'type': 'type1'}, models.Model.objects.all()).qs
 # Filter
 
 
-### [所有的filter](https://django-filter.readthedocs.io/en/master/ref/filters.html)
+## [所有的filter](https://django-filter.readthedocs.io/en/master/ref/filters.html)
+
+### MultiChoiceFilter [官网](https://django-filter.readthedocs.io/en/master/ref/filters.html#multiplechoicefilter)
+使用了多重过滤,以后输入 `url?_type=类型1&_type=类型2` 就能过滤几个url
+```
+_type = django_filters.MultipleChoiceFilter(
+    choices=models.TestFilter.TYPE_CHOICE
+)
+```
+
 * ModelChoiceFilter [参考](http://django-filter.readthedocs.io/en/develop/ref/filters.html#modelchoicefilter)
 ```
     author = django_filters.ModelChoiceFilter(queryset=Author.objects.all())

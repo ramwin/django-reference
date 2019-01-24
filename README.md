@@ -1,6 +1,6 @@
 **Xiang Wang @ 2017-01-23 14:05:03**
 
-*A quick reference for django, the test example is in [rest-framework-test](../rest-framework-test/README.md) repository*  
+*[A quick reference for django](https://github.com/ramwin/django-reference), the test example is in [rest-framework-test](../rest-framework-test/README.md) repository*  
 *建议使用markdown工具打开[原始文件](https://raw.githubusercontent.com/ramwin/django-reference/master/README.md)，直接看的话因为github的一级菜单, 二级菜单，三级菜单字体太接近了，所以看上去会有点混乱*
 
 # [rest-framework restful框架](./rest-framework/README.md)
@@ -21,7 +21,9 @@ unique, blank, null的用法，歧义解释
 ### [Field Types 字段类型](./model.md#field-types-字段类型)
 * FileField
 ### [Instance methods 实例方法](./models.md#instance-methods-实例方法)
+
 ## [QuerySets](./queryset.md)
+
 ## TODO list
 * [ ] Model Instance
 * [ ] Migration
@@ -137,7 +139,7 @@ from __future__ import unicode_literals
 # Common Web application tools 常用的网站应用 [官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
 ## [Authentication 用户认证](./auth认证模块.md), [官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
 * [ ] 总览
-* [ ] 使用认证系统
+* [使用认证系统](./auth认证模块#Using_the_authentication_system_适用认证系统)
 * [ ] 密码管理
 * [ ] 自定义认证系统
 * [ ] API参考
