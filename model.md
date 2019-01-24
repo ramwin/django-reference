@@ -92,7 +92,10 @@ integer:    1, '1', 不可以是 '2.9', 但是可以是 2.9(之后存入2), 调�
     * 包含`[a-zA-Z_-]`，可以用在一些变量名上面
     * max_length 默认50
     * allow_unicode: 默认False，是否允许非ascii的名字
-* SmallIntegerField, TextField, TimeField, URLField, 
+* SmallIntegerField
+* TextField
+TextField如果定义了max_length, 会影响view和form. 但是在数据库底层实现上没有max_length这个说法.
+* TimeField, URLField, 
 * UUIDField
 ```
     import uuid

@@ -17,7 +17,7 @@ class MyViewSet(mixins.RetrieveModelMixin,
 ## [serializer序列化](./serializer.md)
 ### ModelSerializer
 
-## [Permissions权限](./permissions.md)  
+## Permissions权限
 ```python
 from rest_framework.permissions import BasePermission
 class MyPermission(BasePermission):
