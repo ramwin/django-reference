@@ -1,8 +1,10 @@
 **Xiang Wang @ 2018-08-07 15:25:20**
 
-### Introduction to models 简介 [官网](https://docs.djangoproject.com/en/2.1/topics/db/models/)
+### Introduction to models 简介
+[官网](https://docs.djangoproject.com/en/2.1/topics/db/models/)
 
-### Field Options 字段选项 [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-options)
+### Field Options 字段选项
+[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-options)
 * null = True,    # 是否可以是NULL
 * default = '0',  # 默认的数值
 * blank=True      # admin界面是不是可以不填写。不填写的话就是NULL, 但是不影响model的创建
@@ -21,7 +23,8 @@
     * [关于如何在django里面插入null](https://code.djangoproject.com/ticket/4136)
     * 如果是其他field，空值会变成null。但是如果是charfield和textfield，因为form的缺陷，无法传递null，所以会导致永远不可能insertnull，只会insert空字符串。
 
-### Field Types 字段类型 [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-types)
+### Field Types 字段类型
+[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-types)
 * AutoField, BigAutoField, BigIntegerField, BinaryField
 * [BooleanField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#booleanfield)  
 > before 1.11 version: use NullBooleanField  
@@ -48,7 +51,8 @@
             ```
         * 结论: 服务器端都用timezone，客户端都用带iso 8601
 
-#### DecimalField [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#decimalfield)
+#### DecimalField
+[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#decimalfield)
 decimal:    '1.1', 1.1, decimal.Decimal('1.1')
     * required 参数
     ```
@@ -126,11 +130,13 @@ models.ForeignKey(Model)    # 关联到另一个Model
 models.OneToOneField(Model, related_name="profile", db_index=True)
 ```
 
-#### ManyToManyField [官网](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
+#### ManyToManyField
+[官网](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
 
 ##### 参数
 * [ ] `related_name, related_query_name, limit_choices_to`
-* symmetrical [官网](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ManyToManyField.symmetrical)
+* symmetrical
+[官网](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ManyToManyField.symmetrical)
 ```
 class Person(models.Model):
     friends = models.ManyToManyField("self")
@@ -139,7 +145,8 @@ class Person(models.Model):
 如果需要分别计算, 需要设置symmetrical为`False`, 这样A把B当朋友, B就可以不把A当朋友了, 此时
 
 * through = "ModelRefName"  *可以把中间关联的表拿出来写成model加参数*
-* `through_fields` [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#django.db.models.ManyToManyField.through_fields)
+* `through_fields`
+[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#django.db.models.ManyToManyField.through_fields)
 `through_fields = ("source_field_name", "target_field_name")`
 当through定义的时候才有效, 如果through的表里面有多个field外键到同一张表, 第一个字段代表那个field代表了自己这个model, 第二个字段代表哪个field代表了manytomany的field
 
@@ -148,16 +155,18 @@ class Person(models.Model):
 * [ ] swappable
 * null对于ManyToManyField没有任何效果
 
-##### api [官网](https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_many/)
+##### api
+[官网](https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_many/)
 * 基础
     ```
     label = models.ManyToManyField(Label, verbose_name=u'标签', null=True)
     todos = models.ManyToManyField(TodoList, through="WeeklyPaperTodoRef")
     ```
 * add:
+[官网](https://docs.djangoproject.com/en/1.11/ref/models/relations/#django.db.models.fields.related.RelatedManager.add)
     ```
     model.todos.add('1','2')  # 可以是数字，可以是字符串，可以是对象。只要是一个一个传入的即可，add以后就立刻添加进入了数据库
-    1. return None
+    1. return None, 无法通过结果来判断是否有添加
     2. 如果已经在里面了，不会二次添加
     3. 如果不再这个里面，就会直接加进去
     return None
@@ -182,7 +191,8 @@ class Person(models.Model):
 school.students.through.objects.filter(school=school)
 ```
 
-### [ ] Field attribute reference [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-attribute-reference)
+### [ ] Field attribute reference
+[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-attribute-reference)
 
 ### Meta
 ```

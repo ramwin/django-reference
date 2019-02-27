@@ -14,13 +14,16 @@
 ## Models and databases
 * [aggregation聚合数据](./aggregation聚集.md)
 
-# [Django The Model Layer 数据库model层](./model.md), [官网](https://docs.djangoproject.com/en/2.1/#the-model-layer)
+# [Django The Model Layer 数据库model层](./model.md),
+[官网](https://docs.djangoproject.com/en/2.1/#the-model-layer)
 ## [Model and Field](./model.md)
 ### [Field Options 字段选项](./model.md#field-options-字段选项)
 unique, blank, null的用法，歧义解释
 ### [Field Types 字段类型](./model.md#field-types-字段类型)
 * FileField
-### [Instance methods 实例方法](./models.md#instance-methods-实例方法)
+
+### [Relationship fields](./model.md#relationship-fields-关联字段)
+### [Instance methods 实例方法](./model.md#instance-methods-实例方法)
 
 ## [QuerySets](./queryset.md)
 
@@ -33,7 +36,8 @@ unique, blank, null的用法，歧义解释
 
 # [The View Layer 视图层](https://docs.djangoproject.com/en/2.0/#the-view-layer)
 1. ## [URLconfs](./urls.md)
-    * ### django.urls utility functions [官网](https://docs.djangoproject.com/en/2.1/ref/urlresolvers/#resolve)
+    * ### django.urls utility functions
+    [官网](https://docs.djangoproject.com/en/2.1/ref/urlresolvers/#resolve)
         * resolve
         ```
         resolve_match = resolve(url)
@@ -136,15 +140,18 @@ from django.utils.encoding import python_2_unicode_compatible
 from __future__ import unicode_literals
 ```
 
-# Common Web application tools 常用的网站应用 [官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
-## [Authentication 用户认证](./auth认证模块.md), [官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
+# Common Web application tools 常用的网站应用
+[官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
+## [Authentication 用户认证](./auth认证模块.md),
+[官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
 * [ ] 总览
 * [使用认证系统](./auth认证模块#Using_the_authentication_system_适用认证系统)
 * [ ] 密码管理
 * [ ] 自定义认证系统
 * [ ] API参考
 
-## cache 缓存系统, [官网](https://docs.djangoproject.com/en/2.0/topics/cache/)
+## cache 缓存系统,
+[官网](https://docs.djangoproject.com/en/2.0/topics/cache/)
 ```
 from django.core.cache import cache
 from django.core.cache import caches
