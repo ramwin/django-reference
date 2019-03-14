@@ -3,6 +3,8 @@
 *[A quick reference for django](https://github.com/ramwin/django-reference), the test example is in [rest-framework-test](../rest-framework-test/README.md) repository*  
 *建议使用markdown工具打开[原始文件](https://raw.githubusercontent.com/ramwin/django-reference/master/README.md)，直接看的话因为github的一级菜单, 二级菜单，三级菜单字体太接近了，所以看上去会有点混乱*
 
+[官网文档](https://docs.djangoproject.com/en/2.1/)
+
 # [rest-framework restful框架](./rest-framework/README.md)
 * ## [swagger](http://api-docs.easemob.com/#/)
 * ## [serializer](./rest-framework/serializer.md)
@@ -11,6 +13,7 @@
 
 # Topic guides
 讨论各种主题和工具 at a fairly high level, 提供一些背景知识和解释
+
 ## Models and databases
 * [aggregation聚合数据](./aggregation聚集.md)
 
@@ -92,11 +95,24 @@ unique, blank, null的用法，歧义解释
 # [The Development Process 开发工具](https://docs.djangoproject.com/en/2.0/#the-development-process)
 ## Applications
 
-## [Exceptions 报错](./exceptions错误.md)
-* Django Core Exceptions
+## Exceptions
+[官网](https://docs.djangoproject.com/en/2.1/ref/exceptions/)
+* Django Core Exceptions  
+`from django.core.exceptions import *`
     * ValidationError()
-    * PermissionDenied()
+    * ObjectDoesNotExist
+    因为model.DoesNotExist是继承了这个Exception, 所以可以用一个ObjectDoesNotExist来判断多个错误
+    ```
+    from django.core.exceptions import ObjectDoesNotExist
+    try:
+        e = Entry.objects.get(id=3)
+        b = Blog.objects.get(id=1)
+    except ObjectDoesNotExist:
+        print("Either the entry or blog doesn't exist.")
+    ```
     * model.DoesNotExist `from django.core.exceptions import ObjectDoesNotExist`
+    * MultipleObjectsReturned
+    * PermissionDenied()
 
 ## django-admin and manage.py
 * [Adding custom commands 自定义指令](./customcommand.md)

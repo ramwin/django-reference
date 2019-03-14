@@ -12,8 +12,10 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('poll_id', nargs='+', type=int)
+        parser.add_argument('-max', type=int, default=150, help="一次性推送允许的最多人数")  #  带有默认值的参数. 可以传可以不传
 
     def handle(self, *args, **options):
+        assert isInstance(options["max"], int)
         for poll_id in options['poll_id']:
             try:
                 poll = Poll.objects.get(pk=poll_id)
