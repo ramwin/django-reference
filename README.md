@@ -38,7 +38,8 @@ unique, blank, null的用法，歧义解释
 * [ ] Advanced
 * [ ] Other
 
-# [The View Layer 视图层](https://docs.djangoproject.com/en/2.0/#the-view-layer)
+# The View Layer 视图层
+[官网](https://docs.djangoproject.com/en/2.0/#the-view-layer)
 1. ## [URLconfs](./urls.md)
 解析url, 反编译url
 

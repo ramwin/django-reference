@@ -1,27 +1,28 @@
-#### Xiang Wang @ 2016-08-04 19:02:28
+*Xiang Wang @ 2016-08-04 19:02:28*
+
+**ClasssBase View API**
+[官网](https://docs.djangoproject.com/en/1.11/ref/class-based-views/)
 
 ### 基础
-* [官方索引](https://docs.djangoproject.com/en/1.11/ref/class-based-views/)
 * 基础
-    ```
-    from django.views.generic import View, ListView, DetailView, TemplateView
+```
+from django.views.generic import View, ListView, DetailView, TemplateView
 
-    class ListView(ListView):
-        model = Publisher
-        template_name = 'appname/templates.html'
-        paginate_by = 2 # 每页的数量
-        http_method_names = ['get']
-        context_object_name = 'my_favorite_publishers'  # 渲染用的名称
-    ```
+class ListView(ListView):
+    model = Publisher
+    template_name = 'appname/templates.html'
+    paginate_by = 2 # 每页的数量
+    http_method_names = ['get']
+    context_object_name = 'my_favorite_publishers'  # 渲染用的名称
+```
 
-### View
-* 参数
-    * http_method_names = ["get", "post"]   # 支持的参数
-        * 默认 ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']
-* 方法
-    * get
-
-### 常见的view
+### Base Views
+* View
+    * 参数
+        * http_method_names = ["get", "post"]   # 支持的参数
+            * 默认 ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'trace']
+    * 方法
+        * get
 * TemplateView
     * 参数
         * template_name = "appname/filename.html"  # 使用哪个html渲染
@@ -29,6 +30,9 @@
         * `get_context_data`
             * 返回一个dict, 用于渲染
             * 预定义的方法只是把view这个对象交给context['view']并没有其他操作
+* RedirectView
+
+### Generic display views
 * ListView
     ```
     def get(self, request, *args, **kwargs):
@@ -45,6 +49,8 @@
         return self.render_to_response(context)
     ```
 * DetailView
+
+### Generic editing views
 * [CreateView](https://docs.djangoproject.com/en/1.11/ref/class-based-views/flattened-index/#createview)
     1. `BaseCreateView.post(self, request, *args, **kwargs):`  
         ```
@@ -114,3 +120,30 @@
             self.object = form.save()
             return super(ModelFormMixin, self).form_valid(form)
         ```
+
+
+### Class-based views mixins
+
+#### Simple mixins
+* Context mixins
+* TemplateResponseMixin
+`django.views.generic.base.TemplateResponseMixin`
+    * get_template_names()
+    返回一个template的列表用于渲染
+    ```
+    def get_template_names(self):
+        if self.template_name is None:
+            raisee ImproperlyConfigured(
+                "TemplateResponseMixin requires either a definition of "
+                "'template_name' or an implementation of 'get_template_names()'")
+        else:
+            return [self.template_name]
+    ```
+    如果要自定义template, 根据url返回
+    ```
+    def get_template_names(self):
+        if self.request.resolver_match.kwargs["scene"] == "admin":
+            return ["admin_template.html"]
+        else:
+            return super(View, self).get_template_names()
+    ```
