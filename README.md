@@ -17,8 +17,10 @@
 ## Models and databases
 * [aggregation聚合数据](./aggregation聚集.md)
 
-# [Django The Model Layer 数据库model层](./model.md),
+# Model和Queryset  
+*Django The Model Layer 数据库model层*
 [官网](https://docs.djangoproject.com/en/2.1/#the-model-layer)
+
 ## [Model and Field](./model.md)
 ### [Field Options 字段选项](./model.md#field-options-字段选项)
 unique, blank, null的用法，歧义解释
@@ -36,32 +38,10 @@ unique, blank, null的用法，歧义解释
 * [ ] Advanced
 * [ ] Other
 
-
 # [The View Layer 视图层](https://docs.djangoproject.com/en/2.0/#the-view-layer)
 1. ## [URLconfs](./urls.md)
-    * ### django.urls utility functions
-    [官网](https://docs.djangoproject.com/en/2.1/ref/urlresolvers/#resolve)
-        * resolve
-        ```
-        resolve_match = resolve(url)
-        resolve_match.name_space
-        ```
-        * ResolverMatch
-        r.namespace url的namespace
-    * 根据name生成url
-    ```
-    from django.urls import reverse
-    >>> reverse('reqres:ajax')
-    /reqres/ajax/
-    >>> reverse('request:ajax-detail', args=[1])
-    /reqres/ajax/1/
-    >>> reverse('request:ajax', kwargs={'pk': 1})
-    /reqres/ajax/1/
-    ```
-    * 解析url
-    ```
-    from django.utils.six.moves.urllib.parse import urlparse, urlunparse
-    ```
+解析url, 反编译url
+
 2. ## [Requests and Response](./request_response.md)
 3. FILE uploads 文件上传
     ```
@@ -204,4 +184,3 @@ get_random_string(length=6)
 * [ ] [First Steps](https://docs.djangoproject.com/en/2.0/#first-steps)
 
 # [utils](./utils.md)
-
