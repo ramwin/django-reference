@@ -52,8 +52,8 @@
         * 结论: 服务器端都用timezone，客户端都用带iso 8601
 
 #### DecimalField
-[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#decimalfield)
-decimal:    '1.1', 1.1, decimal.Decimal('1.1')
+[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#decimalfield)  
+* decimal:    '1.1', 1.1, decimal.Decimal('1.1')
     * required 参数
     ```
     max_digits = 3  # 数字的位数(包括小数), >= decimal_places
@@ -65,7 +65,12 @@ decimal:    '1.1', 1.1, decimal.Decimal('1.1')
         * 不能传"", 或者None
         * 有了default就可以不传
         * 如果设置了blank=True, admin页面就能传递None(就算有default也不会设置成default, 而是这是成None), 后台不支持null=True的话就会报错
-* [ ] DurationField, EmailField
+* DurationField  
+[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#durationfield)
+时间字段, 返回python里的timedelta. 如果是PostgreSQL, 使用的是interval类型.  
+如果是其他的，一般都是存bigint表明要多少microseconds  
+
+* [ ] EmailField
 * #### FileField:
 `class FileField(upload_to="uploads/%Y/%m/%d")`
 * FilePathField, FloatField, ImageField

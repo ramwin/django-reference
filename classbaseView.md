@@ -7,7 +7,6 @@
 * 基础
 ```
 from django.views.generic import View, ListView, DetailView, TemplateView
-
 class ListView(ListView):
     model = Publisher
     template_name = 'appname/templates.html'

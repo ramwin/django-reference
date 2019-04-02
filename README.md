@@ -67,11 +67,14 @@ unique, blank, null的用法，歧义解释
             ```
 
 # [The template layer 模板](templates.md)
-# [Forms 表单]()
+# Forms 表单
+[官网](https://docs.djangoproject.com/en/2.1/#forms)
 * attribute
     * errors  *具体的报错信息*
 * method
     * `clean()`  *其实就是调用了clean_data*
+## Built-in fields
+* FileField
 
 # [The Development Process 开发工具](https://docs.djangoproject.com/en/2.0/#the-development-process)
 ## Applications
@@ -139,7 +142,7 @@ from __future__ import unicode_literals
 
 # Common Web application tools 常用的网站应用
 [官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
-## [Authentication 用户认证](./auth认证模块.md),
+## [Authentication 用户认证](./auth认证模块.md)
 [官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
 * [ ] 总览
 * [使用认证系统](./auth认证模块#Using_the_authentication_system_适用认证系统)
