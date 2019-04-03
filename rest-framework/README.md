@@ -1,10 +1,9 @@
-# django rest framework 参考
-
-* [rest-framework官网](https://www.django-rest-framework.org/)
+[rest-framework官网](https://www.django-rest-framework.org/)
 
 ## [Views](./view.md)
 
-## ViewSets [官网](https://www.django-rest-framework.org/api-guide/viewsets/)
+## ViewSets
+[官网](https://www.django-rest-framework.org/api-guide/viewsets/)
 ```
 class UserViewSet(viewsets.ViewSet):
     
@@ -14,6 +13,17 @@ from rest_framework import viewsets
 class MyViewSet(mixins.RetrieveModelMixin,
                 viewsets.GenericViewSet)
 ```
+
+### ViewSet actions
+通过`self.action`可以知道当前的请求的状态，根据这个状态来判断不同的序列化类
+```
+def get_serializer_class(self):
+    if self.action == 'create':
+        return CreateSerializerClass
+    return self.serializer_class
+```
+
+
 ## [serializer序列化](./serializer.md)
 ### ModelSerializer
 
