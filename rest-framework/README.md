@@ -2,6 +2,48 @@
 
 ## [Views](./view.md)
 
+## Generic Views
+## GenericAPIView
+### Methods
+* `get_serializer(self, instance=None, data=None, many=False, partial=False)`  
+返回serializer。
+```
+def get_serializer(self, *args, **kwargs):
+    """
+    Return the serializer instance that should be used for validating and
+    deserializing input, and for serializing output.
+    """
+    serializer_class = self.get_serializer_class()
+    kwargs['context'] = self.get_serializer_context()
+    return serializer_class(*args, **kwargs)
+```
+
+### Mixins
+[官网](https://www.django-rest-framework.org/api-guide/generic-views/#mixins)
+* CreateModalMixin  
+如果成功，返回201以及创建好的数据。如果数据里面有url，就在header里面加location [参考](https://en.wikipedia.org/wiki/HTTP_location)
+```
+class CreateModalMixin(object):
+    """
+    Create a model instance.
+    """
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def get_success_headers(self, data):
+        try:
+            return {'Location': str(data[api_settings.URL_FIELD_NAME])}
+        except (TypeError, KeyError):
+            return {}
+```
+
 ## ViewSets
 [官网](https://www.django-rest-framework.org/api-guide/viewsets/)
 ```
@@ -17,10 +59,15 @@ class MyViewSet(mixins.RetrieveModelMixin,
 ### ViewSet actions
 通过`self.action`可以知道当前的请求的状态，根据这个状态来判断不同的序列化类
 ```
-def get_serializer_class(self):
-    if self.action == 'create':
-        return CreateSerializerClass
-    return self.serializer_class
+from rest_framework import viewsets
+from rest_framework import mixins
+class APIViewSet(mixins.CreateModalMixin, GenericViewSet):
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return CreateSerializerClass
+        return self.serializer_class
+    def create(self, request):
+    def retrieve(self, request, pk=None):
 ```
 
 

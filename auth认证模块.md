@@ -1,4 +1,4 @@
-* [官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
+[官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
 
 ### Using the authentication system 使用认证系统 [官网](https://docs.djangoproject.com/en/2.1/topics/auth/default/#authentication-in-web-requests)
 
@@ -18,6 +18,16 @@ def my_view(request):
     * [ ] Limiting access to logged-in users
     * [ ] Redirecting unauthorized requests in class-based views
     * [ ] other
+
+
+### API参考
+[官网](https://docs.djangoproject.com/en/2.1/ref/contrib/auth/)
+> django.contrib.auth
+
+#### User model
+* Fields
+    * username
+    默认支持的是`alphanumeric,_,@,+,.,-`, 必填, 默认为空字符串，所以**如果是自定义的auth或者接口，务必把username设置好**
 
 ### 创建users:
 ```
