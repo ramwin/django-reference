@@ -13,7 +13,7 @@
 * help_text = ''  # 在每个model的form下面有一小行字符串。显示帮助信息。账号必须多于6个字符等等
 * through = ''
 * choices = TUPLE
-* #### unique (False)
+* unique (False)
     1. 是否允许重复, 如果设置了True，并且一个model里面有2个True，get_or_create就必须把每个这样的字段设置好，不然就会报错
     2. [关于null和unique同时存在的问题](https://stackoverflow.com/questions/454436/unique-fields-that-allow-nulls-in-django), unique校验只对非null的进行唯一校验，包括空字符串，也不能重复
 * primary_key = True # 是否为主键。最多一个，并且会自动加上null=False, unique=True
@@ -29,7 +29,16 @@
 * [BooleanField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#booleanfield)  
 > before 1.11 version: use NullBooleanField  
 > after 2.0 version: user BooleanField(null=True)
-* CharField, DateField
+* CharField
+```
+    models.CharField(max_length=255)
+    models.TextField()  # 默认会为""
+        max_length  # 不是数据库底层支持的。
+    models.EmailField()
+        # 底层还是 CharField 只不过用 EmailValidator 去校验
+```
+* DateField
+对于日期,不存在时区的概念,都是直接存入的日期,没有转化成utc
 * #### DateTimeField
     * 参数
         * `auto_now_add = True`: 保存为当前时间，不再改变
@@ -75,24 +84,24 @@
 `class FileField(upload_to="uploads/%Y/%m/%d")`
 * FilePathField, FloatField, ImageField
 * #### IntegerField
+[官网](https://docs.djangoproject.com/en/2.2/ref/models/fields/#integerfield)
 integer:    1, '1', 不可以是 '2.9', 但是可以是 2.9(之后存入2), 调用的是int函数
     * 基础
-        ```
-        models.IntegerField()   # 整数 -2147483648 - -2147483648
-        models.PositiveSmallIntegerField()  # 0 - 32767
-        models.SmallIntegerField()  #  -32767 - 32767
-        models.PositiveIntegerField() # 0 - 2147483647
-
-        models.FloatField() # 小数
-            如果设置了unique的话，就会在数据库层面设置unique。不过数据库显示的时候偶尔会看上去一样
-            实际上二者的二进制数据有点区别，换成是十进制后显示不出来。在python内部可以显示
-        models.DecimalField()   # 精确小数
-        ```
+    ```
+    models.IntegerField()   # 整数 -2147483648 - -2147483648
+    models.PositiveSmallIntegerField()  # 0 - 32767
+    models.SmallIntegerField()  #  -32767 - 32767
+    models.PositiveIntegerField() # 0 - 2147483647
+    models.FloatField() # 小数
+        如果设置了unique的话，就会在数据库层面设置unique。不过数据库显示的时候偶尔会看上去一样
+        实际上二者的二进制数据有点区别，换成是十进制后显示不出来。在python内部可以显示
+    models.DecimalField()   # 精确小数
+    ```
     * AutoField
-        ```
-        # 不使用原来的id，而是使用自定义的主键。注意一个model里面primary_key只能有一个，autofield也只能有一个
-        models.AutoField(primary_key=True)
-        ```
+    ```
+    # 不使用原来的id，而是使用自定义的主键。注意一个model里面primary_key只能有一个，autofield也只能有一个
+    models.AutoField(primary_key=True)
+    ```
 * GenericIPAddressField
 * NullBooleanField
 > Like BooleanField with null=True. Use that instead of this field as it’s likely to be deprecated in a future version of Django.
@@ -107,8 +116,8 @@ TextField如果定义了max_length, 会影响view和form. 但是在数据库底�
 * TimeField, URLField, 
 * UUIDField
 ```
-    import uuid
-    models.UUIDField(default=uuid.uuid4)
+import uuid
+models.UUIDField(default=uuid.uuid4)
 ```
 
 ### [Relationship fields 关联字段](https://docs.djangoproject.com/en/2.1/ref/models/fields/#module-django.db.models.fields.related)
