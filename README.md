@@ -3,7 +3,7 @@
 *[A quick reference for django](https://github.com/ramwin/django-reference), the test example is in [rest-framework-test](../rest-framework-test/README.md) repository*  
 *建议使用markdown工具打开[原始文件](https://raw.githubusercontent.com/ramwin/django-reference/master/README.md)，直接看的话因为github的一级菜单, 二级菜单，三级菜单字体太接近了，所以看上去会有点混乱*
 
-[官网文档](https://docs.djangoproject.com/en/2.1/)
+[官网文档](https://docs.djangoproject.com/en/2.2/)
 
 # [rest-framework restful框架](./rest-framework/README.md)
 * ## [swagger](http://api-docs.easemob.com/#/)
@@ -40,31 +40,33 @@ unique, blank, null的用法，歧义解释
 
 # The View Layer 视图层
 [官网](https://docs.djangoproject.com/en/2.0/#the-view-layer)
-1. ## [URLconfs](./urls.md)
+
+## [URLconfs](./urls.md)
 解析url, 反编译url
 
-2. ## [Requests and Response](./request_response.md)
-3. FILE uploads 文件上传
-    ```
-    request.FILES['file']
-    ```
-4. ## [Class-based View](./classbaseView.md)
-    * [API reference](https://docs.djangoproject.com/en/2.0/ref/class-based-views/)
-        * Context Mixin
-            * extra_context: `TemplateView.as_view(extra_context={"title": "Common Title"})`
-            * get_context_data:  
-            ```
-            from django.views.generic.base import ContextMixin
-            def get_context_data(self, **kwargs):
-                if "view" not in kwargs:
-                    kwargs["view"] = self
-                return kwargs
+## [Requests and Response](./request_response.md)
+FILE uploads 文件上传
+```
+request.FILES['file']
+```
 
-            def get_context_data(self, **kwargs):
-                context = super(TemplateView, self).get_context_data(**kwargs)
-                context["number"] = random.randrange(1, 100)
-                return context
-            ```
+## [Class-based View](./classbaseView.md)
+* [API reference](https://docs.djangoproject.com/en/2.0/ref/class-based-views/)
+    * Context Mixin
+        * extra_context: `TemplateView.as_view(extra_context={"title": "Common Title"})`
+        * get_context_data:  
+        ```
+        from django.views.generic.base import ContextMixin
+        def get_context_data(self, **kwargs):
+            if "view" not in kwargs:
+                kwargs["view"] = self
+            return kwargs
+
+        def get_context_data(self, **kwargs):
+            context = super(TemplateView, self).get_context_data(**kwargs)
+            context["number"] = random.randrange(1, 100)
+            return context
+        ```
 
 # [The template layer 模板](templates.md)
 # Forms 表单
