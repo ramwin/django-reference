@@ -69,6 +69,16 @@ urlpatterns = [
 ### Using regular expressions
 [官网](https://docs.djangoproject.com/en/2.2/topics/http/urls/#using-regular-expressions)
 使用正则匹配的路径，不管匹配到的结果是什么样的，返回的都是字符串，请务必注意
+```
+from django.urls import path, re_path
+from . import views
+urlpatterns = [
+    path('articles/2003/', views.special_case_2003),
+    re_path(r'^articles/(?P<year>[0-9]{4})/$', views.year_archive),
+    re_path(r'^articles/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/$', views.month_archive),
+    re_path(r'^articles/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<slug>[\w-]+)/$', views.article_detail),
+]
+```
 
 ### Passing extra options to view functions 传递额外的变量
 `
