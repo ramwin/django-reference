@@ -72,11 +72,12 @@
 ```
 
 ## 自定义标签
+```
     {% templatetag openvariable %} message {% templatetag closevariable %}  # 临时输出个花括号标签
     {% verbatim %}
         {{if dying}}Still alive.{{/if}}  # 这样中间的代码就不会进行渲染了。
     {% endverbatim %}
-
+```
 
 ## for
     {% for i in list %}
@@ -85,5 +86,5 @@
 
 
 ## 时间
-* [官方文档](https://docs.djangoproject.com/en/1.11/ref/templates/builtins/#date)
+[官方文档](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/)
 * {{register_time|date:"o年m月d日"}}
