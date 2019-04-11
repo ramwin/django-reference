@@ -1,7 +1,14 @@
 **django template language**
 
-# built-in tags and filters
-## [build-in tags reference](https://docs.djangoproject.com/en/2.0/ref/templates/builtins/#built-in-tag-reference)
+* [官方文档](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/)
+
+## [build-in tags reference](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#built-in-tag-reference)
+* [extends](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#extends)
+    * `{% extend "base.html" %}`
+    使用引号来直接引用一些页面
+    * `{% extend variable %}`
+    使用变量（可以是字符串或者template object）来引用
+
 * [include](https://docs.djangoproject.com/en/2.0/ref/templates/builtins/#include)
 ```
 {% include "foo/bar.html" %}

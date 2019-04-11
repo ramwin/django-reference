@@ -177,13 +177,18 @@ from django.urls import reverse
 /reqres/ajax/1/
 ```
 * [ ] reverse_lazy
-* resolve
+#### resolve
+解析一个url, 返回ResolverMatch对象， `request.resolver_match`返回的也是这个对象
 ```
 resolve_match = resolve(url)
 resolve_match.name_space
 ```
     * [ ] urlparse
     * [ ] urlunparse
+* ResolverMatch
+    * app_name
+    * url_name
+#### 其他
 * [ ] `get_script_prefix`
 
 ### TODO
