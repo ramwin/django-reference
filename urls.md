@@ -80,6 +80,80 @@ urlpatterns = [
 ]
 ```
 
+### Including other URLconfs
+当django遇到include的时候，它会把当前匹配的url切换，然后把剩下的路径放入include去匹配
+```
+from django.urls import include, path
+
+urlpatterns = [
+    # ... snip ...
+    path('community/', include('aggregator.urls')),
+    path('contact/', include('contact.urls')),
+    # ... snip ...
+]
+```
+当然这个include也可以直接是一个列表传进去。
+```
+from django.urls import include, path
+
+from apps.main import views as main_views
+from credit import views as credit_views
+
+extra_patterns = [
+    path('reports/', credit_views.report),
+    path('reports/<int:id>/', credit_views.report),
+    path('charge/', credit_views.charge),
+]
+
+urlpatterns = [
+    path('', main_views.homepage),
+    path('help/', include('apps.help.urls')),
+    path('credit/', include(extra_patterns)),
+]
+```
+这一点在重复利用一个重复的pattern prefix时很有用。比如
+```
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('<page_slug>-<page_id>/history/', views.history),
+    path('<page_slug>-<page_id>/edit/', views.edit),
+    path('<page_slug>-<page_id>/discuss/', views.discuss),
+    path('<page_slug>-<page_id>/permissions/', views.permissions),
+]
+# 上面的烂代码可以改写成
+from django.urls import include, path
+from . import views
+
+urlpatterns = [
+    path('<page_slug>-<page_id>/', include([
+        path('history/', views.history),
+        path('edit/', views.edit),
+        path('discuss/', views.discuss),
+        path('permissions/', views.permissions),
+    ])),
+]
+```
+
+* 获取参数
+included URLonf 会从 parent URLconfs 里面获取参数并传入view
+```
+# In settings/urls/main.py
+from django.urls import include, path
+urlpatterns = [
+    path('<username>/blog/', include('foo.urls.blog')),
+]
+# In foo/urls/blog.py
+from django.urls import path
+from . import views
+urlpatterns = [
+    path('', views.blog.index),
+    path('archive/', views.blog.archive),
+]
+```
+
+
 ### Passing extra options to view functions 传递额外的变量
 `
 urlpatterns = [
@@ -113,5 +187,6 @@ resolve_match.name_space
 * [ ] `get_script_prefix`
 
 ### TODO
+* [ ] Error handling
 * [ ] Registering custom path converters
 * [ ] What the URLconf searches agains
