@@ -78,8 +78,16 @@ request.FILES['file']
 ## Built-in fields
 * FileField
 
-# [The Development Process 开发工具](https://docs.djangoproject.com/en/2.0/#the-development-process)
-## Applications
+# The Development Process 开发工具
+[官网](https://docs.djangoproject.com/en/2.0/#the-development-process)
+## [Applications](https://docs.djangoproject.com/en/2.2/ref/applications/)
+### Configuring applications
+```
+from django.apps import AppConfig
+class MyAppConfig(AppConfig):
+    verbose_name = "自己的名字"
+注意修改后要在 app/__init__.py 里面设置 default_app_config = 'app.apps.MyAppConfig'
+```
 
 ## Exceptions
 [官网](https://docs.djangoproject.com/en/2.1/ref/exceptions/)
