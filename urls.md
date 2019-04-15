@@ -1,9 +1,9 @@
 **URL dispatcher**  
 
 ### 目录
-[URL dispatcher 官网](https://docs.djangoproject.com/en/2.0/topics/http/urls/)  
-[url 工具](https://docs.djangoproject.com/en/2.1/ref/urlresolvers/)  
-[URLconfs里用的函数](https://docs.djangoproject.com/en/2.1/ref/urls/#module-django.conf.urls)
+[URL dispatcher 官网](https://docs.djangoproject.com/en/2.2/topics/http/urls/)  
+[url 工具](https://docs.djangoproject.com/en/2.2/ref/urlresolvers/)  
+[URLconfs里用的函数](https://docs.djangoproject.com/en/2.2/ref/urls/#module-django.conf.urls)
 
 ### How Django processes a request
 1. 查看`ROOT_URLCONF`
@@ -46,9 +46,7 @@ def index(req,id):
 ### Example
 ```
 from django.urls import path
-
 from . import views
-
 urlpatterns = [
     path('articles/2003/', views.special_case_2003),
     path('articles/<int:year>/', views.year_archive),
