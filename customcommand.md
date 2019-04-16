@@ -1,7 +1,7 @@
 **Xiang Wang @ 2017-02-09 13:49:33**
 
 # example
-* [official document](https://docs.djangoproject.com/en/1.11/howto/custom-management-commands/)
+* [官网](https://docs.djangoproject.com/en/2.2/howto/custom-management-commands/)
 
 ```
 from django.core.management.base import BaseCommand, CommandError
