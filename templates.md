@@ -59,6 +59,18 @@
 * `divisibleby`: 能否被值整除
 * `length`: 长度
 * `filesizeformat`: 文件尺寸,自动从Byte变成 KB MB
+* [ ] safeseq
+* slice
+切断一个列表
+```
+{{ some_list|slice:":2" }}
+```
+* [ ] slugify
+```
+{{ value|slugify }}
+Joel is a slug >>> joel-is-a-slug
+```
+* [ ] stringformat
 * `with`:
     ```
     {% with shor_name=longname.longsubname.longrealname %}
