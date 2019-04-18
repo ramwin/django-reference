@@ -17,6 +17,47 @@ def get_serializer(self, *args, **kwargs):
     kwargs['context'] = self.get_serializer_context()
     return serializer_class(*args, **kwargs)
 ```
+* `filter_queryset(self, queryset)`
+```
+for backend in list(self.filter_backends):
+    queryset = backend().filter_queryset(self.request, queryset, self)
+return queryset
+```
+    * DjangoFilterBackend
+    ```
+    def get_filterset(self, request, queryset, view):
+        filterset_class = self.get_filterset_class(view, queryset)
+        if filterset_class is None:
+            return None
+        kwargs = self.get_filterset_kwargs(request, queryset, view)
+        return filterset_class(**kwargs)
+
+    def get_filterset_class(self, view, queryset=None):
+        """
+        return the `FilterSet` class used to filter the queryset
+        """
+        filterset_class = getattr(view, 'filterset_class', None)
+        filterset_fields = getattr(view, 'filterset_fields', None)
+        if filterset_class:
+            使用这个filterset_class
+        if filterset_fields and queryset is not None:
+            MetaBase = getattr(self.filterset_base, "Meta", object)
+
+            class AutoFilterSet(self.filterset_base):
+                class Meta(MetaBase):
+                    mode = queryset.model
+                    fileds = filterset_fields
+            return AutoFilterSet
+        return None
+
+    def filter_queryset(self, request, queryset, view):
+        filterset = self.get_filterset(request, queryset, view)
+        if filterset is None
+            return queryset
+        if not filterset.is_valid() and self.raise_exception:
+            raise utils.translate_validation(filterset.errors)
+        return filterset.qs
+    ```
 
 ### Mixins
 [官网](https://www.django-rest-framework.org/api-guide/generic-views/#mixins)
@@ -42,6 +83,18 @@ class CreateModalMixin(object):
             return {'Location': str(data[api_settings.URL_FIELD_NAME])}
         except (TypeError, KeyError):
             return {}
+```
+* ListModelMixin
+```
+class ListModelMixin(object):
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.pagenite_queryset(queryset)
+        if page is not None
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 ```
 
 ## ViewSets

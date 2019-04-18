@@ -1,6 +1,6 @@
 **django template language**
 
-* [官方文档](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/)
+[官方文档](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/)
 
 ## [build-in tags reference](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#built-in-tag-reference)
 * [extends](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#extends)
@@ -35,6 +35,8 @@
     <li>{{ athlete.name }}</li>
     {{forloop.counter}} 1-indexed
     {{forloop.counter0}} 0-indexed
+{% empty %}
+    运动员都累了哦
 {% endfor %}
 </ul>
 ```
@@ -51,6 +53,7 @@
 * `cut`: 去除指定字符
 * `date`: 格式化时间
     * {{ value|date:"D d M Y" }}
+    * {{register_time|date:"o年m月d日"}}
 * `default`: 默认的值  {{ event.source|default:"未知来源" }}
 * `default_if_none`: None才是default
 * `dictsort`: 按照dict的某个key排序
@@ -91,12 +94,25 @@ Joel is a slug >>> joel-is-a-slug
     {% endverbatim %}
 ```
 
-## for
-    {% for i in list %}
-    {% empty %}
-    {% endfor %}
+## Custom template tags and filters
+* 基础引用
+```
+app/
+    models.py
+    templatetags/
+        poll_extra.py
+from django import template
+register = template.Library()
+然后在页面里面
+{% load poll_extra %}
+```
 
-
-## 时间
-[官方文档](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/)
-* {{register_time|date:"o年m月d日"}}
+### Write custom template tags
+#### Simple tags
+```
+import datetime
+from django import template
+@register.simple_tag
+def current_time(format_string):
+    return datetime.datetime.now().strftime(format_string)
+```
