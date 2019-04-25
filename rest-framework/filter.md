@@ -11,7 +11,7 @@ class MyFilter(django_filters.rest_framework.FilterSet):
     has_reply = django_filters.BooleanFilter(method='filter_reply')
     order_by = django_filters.OrderingFilter(
         fields=(
-            ("level", "level"),
+            ("level", "level"),  # 前面的代表在queryset用的，后面的代表在params里用的
             ("customer__focus", "customer__focus"),
         )
     )
