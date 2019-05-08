@@ -16,10 +16,19 @@
     2. [关于null和unique同时存在的问题][unique-fields-allow-null], unique校验只对非null的进行唯一校验，包括空字符串，也不能重复
 * primary_key = True # 是否为主键。最多一个，并且会自动加上null=False, unique=True
 * unique
-* null 和 blank
+* null 和 blank  
+如果是其他field，空值会变成null。但是如果是charfield和textfield，因为form的缺陷，无法传递null，所以会导致永远不可能insertnull，只会insert空字符串。
+    * 测试代码
+    ```
+    can_null_blank = models.TextField(null=True, blank=True)
+    can_null = models.TextField(null=True)  # 可以不填或填None，不能填 ""
+    can_blank = models.TextField(blank=True)  # 可以不填或填"", 不能填 None
+    can_default = models.TextField(default="")  # 可以不填, 但是不能为空或者None
+    can = models.TextField()  # 必填, 不能为空
+    # 如果是integer，不填的话就会变成None
+    can_null_blank_integer = models.IntegerField(null=True, blank=True)
+    ```
     * [null和blank的问题](https://stackoverflow.com/questions/8609192/differentiate-null-true-blank-true-in-django/50015717#50015717)
-    * [关于如何在django里面插入null](https://code.djangoproject.com/ticket/4136)
-    * 如果是其他field，空值会变成null。但是如果是charfield和textfield，因为form的缺陷，无法传递null，所以会导致永远不可能insertnull，只会insert空字符串。
 
 ### Field Types 字段类型
 [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-types)
