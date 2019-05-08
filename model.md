@@ -4,8 +4,12 @@
 
 ### [Options][options]
 * null = True,    # 是否可以是NULL
-* default = '0',  # 默认的数值
 * blank=True      # admin界面是不是可以不填写。不填写的话就是NULL, 但是不影响model的创建
+* [ ] `db_tablespace`
+* default = '0',  # 默认的数值
+* editable  
+如果是False, 那么这个字段就不会在ModelForm里面显示
+* [ ] `error_messages`
 * related_name = 'table'  # 设置反向查找的功能
 * verbose_name = '名字'   # admin界面用来给人看的名称,账号，而不是username
 * help_text = ''  # 在每个model的form下面有一小行字符串。显示帮助信息。账号必须多于6个字符等等
