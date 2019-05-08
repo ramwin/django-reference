@@ -1,11 +1,13 @@
 **Xiang Wang @ 2017-01-23 14:05:03**
 
-*[A quick reference for django](https://github.com/ramwin/django-reference), the test example is in [rest-framework-test](../rest-framework-test/README.md) repository*  
-*建议使用markdown工具打开[原始文件](https://raw.githubusercontent.com/ramwin/django-reference/master/README.md)，直接看的话因为github的一级菜单, 二级菜单，三级菜单字体太接近了，所以看上去会有点混乱*
+[A quick reference for django][django-reference] 
+the test project is in [rest-framework-test][rest-framework-test] repository  
+建议使用markdown工具打开[原始文件][raw]，
+直接看的话因为github的每一级菜单字体太接近了，所以看上去会有点混乱
 
 [官网文档](https://docs.djangoproject.com/en/2.2/)
 
-# [rest-framework restful框架](./rest-framework/README.md)
+# [django-rest-framework](./rest-framework/README.md)
 * ## [swagger](http://api-docs.easemob.com/#/)
 * ## [serializer](./rest-framework/serializer.md)
 * ## [filters](./rest-framework/filter.md)
@@ -17,18 +19,16 @@
 ## Models and databases
 * [aggregation聚合数据](./aggregation聚集.md)
 
-# Model和Queryset  
+# Model & Queryset  
 *Django The Model Layer 数据库model层*
 [官网](https://docs.djangoproject.com/en/2.1/#the-model-layer)
 
-## [Model and Field](./model.md)
-### [Field Options 字段选项](./model.md#field-options-字段选项)
+## [Model & Field](./model.md)
+* [Field Options](./model.md#field-options-字段选项)  
 unique, blank, null的用法，歧义解释
-### [Field Types 字段类型](./model.md#field-types-字段类型)
-* FileField
-
-### [Relationship fields](./model.md#relationship-fields-关联字段)
-### [Instance methods 实例方法](./model.md#instance-methods-实例方法)
+* [Field Types](./model.md#field-types-字段类型)
+* [Relationship fields](./model.md#relationship-fields-关联字段)
+* [Instance methods 实例方法](./model.md#instance-methods-实例方法)
 
 ## [QuerySets](./queryset.md)
 
@@ -51,7 +51,7 @@ request.FILES['file']
 ```
 
 ## [Class-based View](./classbaseView.md)
-* [API reference](https://docs.djangoproject.com/en/2.0/ref/class-based-views/)
+* [API reference][api-reference]
     * Context Mixin
         * extra_context: `TemplateView.as_view(extra_context={"title": "Common Title"})`
         * get_context_data:  
@@ -198,3 +198,8 @@ get_random_string(length=6)
 * [ ] [First Steps](https://docs.djangoproject.com/en/2.0/#first-steps)
 
 # [utils](./utils.md)
+
+[django-reference]: https://github.com/ramwin/django-reference
+[raw]: https://raw.githubusercontent.com/ramwin/django-reference/master/README.md
+[rest-framework-test]: https://github.com/ramwin/rest-framework-test
+[api-reference]: https://docs.djangoproject.com/en/2.2/ref/class-based-views/
