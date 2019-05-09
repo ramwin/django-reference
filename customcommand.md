@@ -1,8 +1,8 @@
 **Xiang Wang @ 2017-02-09 13:49:33**
 
-# example
-* [官网](https://docs.djangoproject.com/en/2.2/howto/custom-management-commands/)
+[官网](https://docs.djangoproject.com/en/2.2/howto/custom-management-commands/)
 
+#### 案例
 ```
 from django.core.management.base import BaseCommand, CommandError
 from polls.models import Question as Poll
@@ -29,7 +29,16 @@ class Command(BaseCommand):
 ```
 
 
-## beautify output
+#### 美化输出
+自定义指令里使用:  
 `self.stdout.write(self.style.SUCCESS('operate success'))`  
-
+view里面使用:  
+```
+from django.core.management.base import OutputWrapper
+from django.core.management.color import color_style
+out = OutputWrapper(sys.stdout)
+style = color_style()
+out.write(style.SUCCESS(serializer.data))
+```
+各个样式:  
 ![the style of output](./img/command_style.png)

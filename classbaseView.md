@@ -1,7 +1,7 @@
 *Xiang Wang @ 2016-08-04 19:02:28*
 
 **ClasssBase View API**
-[官网](https://docs.djangoproject.com/en/1.11/ref/class-based-views/)
+[官网](https://docs.djangoproject.com/en/2.2/ref/class-based-views/)
 
 ### 基础
 * 基础
@@ -130,6 +130,19 @@ class ArticleDetailView(DetailView):
 
 #### Simple mixins
 * Context mixins
+    * extra_context: `TemplateView.as_view(extra_context={"title": "Common Title"})`
+    * get_context_data:  
+    ```
+    from django.views.generic.base import ContextMixin
+    def get_context_data(self, **kwargs):
+        if "view" not in kwargs:
+            kwargs["view"] = self
+        return kwargs
+    def get_context_data(self, **kwargs):
+        context = super(TemplateView, self).get_context_data(**kwargs)
+        context["number"] = random.randrange(1, 100)
+        return context
+    ```
 * TemplateResponseMixin
 `django.views.generic.base.TemplateResponseMixin`
     * get_template_names()

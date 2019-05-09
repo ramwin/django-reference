@@ -38,35 +38,18 @@ unique, blank, null的用法，歧义解释
 * [ ] Advanced
 * [ ] Other
 
-# The View Layer 视图层
-[官网](https://docs.djangoproject.com/en/2.0/#the-view-layer)
+# [View][view]
 
-## [URLconfs](./urls.md)
+* [URLconfs](./urls.md)
 解析url, 反编译url
 
-## [Requests and Response](./request_response.md)
+* [Requests and Response](./request_response.md)  
 FILE uploads 文件上传
 ```
 request.FILES['file']
 ```
 
-## [Class-based View](./classbaseView.md)
-* [API reference][api-reference]
-    * Context Mixin
-        * extra_context: `TemplateView.as_view(extra_context={"title": "Common Title"})`
-        * get_context_data:  
-        ```
-        from django.views.generic.base import ContextMixin
-        def get_context_data(self, **kwargs):
-            if "view" not in kwargs:
-                kwargs["view"] = self
-            return kwargs
-
-        def get_context_data(self, **kwargs):
-            context = super(TemplateView, self).get_context_data(**kwargs)
-            context["number"] = random.randrange(1, 100)
-            return context
-        ```
+* ## [Class-based View](./classbaseView.md)
 
 # [The template layer 模板](templates.md)
 # Forms 表单
@@ -78,21 +61,20 @@ request.FILES['file']
 ## Built-in fields
 * FileField
 
-# The Development Process 开发工具
+# 开发进程 Development Process
 [官网](https://docs.djangoproject.com/en/2.0/#the-development-process)
-## [Applications](https://docs.djangoproject.com/en/2.2/ref/applications/)
-### Configuring applications
-```
-from django.apps import AppConfig
-class MyAppConfig(AppConfig):
-    verbose_name = "自己的名字"
-注意修改后要在 app/__init__.py 里面设置 default_app_config = 'app.apps.MyAppConfig'
-```
+* [Applications](https://docs.djangoproject.com/en/2.2/ref/applications/)
+    * Configuring applications
+    ```
+    from django.apps import AppConfig
+    class MyAppConfig(AppConfig):
+        verbose_name = "自己的名字"
+    注意修改后要在 app/__init__.py 里面设置 default_app_config = 'app.apps.MyAppConfig'
+    ```
 
-## Exceptions
-[官网](https://docs.djangoproject.com/en/2.1/ref/exceptions/)
-* Django Core Exceptions  
-`from django.core.exceptions import *`
+* [Exceptions][exceptions]  
+    Django Core Exceptions  
+    `from django.core.exceptions import *`
     * ValidationError()
     * ObjectDoesNotExist
     因为model.DoesNotExist是继承了这个Exception, 所以可以用一个ObjectDoesNotExist来判断多个错误
@@ -108,22 +90,14 @@ class MyAppConfig(AppConfig):
     * MultipleObjectsReturned
     * PermissionDenied()
 
-## django-admin and manage.py
-* [Adding custom commands 自定义指令](./customcommand.md)
-```
-from django.core.management.base import OutputWrapper
-from django.core.management.color import color_style
-out = OutputWrapper(sys.stdout)
-style = color_style()
-out.write(style.SUCCESS(serializer.data))
-```
+* ## django-admin and manage.py
+### [自定义指令](./customcommand.md)
 
 ## [Testing 测试](./test测试.md)
-### [The test client](./test测试.md#The-test-client)
 
-## Deployment 部署
-### [WSGI servers, uwsgi](./uwsgi部署.md)
-* [ ] to be continued
+* Deployment 部署
+    * [WSGI servers, uwsgi](./uwsgi部署.md)
+    * [ ] to be continued
 
 # The Admin 后台管理系统cms
 * [Admin site](./admin.md)
@@ -141,8 +115,8 @@ form表单提交的csrf数据: csrfmiddlewaretoken="wfjdaefefewajfklajsf"
         return HttpResponse('csrf')
 ```
 
-# [Internationalization and Localization 国际化和本地化](https://docs.djangoproject.com/en/2.0/#internationalization-and-localization)
-## [Time zones 时区](timezone时区.md)
+# [国际化本地化][international]
+* [Time zones 时区](timezone时区.md)
 
 # [Python Compatibility 23兼容](https://docs.djangoproject.com/en/1.11/topics/python3/)
 ```
@@ -150,15 +124,8 @@ from django.utils.encoding import python_2_unicode_compatible
 from __future__ import unicode_literals
 ```
 
-# Common Web application tools 常用的网站应用
-[官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
-## [Authentication 用户认证](./auth认证模块.md)
-[官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
-* [ ] 总览
-* [使用认证系统](./auth认证模块#Using_the_authentication_system_适用认证系统)
-* [ ] 密码管理
-* [ ] 自定义认证系统
-* [ ] API参考
+# [常用的网站应用 Common Web application tools][common-tool]
+## [用户认证 Authentication](./auth认证模块.md)
 
 ## cache 缓存系统,
 [官网](https://docs.djangoproject.com/en/2.0/topics/cache/)
@@ -201,5 +168,9 @@ get_random_string(length=6)
 
 [django-reference]: https://github.com/ramwin/django-reference
 [raw]: https://raw.githubusercontent.com/ramwin/django-reference/master/README.md
+[view]: https://docs.djangoproject.com/en/2.0/#the-view-layer
 [rest-framework-test]: https://github.com/ramwin/rest-framework-test
 [api-reference]: https://docs.djangoproject.com/en/2.2/ref/class-based-views/
+[exceptions]: https://docs.djangoproject.com/en/2.1/ref/exceptions/
+[international]: https://docs.djangoproject.com/en/2.0/#internationalization-and-localization
+[common-tool]: https://docs.djangoproject.com/en/2.1/#common-web-application-tools
