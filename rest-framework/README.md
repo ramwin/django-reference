@@ -97,8 +97,7 @@ class ListModelMixin(object):
         return Response(serializer.data)
 ```
 
-## ViewSets
-[官网](https://www.django-rest-framework.org/api-guide/viewsets/)
+## [ViewSets](https://www.django-rest-framework.org/api-guide/viewsets/)
 ```
 class UserViewSet(viewsets.ViewSet):
     
@@ -111,7 +110,13 @@ class MyViewSet(mixins.RetrieveModelMixin,
 
 ### ViewSet actions
 通过`self.action`可以知道当前的请求的状态，根据这个状态来判断不同的序列化类
+list|create|retrieve|update|partial_update|destroy
 ```
+class Permission(BasePermission):
+    def has_permission(self, request, view):
+        if view.action == "destroy":  # ViewSet才有action这个属性，不可用于APIView
+            return False
+
 from rest_framework import viewsets
 from rest_framework import mixins
 class APIViewSet(mixins.CreateModalMixin, GenericViewSet):

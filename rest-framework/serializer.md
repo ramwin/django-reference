@@ -254,10 +254,14 @@ regex=r'^tmp-\d+\'
 ```
 
 * FloatField
-* DateTimeField
-    * 没有`auto_now_add`这个参数。必须model里面存在`auto_now_add`
-    * 如果model里面有`auto_now_add`参数，那么就无视任何前端传递的值，变成hiddenfield了
+* [ ] DecimalField
+* #### DateTimeField
+    * `auto_now_add`
+    没有`auto_now_add`这个参数。必须model里面存在`auto_now_add`  
+    如果model里面有`auto_now_add`参数，那么就无视任何前端传递的值，变成hiddenfield了  
     * 可以接受django的datetime当作data传入
+    * `input_formats`
+    默认['iso-8601']. 如果包含'%Y-%m-%d', 那么输入日期进去也可以，会变成当天的0点(local的)
 * [ ] DateField
 * DurationField  
 [官网](https://www.django-rest-framework.org/api-guide/fields/#durationfield)  

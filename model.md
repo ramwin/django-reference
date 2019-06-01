@@ -1,13 +1,15 @@
 **Xiang Wang @ 2018-08-07 15:25:20**
 
-### Introduction to models 简介
-[官网](https://docs.djangoproject.com/en/2.1/topics/db/models/)
+### [Introduction简介][models]
 
-### Field Options 字段选项
-[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-options)
+### [Options][options]
 * null = True,    # 是否可以是NULL
-* default = '0',  # 默认的数值
 * blank=True      # admin界面是不是可以不填写。不填写的话就是NULL, 但是不影响model的创建
+* [ ] `db_tablespace`
+* default = '0',  # 默认的数值
+* editable  
+如果是False, 那么这个字段就不会在ModelForm里面显示
+* [ ] `error_messages`
 * related_name = 'table'  # 设置反向查找的功能
 * verbose_name = '名字'   # admin界面用来给人看的名称,账号，而不是username
 * help_text = ''  # 在每个model的form下面有一小行字符串。显示帮助信息。账号必须多于6个字符等等
@@ -15,13 +17,22 @@
 * choices = TUPLE
 * unique (False)
     1. 是否允许重复, 如果设置了True，并且一个model里面有2个True，get_or_create就必须把每个这样的字段设置好，不然就会报错
-    2. [关于null和unique同时存在的问题](https://stackoverflow.com/questions/454436/unique-fields-that-allow-nulls-in-django), unique校验只对非null的进行唯一校验，包括空字符串，也不能重复
+    2. [关于null和unique同时存在的问题][unique-fields-allow-null], unique校验只对非null的进行唯一校验，包括空字符串，也不能重复
 * primary_key = True # 是否为主键。最多一个，并且会自动加上null=False, unique=True
 * unique
-* null 和 blank
+* null 和 blank  
+如果是其他field，空值会变成null。但是如果是charfield和textfield，因为form的缺陷，无法传递null，所以会导致永远不可能insertnull，只会insert空字符串。
+    * 测试代码
+    ```
+    can_null_blank = models.TextField(null=True, blank=True)
+    can_null = models.TextField(null=True)  # 可以不填或填None，不能填 ""
+    can_blank = models.TextField(blank=True)  # 可以不填或填"", 不能填 None
+    can_default = models.TextField(default="")  # 可以不填, 但是不能为空或者None
+    can = models.TextField()  # 必填, 不能为空
+    # 如果是integer，不填的话就会变成None
+    can_null_blank_integer = models.IntegerField(null=True, blank=True)
+    ```
     * [null和blank的问题](https://stackoverflow.com/questions/8609192/differentiate-null-true-blank-true-in-django/50015717#50015717)
-    * [关于如何在django里面插入null](https://code.djangoproject.com/ticket/4136)
-    * 如果是其他field，空值会变成null。但是如果是charfield和textfield，因为form的缺陷，无法传递null，所以会导致永远不可能insertnull，只会insert空字符串。
 
 ### Field Types 字段类型
 [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-types)
@@ -106,7 +117,7 @@ integer:    1, '1', 不可以是 '2.9', 但是可以是 2.9(之后存入2), 调�
 * NullBooleanField
 > Like BooleanField with null=True. Use that instead of this field as it’s likely to be deprecated in a future version of Django.
 * PositiveIntegerField, PositiveSmallIntegerField,
-* #### SlugField
+* [SlugField][slugfield]
     * 包含`[a-zA-Z_-]`，可以用在一些变量名上面
     * max_length 默认50
     * allow_unicode: 默认False，是否允许非ascii的名字
@@ -120,8 +131,8 @@ import uuid
 models.UUIDField(default=uuid.uuid4)
 ```
 
-### [Relationship fields 关联字段](https://docs.djangoproject.com/en/2.1/ref/models/fields/#module-django.db.models.fields.related)
-#### [ ] ForeignKey
+### [Relationship fields 关联字段][relation]
+#### ForeignKey
 * Example 例子  
     ```
     def get_default_user():
@@ -141,11 +152,23 @@ models.UUIDField(default=uuid.uuid4)
     * models.SET_DEFAULT: `设置为默认`
     * models.SET(): `调用函数`
 
-#### [OneToOneField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#onetoonefield)
+#### [OneToOneField][onetoone]
 ```
 models.ForeignKey(Model)    # 关联到另一个Model
 models.OneToOneField(Model, related_name="profile", db_index=True)
 ```
+* 参数
+    * limit_choices_to={'is_staff': True}, # 只能设置给 is_staff 的User
+    * related_name = "+" # 设置成+或者以+结尾，就会没有反向查找
+    * 设置被删除后，设置成一个其他用户
+    ```
+    def get_default_user():
+        return User.objects.first()
+    models.ForeignKey(Model,
+        on_delete=models.CASCADE # 默认连带删除(2.0以后参数必须传)
+        on_delete=models.SET(get_default_user)  # 删除后调用函数设置连带关系的默认直
+    )
+    ```
 
 #### ManyToManyField
 [官网](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
@@ -223,7 +246,7 @@ class Meta:
     verbose_name_plural = '显示名字'
 ```
 
-### [Instance methods 实例方法](https://docs.djangoproject.com/en/2.1/ref/models/instances/)
+### [Instance methods 实例方法][method]
 #### Refreshing objects from database
 ```
 obj = MyModel.objects.first()
@@ -232,7 +255,7 @@ obj.field  # loads the only field from database 会重载这个field, 不会重�
 obj.refresh_from_db()  # reload all the fields
 ```
 
-#### [save](https://docs.djangoproject.com/en/2.1/ref/models/instances/#django.db.models.Model.save)
+#### [save][save]
 save的时候，会把model的所有数据全量更新一遍，所以两个线程来了，只会save最后一个的数据
 * 主键有就是update，主键没有就是insert
 * save的时候发生了什么
@@ -255,3 +278,11 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
 * [ ] extra instance methods 额外方法
 * [ ] other attributes 其他属性
 
+[models]: https://docs.djangoproject.com/en/2.1/topics/db/models/
+[options]: https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-options
+[unique-fields-allow-null]: https://stackoverflow.com/questions/454436/unique-fields-that-allow-nulls-in-django
+[method]: https://docs.djangoproject.com/en/2.1/ref/models/instances/
+[save]: https://docs.djangoproject.com/en/2.1/ref/models/instances/#django.db.models.Model.save
+[slugfield]: https://docs.djangoproject.com/en/2.2/ref/models/fields/#slugfield
+[relation]: https://docs.djangoproject.com/en/2.1/ref/models/fields/#module-django.db.models.fields.related
+[onetoone]: https://docs.djangoproject.com/en/2.1/ref/models/fields/#onetoonefield

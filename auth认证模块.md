@@ -29,6 +29,37 @@ def my_view(request):
     * username
     默认支持的是`alphanumeric,_,@,+,.,-`, 必填, 默认为空字符串，所以**如果是自定义的auth或者接口，务必把username设置好**
 
+### [自定义认证系统][自定义认证系统]
+
+#### 自定义User取代
+使用一个app里面的User来替换django的User
+##### 引用User
+使用`settings.AUTH_USER_MODEL`会直接返回字符串
+```
+from djang.conf import settings
+from django.db import models
+class Article(models.Model):
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        ob_delete=moedls.CASCADE,
+    )
+```
+如果在运行时，可以使用
+```
+from django.contrib.auth import get_usre_model
+User = get_user_model()  这样可以获取User的model
+```
+
+##### 其他
+* [ ] reusbale apps and `AUTH_USER_MODEL`
+* [ ] Specifying a custom user model
+
+#### 其他
+* [ ] 其他认证来源
+* [ ] 自定义权限
+* [ ] Extending the exsisting User model
+可以创建一个proxy model给User或者创建一个OneToOneField
+
 ### 创建users:
 ```
     from django.contrib.auth.models import User
@@ -67,3 +98,11 @@ def my_view(request):
         login_url = 'home/login'
         redirect_field_name = 'redirect_to'
     ```
+
+
+### to be continued
+* [ ] api
+* [ ] 密码管理
+
+
+[自定义认证系统]: https://docs.djangoproject.com/en/2.1/topics/auth/customizing/
