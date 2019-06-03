@@ -45,13 +45,6 @@ Blog.objects.filter(entry__authors__name__isnull=True)
 1. django的各种查询语句: **filter**, *exclude*, *annotate*等  
 2. django的各种过滤方法: **in**, *exact*, *contains*等
 
-#### Menu
-* [django](./README.md)
-    * the model layer
-        * [Making Queries Official Documents](./makeing_queries.md); [My History Document](./queries.md)
-        * [QuerySet method reference]() [My History Document](./queries.md)
-        * [Lookup expressions](lookup_expressions.md)
-
 #### [When Querysets Are Evaluated](https://docs.djangoproject.com/en/2.0/ref/models/querysets/#when-querysets-are-evaluated)
 
 #### [QuerySet API](https://docs.djangoproject.com/en/2.0/ref/models/querysets/#queryset-api)
