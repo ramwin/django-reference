@@ -47,9 +47,25 @@ Blog.objects.filter(entry__authors__name__isnull=True)
 
 #### [When Querysets Are Evaluated](https://docs.djangoproject.com/en/2.0/ref/models/querysets/#when-querysets-are-evaluated)
 
-#### [QuerySet API](https://docs.djangoproject.com/en/2.0/ref/models/querysets/#queryset-api)
+#### [QuerySet API][queryset api]
 
 ##### Methods that return new Querysets 返回Queryset的方法
+* [ ] annotate
+* order_by
+直接按照字段排序
+```
+Entry.objects.order_by("-pub_date", "headline")  # 直接按照字段排序
+Entry.objects.order_by("?")  # 随机排序
+Entry.objects.order_by("blog__name", "headline")  # 按照外键排序
+ManyModel.objects.annotate(text_id=Min("texts__id")).order_by("text_id")  # 按照ManyToMany的表的某个字段排序
+```
+* [ ] reverse
+* distinct
+* values
+```
+TestFilterModel2.objects.values('_bool', '_int').annotate(Count('id'))  # 利用_bool, _int进行分组，查看数量
+```
+* [ ] values_list
 * defer
 `Entry.objects.defer("body")`: only access the body field when you use the `body` field to optimize the performance
 
@@ -120,3 +136,5 @@ But the date is filtered by the date of server timezone. What if you want to fil
 ### [ ] ~~~Lookup expressions  ~~~  
 比较高端，暂时没用过
 ### [ ] Advanced: Query Expressions
+
+[queryset api]: https://docs.djangoproject.com/en/2.2/ref/models/querysets/#queryset-api
