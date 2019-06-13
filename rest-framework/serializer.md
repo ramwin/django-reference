@@ -270,7 +270,7 @@ regex=r'^tmp-\d+\'
     * `choices`: [('0', 'enabled'), ('1', 'disabled')]
 * MultipleChoiceField
 * SerializerMethodField
-    * 使用methodfield来做一些函数的操作，比如班级的序列化类，只看里面有哪些班干部(默认是返回所有学生)
+    * 使用methodfield来做一些函数的操作，比如班级的序列化类，只看里面有哪些班干部(默认是返回所有学生). 如果不return, 会变成None
     ```
     good_student = serializers.SerializerMethodField(read_only=True)
 

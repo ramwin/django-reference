@@ -6,6 +6,7 @@
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import get_object_or_404
 ```
 * 参数  
     * `http_method_names = ['post','get']`  *设置允许的请求方法*
@@ -24,6 +25,20 @@ from rest_framework.generics import ListCreateAPIView
     处理各种`APIException`
 
 ## 常用方法
+0. `get_object_or_404`
+```
+from django.http import Http404
+
+def get_object_or_404(queryset, *filter_args, **filter_kwargs):
+    """
+    Same as Django's standard shortcut, but make sure to also raise 404
+    if the filter_kwargs don't match the required types.
+    """
+    try:
+        return _get_object_or_404(queryset, *filter_args, **filter_kwargs)
+    except (TypeError, ValueError, ValidationError):
+        raise Http404
+```
 
 1. `GenericAPIView.get_queryset`  *可能你需要根据请求来过滤*
 ```
