@@ -61,6 +61,18 @@ return queryset
 
 ### Mixins
 [官网](https://www.django-rest-framework.org/api-guide/generic-views/#mixins)
+* ListModelMixin
+```
+class ListModelMixin(object):
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.pagenite_queryset(queryset)
+        if page is not None
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+```
 * CreateModalMixin  
 如果成功，返回201以及创建好的数据。如果数据里面有url，就在header里面加location [参考](https://en.wikipedia.org/wiki/HTTP_location)
 ```
@@ -84,16 +96,12 @@ class CreateModalMixin(object):
         except (TypeError, KeyError):
             return {}
 ```
-* ListModelMixin
+* RetrieveModelMixin
 ```
-class ListModelMixin(object):
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        page = self.pagenite_queryset(queryset)
-        if page is not None
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-        serializer = self.get_serializer(queryset, many=True)
+class RetrieveModelMixin(object):
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
         return Response(serializer.data)
 ```
 

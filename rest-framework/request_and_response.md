@@ -19,6 +19,9 @@
         ```
 
 ## response
+```
+from rest_framework.response import Response
+```
 * 定义
     Response(<dict>, status=200)
 * 属性
