@@ -13,9 +13,31 @@ def my_view(request):
         login(request, user)
 ```
 
+##### Limiting access to logged-in users
+* the raw way
+```
+def my_view(request):
+    if not request.user.is_authenticated:
+        return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
+        return render(request, 'myapp/login_error.html')
+```
+
+* The `login_required` decorator
+* The LoginRequired mixin
+注意这个只校验是否认证，不校验`is_active`
+```
+from django.contrib.auth.mixinx import LoginRequiredMixin
+class MyView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+```
+* Limiting access to logged-in users that pass a test
+* The `permission_required` decorator
+* The PermissionRequiredMixin mixin
+
+
 * to be continued
     * [ ] How to log a user out 如何退出一个用户
-    * [ ] Limiting access to logged-in users
     * [ ] Redirecting unauthorized requests in class-based views
     * [ ] other
 
