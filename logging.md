@@ -2,6 +2,7 @@
 
 
 ## [logging](https://docs.djangoproject.com/en/2.2/topics/logging/)
+### 基础
 * 配置日志
 ```
 LOGGING = {
@@ -76,3 +77,7 @@ LOGGING = {
 ```
 log = logging.getLogger(__name__)  # 这样不同的app就会用logging里面不同的配置，而不需要把logger重新定义了
 ```
+
+### Handlers
+* MemoryHandler
+Memory不方便close

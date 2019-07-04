@@ -28,7 +28,6 @@ from rest_framework.generics import get_object_or_404
 0. `get_object_or_404`
 ```
 from django.http import Http404
-
 def get_object_or_404(queryset, *filter_args, **filter_kwargs):
     """
     Same as Django's standard shortcut, but make sure to also raise 404

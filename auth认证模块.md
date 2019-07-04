@@ -21,12 +21,11 @@ def my_view(request):
         return redirect("%s?next=%s" % (settings.LOGIN_URL, request.path))
         return render(request, 'myapp/login_error.html')
 ```
-
 * The `login_required` decorator
 * The LoginRequired mixin
 注意这个只校验是否认证，不校验`is_active`
 ```
-from django.contrib.auth.mixinx import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 class MyView(LoginRequiredMixin, View):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
@@ -35,11 +34,15 @@ class MyView(LoginRequiredMixin, View):
 * The `permission_required` decorator
 * The PermissionRequiredMixin mixin
 
+##### Authentication Views
+* Using the views
+* All authentication views
+    * LogoutView
 
-* to be continued
-    * [ ] How to log a user out 如何退出一个用户
-    * [ ] Redirecting unauthorized requests in class-based views
-    * [ ] other
+##### to be continued
+* [ ] How to log a user out 如何退出一个用户
+* [ ] Redirecting unauthorized requests in class-based views
+* [ ] other
 
 
 ### API参考
