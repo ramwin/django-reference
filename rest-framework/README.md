@@ -148,6 +148,8 @@ class MyPermission(BasePermission):
         ...
     def has_object_permission(self, request, view, obj):
         ...
+        可以return False 这样 response就是 {"detail": "您没有..权限"}
+        或者 raise PermissionDenied({"message": "账户过期"})
 ```
 ## [Filter过滤](./filter.md)
 ## [request and response](./request_and_response.md)
