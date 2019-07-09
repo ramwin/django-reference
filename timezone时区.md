@@ -1,7 +1,11 @@
 **Xiang Wang @ 2018-09-12 18:45:11**
 
 
-# [Time Zones时区](https://docs.djangoproject.com/en/2.0/topics/i18n/timezones/)
+## [Time Zones时区](https://docs.djangoproject.com/en/2.2/topics/i18n/timezones/)
+### utils
+* 获取当前的timezone
+`get_default_timezone` 获取默认的timezone(我的项目就是返回上海的时区了)
+
 * 把时间戳变成timezone的时间
 ```
     timezone.make_aware(timezone.datetime.fromtimestamp(1536747609))
@@ -22,3 +26,7 @@
     tz = pytz.timezone('Asia/Shanghai')
     model_instance.createtime.astimezone(tz)
 ```
+
+### 概念
+* Default time zone and current time zone
+

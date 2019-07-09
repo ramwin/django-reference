@@ -48,12 +48,17 @@
     models.EmailField()
         # 底层还是 CharField 只不过用 EmailValidator 去校验
 ```
-* DateField
+* #### [DateField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#datefield)
 对于日期,不存在时区的概念,都是直接存入的日期,没有转化成utc
+    * [`auto_now`](https://docs.djangoproject.com/en/2.1/ref/models/fields/#django.db.models.DateField.auto_now)
+    自动保存为当前时间。当调用Model.save()的时候，这个字段会自动更新。如果你不希望更新，就使用QuerySet.update()
+    * [`auto_now_add`](https://docs.djangoproject.com/en/2.1/ref/models/fields/#django.db.models.DateField.auto_now_add)
+    只有当model第一次创建的时候，自动设置为当前时间。所以后续可以更改。
+
 * #### DateTimeField
     * 参数
-        * `auto_now_add = True`: 保存为当前时间，不再改变
-        * `auto_now = True`: 保存未当前时间，每次保存时候会自动变更
+        * `auto_now_add = True`: 保存为当前时间，不再改变 见DateField
+        * `auto_now = True`: 保存未当前时间，每次保存时候会自动变更 见DateField
     * 示例
         * 如果`timezone = 'UTC'`
             ```
@@ -258,7 +263,44 @@ obj.refresh_from_db()  # reload all the fields
 #### [save][save]
 save的时候，会把model的所有数据全量更新一遍，所以两个线程来了，只会save最后一个的数据
 * 主键有就是update，主键没有就是insert
-* save的时候发生了什么
+* [save的时候发生了什么](https://docs.djangoproject.com/en/2.1/ref/models/instances/#what-happens-when-you-save)
+    ```
+    django.db.models.Model
+        def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+            # 保证所有的外键field都有PK
+            for field in self._meta.concrete_fields:
+               [ ] 待研究 
+            [ ] 待研究
+            self.save_base(using=using, force_insert=force_insert,
+                           force_update=force_update, update_fields=update_fields)
+        def save_base(self, raw=False, force_insert=False,
+                      force_update=False, using=None, update_fields=None):
+            [ ] 待研究
+            if not meta.auto_created:
+                pre_save.send(
+                    sender=origin, instance=self, raw=raw, using=using,
+                    update_fields=update_fields
+                )
+            with transaction.atomic(using=using, savepoint=False):
+                if not raw:
+                    self._save_parents(cls, using, update_fields)
+                    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+        def _save_table(self, raw=False, force_insert=False,
+                        force_update=False, using=None, update_fields=None):
+            meta = cls._meta
+            non_pks = [f for f in meta.local_concrete_fields if not f.primary_key]
+            [ ] 待研究
+            if not updated:
+                result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+            [ ] 待研究
+        @property
+        def _base_manager(cls):
+            return cls._meta.base_manager
+        def _do_insert(self, manager, using, fields, update_pk, raw):
+            return manager._insert([self], fields=fields, return_id=update_pk,
+                                   using=using, raw=raw)
+    django.db.models.
+    ```
     1. 触发model的pre—save信号
     2. 处理数据，每个field触发`pre_save`，比如`auto_now_add`和`auto_now`
     3. 处理给数据库的数据，每个field触发`get_db_prep_save`
