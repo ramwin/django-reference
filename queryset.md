@@ -78,10 +78,15 @@ TestFilterModel2.objects.values('_bool', '_int').annotate(Count('id'))  # 利用
 * contains
 * icontains
 * startswith
-* date:  
-When `USE_TZ` is True, fields are converted to the current time zone before filtering.  
+* ###### [date](https://docs.djangoproject.com/en/2.2/ref/models/querysets/#date)  
+> When `USE_TZ` is True, fields are converted to the current time zone before filtering.  
 `Entry.objects.filter(pub_date__date=datetime.date(2005, 1, 1))`  
-But the date is filtered by the date of server timezone. What if you want to filter the date create by customer living in other timezone district? I find the only way is to use time range.
+But the date is filtered by the date of server timezone. What if you want to filter the date create by customer living in other timezone district? I find the only way is to use time range.  
+
+    * 这个date过滤还直接输入一个时间来过滤。这个时候会先把datetime转化成local的时间，然后再取date过滤
+    ```
+    Entry.objects.filter(pub_date__date=datetime)
+    ```
 
 ##### [Query Expressions 查询语句](https://docs.djangoproject.com/en/2.0/ref/models/expressions/)
 * Example  
