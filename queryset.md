@@ -41,7 +41,7 @@ Blog.objects.filter(entry__authors__name__isnull=True)
 ```
 * [ ] 如果是exclude的话会怎么样(暂时没遇到这个需求，以后再说)
 
-### [QuerySet method reference](queryset_method_reference.md)  
+### QuerySet method reference
 1. django的各种查询语句: **filter**, *exclude*, *annotate*等  
 2. django的各种过滤方法: **in**, *exact*, *contains*等
 
@@ -71,6 +71,15 @@ TestFilterModel2.objects.values('_bool', '_int').annotate(Count('id'))  # 利用
 
 ##### Methods that do not return Querysets 不返回Queryset的方法
 `get, create, get_or_create`
+* [bulk_create](https://docs.djangoproject.com/en/2.2/ref/models/querysets/#bulk-create): 一次性创建多个instance
+    * 如果某个创建失败了,会导致之后的也创建失败, 类似事务
+    * 如果把foreignkey的对象传进去,不会校验,而是直接读取pk属性
+```
+Shop.objects.bulk_create([
+    Shop(user=user, name='test'),
+    Shop(user=user, name='test2')])
+])
+```
 
 ##### [Field lookups 查询field的方法](https://docs.djangoproject.com/en/2.1/ref/models/querysets/#field-lookups)
 * exact

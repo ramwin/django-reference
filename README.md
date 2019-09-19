@@ -149,7 +149,7 @@ cache.get('cache_list', [])  # 没有默认值就返回None
 
 ## [logging](./logging.md)
 
-## [Pagination](https://docs.djangoproject.com/en/2.1/topics/pagination/)
+## [Pagination](./pagination.md)
 ```
 from django.core.pagiator import Paginator
 objects = Model.objects.all()

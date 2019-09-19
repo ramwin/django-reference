@@ -1,6 +1,8 @@
 **Xiang Wang @ 2017-03-01 10:04:45**
 *django-filter的参考*
 
+[官网](https://django-filter.readthedocs.io/en/master/index.html)
+
 # 基础
 ```python
 pip install django-filter
