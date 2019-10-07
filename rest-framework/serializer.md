@@ -46,33 +46,33 @@ serializer
 
 #### data  
 访问了这个属性以后，就无法再调用save函数了，所以如果要之前看data，必须使用`validated_data`
-    ```
-    @property
-    def data(self)
-        if hasattr(self, 'initial_data') and not hasattr(self, '_validated_data'):
-            msg = (
-                'When a serializer is passed a `data` keyword argument you '
-                'must call `.is_valid()` before attempting to access the '
-                'serialized `.data` representation.\n'
-                'You should either call `.is_valid()` first, '
-                'or access `.initial_data` instead.'
-            )
-            raise AssertionError(msg)
+```
+@property
+def data(self)
+    if hasattr(self, 'initial_data') and not hasattr(self, '_validated_data'):
+        msg = (
+            'When a serializer is passed a `data` keyword argument you '
+            'must call `.is_valid()` before attempting to access the '
+            'serialized `.data` representation.\n'
+            'You should either call `.is_valid()` first, '
+            'or access `.initial_data` instead.'
+        )
+        raise AssertionError(msg)
 
-        if not hasattr(self, '_data'):
-            if self.instance is not None and not getattr(self, '_errors', None):
-                self._data = self.to_representation(self.instance)
-            elif hasattr(self, '_validated_data') and not getattr(self, '_errors', None):
-                self._data = self.to_representation(self.validated_data)
-            else:
-                self._data = self.get_initial()
-        return self._data
-    ```
+    if not hasattr(self, '_data'):
+        if self.instance is not None and not getattr(self, '_errors', None):
+            self._data = self.to_representation(self.instance)
+        elif hasattr(self, '_validated_data') and not getattr(self, '_errors', None):
+            self._data = self.to_representation(self.validated_data)
+        else:
+            self._data = self.get_initial()
+    return self._data
+```
 
 #### fields
-    ```
-    返回一个 BindingDict {'text': Field }
-    ```
+```
+返回一个 BindingDict {'text': Field }
+```
 
 #### `validate_<field_name>`:
 校验某个字段,这个字段是已经通过序列化转化的数据，所以是校验后才会调用
@@ -282,8 +282,18 @@ regex=r'^tmp-\d+\'
     # 输入的是name，但是会根据username去搜索，返回一个user对象出来
     name = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field="username")
     ```
-* ListField  
-    `advantages = serializers.ListField(child=serializers.CharField())`
+* [ListField](https://www.django-rest-framework.org/api-guide/fields/#listfield)  
+```
+advantages = serializers.ListField(child=serializers.CharField())
+or
+# 写成declarative格式,来方便复用这个listfield
+class StringListField(serializers.ListField):
+    child = serializers.CharField()
+```
+    * `child`
+    * `allow_empty`: 默认为True, 可以上传空数据, 注意这个不代表可以不穿这个参数
+    * `min_length`
+    * `max_length`
 * DictField
 * JSONField
     ```

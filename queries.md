@@ -72,7 +72,6 @@
     ```
 
 # 创建
-    Model.objects.bulk_create([Model1, Model2]) # 如果后面的创建失败，整个就不会创建。类似事务，但是无法调用每个instance的save函数
     Model.objects.create(name='王')  # 创建一个对象，会调用Model的save函数
     Model.objects.get_or_create(text='w')  # 如果是创建的话会调用save函数
     创建后会把创建对象的列表返回
@@ -111,13 +110,6 @@
     ```
     instance = Text(text='text')
     instance.save()
-    ```
-
-* 其他
-    ```
-    Shop.objects.bulk_create([  # 这个create需要把foriegnkey的对象传递进去，但是不会去校验, 只要这个对象有pk这个属性就可以了
-        Shop(user=user, name='test'),
-        Shop(user=user, name='test2')])
     ```
 
 # delete

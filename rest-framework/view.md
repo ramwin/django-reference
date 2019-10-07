@@ -142,7 +142,7 @@ def get_serializer_context(self):
                 ('results', data)
             ]))
         ```  
-    * page分页
+    * [page分页](../pagination.md)
         ```
         self._paginator = self.pagination_class()
         self._paginator.paginate_queryset(queryset, self.request, view=self)
