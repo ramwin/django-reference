@@ -77,7 +77,7 @@
         * 结论: 服务器端都用timezone，客户端都用带iso 8601
 
 #### DecimalField
-[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#decimalfield)  
+[官网](https://docs.djangoproject.com/en/2.2/ref/models/fields/#decimalfield)  
 * decimal:    '1.1', 1.1, decimal.Decimal('1.1')
     * required 参数
     ```
@@ -98,7 +98,9 @@
 * [ ] EmailField
 * #### FileField:
 `class FileField(upload_to="uploads/%Y/%m/%d")`
-* FilePathField, FloatField, ImageField
+* [ ] FilePathField
+* [FloatField](https://docs.djangoproject.com/en/2.2/ref/models/fields/#floatfield)
+* [ ] ImageField
 * #### IntegerField
 [官网](https://docs.djangoproject.com/en/2.2/ref/models/fields/#integerfield)
 integer:    1, '1', 不可以是 '2.9', 但是可以是 2.9(之后存入2), 调用的是int函数
