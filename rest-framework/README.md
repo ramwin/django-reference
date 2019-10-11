@@ -182,3 +182,13 @@ class MyPermission(BasePermission):
 * `rest_framework.exceptions.ValidationError`
 * `rest_framework.exceptions.PermissionDenied`
 * `raise rest_framework.exceptions.Throttled(second)`: `raise Throttled(30)`
+
+## Testing
+### APIClient
+```
+from rest_framework.test import APIClient
+client = APIClient()
+client.post("/notes/", {"title": "new idea"}, format="json")
+```
+
+## Settings
