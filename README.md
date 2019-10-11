@@ -67,6 +67,8 @@ request.FILES['file']
 * [Settings]
     * [ ] overview
     * [ ] Full list of settings
+        * Auth
+            * AUTH_USER_MODEL
         * Sessions
             * SESSION_COOKIE_AGE
             默认1209600(2 weeks), 当session过期的时候，就会直接变成not authenticated了
