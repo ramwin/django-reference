@@ -188,7 +188,9 @@ class MyPermission(BasePermission):
 ```
 from rest_framework.test import APIClient
 client = APIClient()
-client.post("/notes/", {"title": "new idea"}, format="json")
+res = client.post("/notes/", {"title": "new idea"}, format="json")
+self.assertEqual(res.status_code, 201)
+self.assertEqual(res.json()["id"], 1)
 ```
 
 ## Settings
