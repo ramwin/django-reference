@@ -21,6 +21,10 @@ from rest_framework.generics import get_object_or_404
         self.response = self.finalize_response(request, response, *args, **kwargs)
         return self.response
     ```
+    * `get_permissions(self)`: 返回所有的permission
+    ```
+    return [permission() for permission in self.permission_classes]
+    ```
     * `handle_exception`  
     处理各种`APIException`
 
