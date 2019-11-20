@@ -167,17 +167,17 @@ objectslist.number  # 当前页码
 
 # [Other core functionalities 其他功能](https://docs.djangoproject.com/en/2.1/#other-core-functionalities)
 ## [signal](./signal信号.md)
-* 生成随即的字符串
-```
-from django.utils.crypto import get_random_string
-get_random_string(length=6)
-```
 
 # TODO list
 * [ ] [Document](https://docs.djangoproject.com/en/2.0/#how-the-documentation-is-organized)
 * [ ] [First Steps](https://docs.djangoproject.com/en/2.0/#first-steps)
 
 # [utils](./utils.md)
+* 生成随即的字符串
+```
+from django.utils.crypto import get_random_string
+get_random_string(length=6)
+```
 
 [django-reference]: https://github.com/ramwin/django-reference
 [raw]: https://raw.githubusercontent.com/ramwin/django-reference/master/README.md
