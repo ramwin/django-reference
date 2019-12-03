@@ -101,7 +101,7 @@ request.FILES['file']
     * PermissionDenied()
 
 * ## django-admin and manage.py
-### [自定义指令](./customcommand.md)
+### [customcommand 自定义指令](./customcommand.md)
 
 ## [Testing 测试](./test测试.md)
 

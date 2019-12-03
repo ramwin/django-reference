@@ -42,11 +42,11 @@
 > after 2.0 version: user BooleanField(null=True)
 * CharField
 ```
-    models.CharField(max_length=255)
-    models.TextField()  # 默认会为""
-        max_length  # 不是数据库底层支持的。
-    models.EmailField()
-        # 底层还是 CharField 只不过用 EmailValidator 去校验
+models.CharField(max_length=255)
+models.TextField()  # 默认会为""
+    max_length  # 不是数据库底层支持的。
+models.EmailField()
+# 底层还是 CharField 只不过用 EmailValidator 去校验
 ```
 * #### [DateField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#datefield)
 对于日期,不存在时区的概念,都是直接存入的日期,没有转化成utc
