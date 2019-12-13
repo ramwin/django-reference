@@ -13,6 +13,15 @@ class ListView(ListView):
     paginate_by = 2 # 每页的数量
     http_method_names = ['get']
     context_object_name = 'my_favorite_publishers'  # 渲染用的名称
+
+    def get_context_data(self):
+        return {
+            "paginator",
+            "page_obj",
+            "is_paginated",
+            "object_list",
+            "<modelname>_list",
+        }
 ```
 
 ### Base Views
