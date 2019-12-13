@@ -39,6 +39,10 @@ class ListView(ListView):
             * 返回一个dict, 用于渲染
             * 预定义的方法只是把view这个对象交给context['view']并没有其他操作
 * RedirectView
+```
+from django.views.generic.base import RedirectView
+path('go-to-django/', RedirectView.as_view(url='https://djangoproject.com'), name='go-to-django'),
+```
 
 ### Generic display views
 * ListView
