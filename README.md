@@ -138,7 +138,7 @@ from __future__ import unicode_literals
 ## [用户认证 Authentication](./auth认证模块.md)
 
 ## cache 缓存系统,
-[官网](https://docs.djangoproject.com/en/2.0/topics/cache/)
+[官网](https://docs.djangoproject.com/en/2.2/topics/cache/)
 ```
 from django.core.cache import cache
 from django.core.cache import caches
