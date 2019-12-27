@@ -64,6 +64,7 @@ ManyModel.objects.annotate(text_id=Min("texts__id")).order_by("text_id")  # 按�
 * values
 ```
 TestFilterModel2.objects.values('_bool', '_int').annotate(Count('id'))  # 利用_bool, _int进行分组，查看数量
+MingpianChange.objects.order_by("amount").values("amount").annotate(Count("id"))  # 查看各个amount对应的数量
 ```
 * [ ] values_list
 * defer

@@ -32,9 +32,13 @@ unique, blank, null的用法，歧义解释
 
 ## [QuerySets](./queryset.md)
 
+## [Migrations](https://docs.djangoproject.com/en/3.0/#the-model-layer)
+### [Introduction to Migrations](https://docs.djangoproject.com/en/3.0/topics/migrations)
+### [压缩迁移 Squashing migrations](https://docs.djangoproject.com/en/3.0/topics/migrations/#squashing-migrations)
+
+
 ## TODO list
 * [ ] Model Instance
-* [ ] Migration
 * [ ] Advanced
 * [ ] Other
 
@@ -52,10 +56,17 @@ request.FILES['file']
 * ## [Class-based View](./classbaseView.md)
 
 # [The template layer 模板](templates.md)
-# Forms 表单
-[官网](https://docs.djangoproject.com/en/2.1/#forms)
+
+# [Forms 表单](https://docs.djangoproject.com/en/2.1/#forms)
+
+## [Form API](https://docs.djangoproject.com/en/2.1/ref/forms/api/#)
+### [Using forms to validate data](https://docs.djangoproject.com/en/2.1/ref/forms/api/#using-forms-to-validate-data)
 * attribute
     * errors  *具体的报错信息*
+    ```
+    f.errors
+    {'sender': ['Enter a valid email address.'], 'subject': ['This field is required.']}
+    ```
 * method
     * `clean()`  *其实就是调用了clean_data*
 ## Built-in fields
