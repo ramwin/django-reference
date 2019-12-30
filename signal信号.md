@@ -1,8 +1,18 @@
 **Xiang Wang @ 2017-05-24 16:32:47**
 
-# [官方教程](https://docs.djangoproject.com/en/2.0/ref/signals/#)
-# ModelSignals
-## 示例
+[官方教程](https://docs.djangoproject.com/en/3.0/topics/signals/#preventing-duplicate-signals) [参考](https://docs.djangoproject.com/en/3.0/ref/signals/)
+### Listening to signals
+* preventing duplicate signals
+每次绑定的时候，同样的函数只会绑定一次。多个函数会按照绑定的顺序依次执行。 如果你希望一个函数绑定2次，需要添加`dispatch_uid`参数
+```
+from django.core.signals import request_finished
+
+request_finished.connect(my_callback, dispatch_uid="my_unique_identifier")
+```
+
+
+### ModelSignals
+#### 示例
 ```
 def my_callback(sender, **kwargs):
     log.info("Request finished!")
@@ -18,7 +28,7 @@ from django.db.models.signals import pre_init
 pre_init.connect(my_signal, sender=TestSignal)
 ```
 
-## post_save
+#### post_save
 * 参数:
     * sender: class的类
     * instance: 对象
@@ -26,14 +36,14 @@ pre_init.connect(my_signal, sender=TestSignal)
     * `update_fields`: TODO 待完善
 
 
-## post_delete
+#### post_delete
 * 如果有外键关联到这个model，那这个外键被删除的时候，触发的联合删除也会触发,并且是先有依赖的外键的model被删除，这个instance本身是最后被删除的
 * 参数:
     * sender
     * instance, 注意此时 instance.id 还是可以获取的
     * using
 
-## m2m_changed
+#### m2m_changed
 M2Mchanged有点复杂，因为他分为正向和反向的情况，可能是user.books.add(book) 也可能是 book.user_set.remove(user)
 * 示例
 ```
@@ -49,7 +59,7 @@ m2m_changed.connect(function, sender=ManyModel.texts.through)
     * pk_set
     * using
 
-# to be continued
+### to be continued
 * [ ] Model_signals
     * [ ] pre_init
     * [ ] post_init
