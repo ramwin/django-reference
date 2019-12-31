@@ -4,6 +4,22 @@
 
 ### [My Reference(以前我的文档)](./queries.md)  
 ### [ ] Making Queries  
+#### 创建数据 Creating objects
+#### 修改数据 Saving changes to objects
+#### 获取数据 Retrieving objects
+* [ ] Lookups that span relationships
+* Filters can reference fields on the model
+```
+from django.db.models import F
+Entry.objects.filter(number_of_comments__gt=F('number_of_pingbacks'))
+Entry.objects.filter(number_of_comments__gt=F('number_of_pingbacks') * 2)
+Entry.objects.filter(rating__lt=F('number_of_comments') + F('number_of_pingbacks'))
+Entry.objects.filter(authors__name=F('blog__name'))
+from datetime import timedelta
+Entry.objects.filter(mod_date__gt=F('pub_date') + timedelta(days=3))  找到发布3天后，仍然被修改的书籍
+```
+* [ ] The pk lookup shortcut
+#### 待整理
 一些基础的知识，创建数据，删除数据等等
 * 查看查询的SQL语句
     * 例子
@@ -98,7 +114,7 @@ But the date is filtered by the date of server timezone. What if you want to fil
     Entry.objects.filter(pub_date__date=datetime)
     ```
 
-##### [Query Expressions 查询语句](https://docs.djangoproject.com/en/2.0/ref/models/expressions/)
+##### [Query Expressions 查询语句](https://docs.djangoproject.com/en/3.0/ref/models/expressions/)
 * Example  
 	```python
 	from django.db.models import Count, F, Value
@@ -148,8 +164,41 @@ But the date is filtered by the date of server timezone. What if you want to fil
 	```
 * [ ] Build-in Expressions
 
+#### Query-related tools
+
 ### [ ] ~~~Lookup expressions  ~~~  
 比较高端，暂时没用过
-### [ ] Advanced: Query Expressions
+
+### Advanced
+
+#### Query Expressions
+[官网](https://docs.djangoproject.com/en/3.0/ref/models/expressions/)
+一些可以计算出结果，并用来过滤修改的方法。
+##### `F() expressions`
+> F() 代表了一个从model获取的数据，但是不会取出到python内存里。
+* 例子
+```
+reporter = Reporters.objects.get(name="Tintin")
+reporter.stories_filed += 1  # 取出数据，放入python，加1
+reporter.save()  # 保存到sql
+```
+```
+from django.db.models import F
+reporter.stories_filed = F('stories_filed') + 1
+reporter.save()
+reporter.stories_filed  # <CombinedExpression: F(stories_filed) + Value(1)>
+如果需要获取数据，要使用
+reporter.refresh_from_db()
+```
+```
+reporter = Reporters.objects.filter(name="Tintin")
+reporter.update(stories_filed=F("stories_filed") + 1)
+```
+* 通过F可以避免多线程操作同一个数据字段的问题
+* 注意，每次save时，F都会计算一遍，都会加1.如果不想这么做，请save后`refresh_from_db`
+* 这个字段可以用在queries, 参见 [Filters can reference fields on the model](#获取数据-Retrieving-objects)
+* [ ] 用在annotations
+* [ ] 用在null来排序
+
 
 [queryset api]: https://docs.djangoproject.com/en/2.2/ref/models/querysets/#queryset-api

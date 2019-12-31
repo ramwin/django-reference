@@ -36,10 +36,14 @@ unique, blank, null的用法，歧义解释
 ### [Introduction to Migrations](https://docs.djangoproject.com/en/3.0/topics/migrations)
 ### [压缩迁移 Squashing migrations](https://docs.djangoproject.com/en/3.0/topics/migrations/#squashing-migrations)
 
+## Advanced
+### [ ] Managers
+### [ ] Custom lookups
+### [Query Expressions](./queryset.md#Advanced:-query-expressions)
+### [ ] Conditional Expressions
 
 ## TODO list
 * [ ] Model Instance
-* [ ] Advanced
 * [ ] Other
 
 # [View][view]
