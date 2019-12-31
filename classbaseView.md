@@ -1,7 +1,7 @@
 *Xiang Wang @ 2016-08-04 19:02:28*
 
 **ClasssBase View API**
-[官网](https://docs.djangoproject.com/en/2.2/ref/class-based-views/)
+[官网](https://docs.djangoproject.com/en/3.0/ref/class-based-views/)
 
 ### 基础
 * 基础
@@ -163,4 +163,23 @@ class ArticleDetailView(DetailView):
             return ["admin_template.html"]
         else:
             return super(View, self).get_template_names()
+    ```
+
+
+#### Editing mixins
+* [FormMixin](https://docs.djangoproject.com/en/3.0/ref/class-based-views/mixins-editing/#formmixin): `django.views.generic.edit.FormMixin`
+    * `form_valid`: redirects to get_success_url()
+    ```
+    return HttpResponseRedirect(self.get_success_url())
+    ```
+    * `form_invalid`:
+    ```
+    return self.render_to_response(self.get_context_data(form=form))
+    ```
+* ModelFormMixin(FormMixin, SingleObjectMixin): `django.views.generic.edit.ModelFormMixin`
+    * form_valid
+    ```
+    def form_valid(self, form):
+        self.object = form.save()
+        return super().form_valid(form)
     ```
