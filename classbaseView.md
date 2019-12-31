@@ -13,6 +13,15 @@ class ListView(ListView):
     paginate_by = 2 # 每页的数量
     http_method_names = ['get']
     context_object_name = 'my_favorite_publishers'  # 渲染用的名称
+
+    def get_context_data(self):
+        return {
+            "paginator",
+            "page_obj",
+            "is_paginated",
+            "object_list",
+            "<modelname>_list",
+        }
 ```
 
 ### Base Views
@@ -30,6 +39,10 @@ class ListView(ListView):
             * 返回一个dict, 用于渲染
             * 预定义的方法只是把view这个对象交给context['view']并没有其他操作
 * RedirectView
+```
+from django.views.generic.base import RedirectView
+path('go-to-django/', RedirectView.as_view(url='https://djangoproject.com'), name='go-to-django'),
+```
 
 ### Generic display views
 * ListView

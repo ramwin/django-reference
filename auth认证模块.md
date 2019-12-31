@@ -5,8 +5,39 @@
 #### User objects
 * Authenticating Users  
 `authenticate(request=None, **credentials)`: 使用一系列的backends去认证.如果认证得到了哪个用户,就返回用户.否则返回None
+* create users
+```
+from django.contrib.auth.models import User
+user = User.objects.create_user('john', 'ramwin@163.com', 'password')
+```
+* create superusers
+```
+python manage.py createsuperuser --username=<username> --email=<email>
+```
+* Changing passwords:
+```
+u = User.objects.get( username = 'john')
+u.set_password( 'new password' )
+u.save()
+```
+* 直接生成加密后的密码  
+`from django.contrib.auth.hashers import make_password`
 
 #### Permissions and Authorization
+##### Programmatically creating permissions
+```
+from myapp.models import BlogPost
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+
+content_type = ContentType.objects.get_for_model(BlogPost)
+permission = Permission.objects.create(
+    codename='can_publish',
+    name='Can Publish Posts',
+    content_type=content_type,
+)
+```
+
 #### Authentication in Web requests 网页里面的认证
 ##### How to log a user in 如何让一个用户登录
 * `django.contrib.auth.login(request, user, backend=None)`
@@ -38,16 +69,6 @@ class MyView(LoginRequiredMixin, View):
 * Limiting access to logged-in users that pass a test
 * The `permission_required` decorator
 * The PermissionRequiredMixin mixin
-
-##### Authentication Views
-* Using the views
-* All authentication views
-    * LogoutView
-
-##### to be continued
-* [ ] How to log a user out 如何退出一个用户
-* [ ] Redirecting unauthorized requests in class-based views
-* [ ] other
 
 
 ### API参考
@@ -90,21 +111,6 @@ User = get_user_model()  这样可以获取User的model
 * [ ] Extending the exsisting User model
 可以创建一个proxy model给User或者创建一个OneToOneField
 
-### 创建users:
-```
-    from django.contrib.auth.models import User
-    user = User.objects.create_user('john', 'ramwin@163.com', 'password')
-```
-
-### 根据明文创建密码
-`from django.contrib.auth.hashers import make_password`
-
-### 修改密码:
-```
-    u = User.objects.get( username = 'john')
-    u.set_password( 'new password' )
-    u.save()
-```
 
 ### 认证 Users
 ```
@@ -116,11 +122,6 @@ User = get_user_model()  这样可以获取User的model
     else:     # 认证失败
 ```
 
-### 创建超级用户
-```
-    python manage.py createsuperuser --username=<username> --email=<email>
-```
-
 ### 使用再classbaseview
     ```
     from django.contrib.auth.mixins import LoginRequiredMixin
@@ -128,11 +129,6 @@ User = get_user_model()  这样可以获取User的model
         login_url = 'home/login'
         redirect_field_name = 'redirect_to'
     ```
-
-
-### to be continued
-* [ ] api
-* [ ] 密码管理
 
 
 [自定义认证系统]: https://docs.djangoproject.com/en/2.1/topics/auth/customizing/

@@ -69,6 +69,17 @@ def data(self)
     return self._data
 ```
 
+#### errors
+返回serializer的errors
+```
+@property
+def errors(self):
+    if not hasattr(self, '_errors'):
+        msg = 'You must call `.is_valid()` before accessing `.errors`.'
+        raise AssertionError(msg)
+    return self._errors
+```
+
 #### fields
 ```
 返回一个 BindingDict {'text': Field }

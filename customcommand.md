@@ -3,6 +3,7 @@
 [官网](https://docs.djangoproject.com/en/2.2/howto/custom-management-commands/)
 
 #### 案例
+mkdir -p app/management/commands/
 ```
 from django.core.management.base import BaseCommand, CommandError
 from polls.models import Question as Poll

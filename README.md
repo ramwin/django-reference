@@ -32,10 +32,18 @@ unique, blank, null的用法，歧义解释
 
 ## [QuerySets](./queryset.md)
 
+## [Migrations](https://docs.djangoproject.com/en/3.0/#the-model-layer)
+### [Introduction to Migrations](https://docs.djangoproject.com/en/3.0/topics/migrations)
+### [压缩迁移 Squashing migrations](https://docs.djangoproject.com/en/3.0/topics/migrations/#squashing-migrations)
+
+## Advanced
+### [ ] Managers
+### [ ] Custom lookups
+### [Query Expressions](./queryset.md#Advanced:-query-expressions)
+### [ ] Conditional Expressions
+
 ## TODO list
 * [ ] Model Instance
-* [ ] Migration
-* [ ] Advanced
 * [ ] Other
 
 # [View][view]
@@ -52,10 +60,17 @@ request.FILES['file']
 * ## [Class-based View](./classbaseView.md)
 
 # [The template layer 模板](templates.md)
-# Forms 表单
-[官网](https://docs.djangoproject.com/en/2.1/#forms)
+
+# [Forms 表单](https://docs.djangoproject.com/en/2.1/#forms)
+
+## [Form API](https://docs.djangoproject.com/en/2.1/ref/forms/api/#)
+### [Using forms to validate data](https://docs.djangoproject.com/en/2.1/ref/forms/api/#using-forms-to-validate-data)
 * attribute
     * errors  *具体的报错信息*
+    ```
+    f.errors
+    {'sender': ['Enter a valid email address.'], 'subject': ['This field is required.']}
+    ```
 * method
     * `clean()`  *其实就是调用了clean_data*
 ## Built-in fields
@@ -101,7 +116,7 @@ request.FILES['file']
     * PermissionDenied()
 
 * ## django-admin and manage.py
-### [自定义指令](./customcommand.md)
+### [customcommand 自定义指令](./customcommand.md)
 
 ## [Testing 测试](./test测试.md)
 
@@ -138,7 +153,7 @@ from __future__ import unicode_literals
 ## [用户认证 Authentication](./auth认证模块.md)
 
 ## cache 缓存系统,
-[官网](https://docs.djangoproject.com/en/2.0/topics/cache/)
+[官网](https://docs.djangoproject.com/en/2.2/topics/cache/)
 ```
 from django.core.cache import cache
 from django.core.cache import caches
@@ -167,17 +182,17 @@ objectslist.number  # 当前页码
 
 # [Other core functionalities 其他功能](https://docs.djangoproject.com/en/2.1/#other-core-functionalities)
 ## [signal](./signal信号.md)
-* 生成随即的字符串
-```
-from django.utils.crypto import get_random_string
-get_random_string(length=6)
-```
 
 # TODO list
 * [ ] [Document](https://docs.djangoproject.com/en/2.0/#how-the-documentation-is-organized)
 * [ ] [First Steps](https://docs.djangoproject.com/en/2.0/#first-steps)
 
 # [utils](./utils.md)
+* 生成随即的字符串
+```
+from django.utils.crypto import get_random_string
+get_random_string(length=6)
+```
 
 [django-reference]: https://github.com/ramwin/django-reference
 [raw]: https://raw.githubusercontent.com/ramwin/django-reference/master/README.md
