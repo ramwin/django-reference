@@ -7,7 +7,17 @@
 
 ### How Django processes a request
 1. 查看`ROOT_URLCONF`
-2. 寻找urlpatterns
+一般是`project/urls.py`, 有时候某些middle会设置`ROOT_URLCONF`
+2. 载入`ROOT_URLCONF`包，寻找urlpatterns变量。如果一个urlpatterns没找到，会去下一个app找。所以两个app可以使用同一个路径
+```
+project.urls:
+    url(r'testapp/', include('testapp.urls_v1', namespace="testapp_namespace")),     
+    url(r'testapp/', include('testapp.urls_v2', namespace="testapp_namespace_v2")),
+urls_v1:
+    path('testint/<slug:pk>/', views.TestPathView.as_view(), name="testint"),
+urls_v2:
+    path('testint/<int:pk>/', views.TestPathView2.as_view(), name="testslug"),
+```
 3. 没找到就报错
 
 ### Example
