@@ -84,12 +84,12 @@ if not is_valid:
 #### [ ] Field-level validation
 #### [Object-level validation](https://www.django-rest-framework.org/api-guide/serializers/#object-level-validation)
 
-在所有的默认validate和自定义的`validate_field`都成功后才调用,用来校验整体的数据一致性
+在所有的默认validate和自定义的`validate_field`都成功后才调用,用来校验整体的数据一致性.  
 ```
 def validate(self, data):
     if data['start'] > data['finish']:
         raise serializers.ValidationError("finish must occur after start")
-    return data
+    return data  # 这个data必须返回。返回后会当作serializer的 _validated_data
 ```
 
 #### [ ] validators
