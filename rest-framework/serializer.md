@@ -36,7 +36,68 @@ serializer
         return instance
 
 
+### [Validation](https://www.django-rest-framework.org/api-guide/serializers/#validation)
+在获取data前，需要先调用`is_valid`函数。如果失败了 `.errors` 里面是一个字典，每个key就是报错的字段, 对应的values是一个string构成的列表，表明这个数据不符合哪个规则
+如果希望校验的时候直接报错，可以使用`is_valid(raise_exception=True)`
+* 源码
+```python3
+def is_valid(self, raise_exception=False):
+    assert not hasattr(self, 'restore_object'), (
+        'Serializer `%s.%s` has old-style version 2 `.restore_object()` '
+        'that is no longer compatible with REST framework 3. '
+        'Use the new-style `.create()` and `.update()` methods instead.' %
+        (self.__class__.__module__, self.__class__.__name__)
+    )
+
+    assert hasattr(self, 'initial_data'), (
+        'Cannot call `.is_valid()` as no `data=` keyword argument was '
+        'passed when instantiating the serializer instance.'
+    )
+
+    if not hasattr(self, '_validated_data'):
+        try:
+            self._validated_data = self.run_validation(self.initial_data)
+        except ValidationError as exc:
+            self._validated_data = {}
+            self._errors = exc.detail
+        else:
+            self._errors = {}
+
+    if self._errors and raise_exception:
+        raise ValidationError(self.errors)
+
+    return not bool(self._errors)
+```
+
+* 记录客户端的报错
+```
+from rest_framework.exceptions import ValidationError
+serializer = self.get_serializer(request.data)
+is_valid = serializer.is_valid()
+if not is_valid:
+    log.error("客户端数据报错")
+    log.error(serializer.errors)
+    raise ValidationError(serializer.errors)
+```
+
+
+#### [ ] Field-level validation
+#### [Object-level validation](https://www.django-rest-framework.org/api-guide/serializers/#object-level-validation)
+
+在所有的默认validate和自定义的`validate_field`都成功后才调用,用来校验整体的数据一致性
+```
+def validate(self, data):
+    if data['start'] > data['finish']:
+        raise serializers.ValidationError("finish must occur after start")
+    return data
+```
+
+#### [ ] validators
+
+
+
 ### 属性和方法
+
 #### context
     ```
     {'view': <views.DetailView object>,
@@ -124,53 +185,6 @@ def create(self, validated_data):  # 如果你自定了create方法，一般来�
     instance = ModelClass.objects.create(**validated_data)
     return instance
 ```
-
-#### Validation [官网链接](https://www.django-rest-framework.org/api-guide/serializers/#validation)
-在获取data前，需要先调用`is_valid`函数。如果失败了 `.errors` 里面是一个字典，每个key就是报错的字段, 对应的values是一个string构成的列表，表明这个数据不符合哪个规则
-如果希望校验的时候直接报错，可以使用`is_valid(raise_exception=True)`
-* 源码
-```python3
-def is_valid(self, raise_exception=False):
-    assert not hasattr(self, 'restore_object'), (
-        'Serializer `%s.%s` has old-style version 2 `.restore_object()` '
-        'that is no longer compatible with REST framework 3. '
-        'Use the new-style `.create()` and `.update()` methods instead.' %
-        (self.__class__.__module__, self.__class__.__name__)
-    )
-
-    assert hasattr(self, 'initial_data'), (
-        'Cannot call `.is_valid()` as no `data=` keyword argument was '
-        'passed when instantiating the serializer instance.'
-    )
-
-    if not hasattr(self, '_validated_data'):
-        try:
-            self._validated_data = self.run_validation(self.initial_data)
-        except ValidationError as exc:
-            self._validated_data = {}
-            self._errors = exc.detail
-        else:
-            self._errors = {}
-
-    if self._errors and raise_exception:
-        raise ValidationError(self.errors)
-
-    return not bool(self._errors)
-```
-
-* 记录客户端的报错
-```
-from rest_framework.exceptions import ValidationError
-serializer = self.get_serializer(request.data)
-is_valid = serializer.is_valid()
-if not is_valid:
-    log.error("客户端数据报错")
-    log.error(serializer.errors)
-    raise ValidationError(serializer.errors)
-```
-
-#### `validate`(self, data)  
-在所有的默认validate和自定义的validate_field都成功后才调用,用来校验整体的数据一致性
 
 
 #### update
