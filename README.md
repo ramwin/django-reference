@@ -7,6 +7,14 @@ the test project is in [rest-framework-test][rest-framework-test] repository
 
 [官网文档](https://docs.djangoproject.com/en/2.2/)
 
+# [django-bootstrap4](https://github.com/zostera/django-bootstrap4)
+```
+pip install django-bootstrap4
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+```
+
 # [django-rest-framework](./rest-framework/README.md)
 * ## [swagger](http://api-docs.easemob.com/#/)
 * ## [serializer](./rest-framework/serializer.md)
