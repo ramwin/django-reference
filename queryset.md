@@ -165,6 +165,14 @@ But the date is filtered by the date of server timezone. What if you want to fil
 * [ ] Build-in Expressions
 
 #### Query-related tools
+##### Q() objects
+用这个以后可以使用 |(or) 和 &(and) 操作
+```
+q1 = Q(name0="name0") | Q(name1="name1") & Q(name2="name2")
+q2 = Q(name0="name0") | Q(name1="name1")
+q2 &= Q(name2="name2")
+注意，因为一句一句执行，所以q2的顺序和q1不一样. q1因为执行顺序的原因，先执行&
+```
 
 ### [ ] ~~~Lookup expressions  ~~~  
 比较高端，暂时没用过
