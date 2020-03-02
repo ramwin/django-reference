@@ -68,7 +68,7 @@ class ArticleDetailView(DetailView):
 ```
 
 ### Generic editing views
-* [CreateView](https://docs.djangoproject.com/en/1.11/ref/class-based-views/flattened-index/#createview)
+* [CreateView](https://docs.djangoproject.com/en/3.0/ref/class-based-views/generic-editing/#createview)
     1. `BaseCreateView.post(self, request, *args, **kwargs):`  
         ```
         self.object = None
@@ -195,4 +195,16 @@ class ArticleDetailView(DetailView):
     def form_valid(self, form):
         self.object = form.save()
         return super().form_valid(form)
+    ```
+    * get_success_url: 数据创建成功后跳转的页面
+    ```
+    def get_success_url(self):
+        if self.success_url:
+            url = self.success_url.format(**self.object.__dict__)
+        else:
+            try:
+                url = self.object.get_absolute_url()
+            except AttributeError:
+                raise ImproperlyConfigured("...")
+        return url
     ```
