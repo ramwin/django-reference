@@ -5,7 +5,7 @@ the test project is in [rest-framework-test][rest-framework-test] repository
 建议使用markdown工具打开[原始文件][raw]，
 直接看的话因为github的每一级菜单字体太接近了，所以看上去会有点混乱
 
-[官网文档](https://docs.djangoproject.com/en/2.2/)
+[官网文档](https://docs.djangoproject.com/en/3.0/)
 
 # [django-bootstrap4](https://github.com/zostera/django-bootstrap4)
 ```
@@ -20,6 +20,19 @@ pip install django-bootstrap4
 * ## [serializer](./rest-framework/serializer.md)
 * ## [filters](./rest-framework/filter.md)
 * ## [views](./rest-framework/view.md)
+
+# FAQ
+## Databases and models
+* How can I see the raw SQL queries Django is running? 查看queryset的sql语句
+使用connection.queries
+```
+DEBUG模式
+from django.db import connection
+connection.queires
+from djabgo.db import reset_queries
+reset_queries()  # 清空query
+```
+或者使用`print(queryset.query)` `queryset.query.sql_with_params()` [stackoverflow链接](https://stackoverflow.com/questions/1074212/how-can-i-see-the-raw-sql-queries-django-is-running)
 
 # Topic guides
 讨论各种主题和工具 at a fairly high level, 提供一些背景知识和解释

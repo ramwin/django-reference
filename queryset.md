@@ -1,6 +1,6 @@
 **Xiang Wang @ 2018-11-27 14:10:45**
 
-[官网](https://docs.djangoproject.com/en/2.1/topics/db/queries/)
+[官网](https://docs.djangoproject.com/en/3.0/topics/db/queries/)
 
 ### [My Reference(以前我的文档)](./queries.md)  
 ### [ ] Making Queries  
@@ -27,7 +27,7 @@ Entry.objects.filter(mod_date__gt=F('pub_date') + timedelta(days=3))  找到发�
     from django.db import connection
     print connection.queries
     ```
-* Lookups that span relationships 通过**关联**的外键来查询 [官网文档](https://docs.djangoproject.com/en/2.0/topics/db/queries/#lookups-that-span-relationships)
+* Lookups that span relationships 通过**关联**的外键来查询 [官网文档](https://docs.djangoproject.com/en/3.0/topics/db/queries/#lookups-that-span-relationships)
     * 例子django会把没有的字段当作None来处理。所以:
     ```
     Search.objects.filter(user__username='wx')  # left join式的过滤。如果没有user，也会被过滤掉
@@ -98,7 +98,7 @@ Shop.objects.bulk_create([
 ])
 ```
 
-##### [Field lookups 查询field的方法](https://docs.djangoproject.com/en/2.1/ref/models/querysets/#field-lookups)
+##### [Field lookups 查询field的方法](https://docs.djangoproject.com/en/3.0/ref/models/querysets/#field-lookups)
 * exact
 * iexact
 * contains
