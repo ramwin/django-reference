@@ -60,6 +60,7 @@ unique, blank, null的用法，歧义解释
 ## Advanced
 ### [ ] Managers
 ### [ ] Custom lookups
+### [Multiple databases](https://docs.djangoproject.com/en/3.0/topics/db/multi-db/)
 ### [Query Expressions](./queryset.md#Advanced:-query-expressions)
 ### [ ] Conditional Expressions
 

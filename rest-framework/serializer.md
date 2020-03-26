@@ -224,6 +224,7 @@ def update(self, instance, validated_data):
     * [ ] write_only
     * [ ] required
     * [ ] default
+    有了default以后，如果没有传入值，就会设置成default。哪怕传入了None或者"",也会使用None或者""
     * [ ] allow_null
     * ##### [source](https://www.django-rest-framework.org/api-guide/fields/#source)
         1. [ ] method that only takes a self argument like `URLField(source='get_absolute_url')`
