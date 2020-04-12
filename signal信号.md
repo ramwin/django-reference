@@ -6,7 +6,6 @@
 每次绑定的时候，同样的函数只会绑定一次。多个函数会按照绑定的顺序依次执行。 如果你希望一个函数绑定2次，需要添加`dispatch_uid`参数
 ```
 from django.core.signals import request_finished
-
 request_finished.connect(my_callback, dispatch_uid="my_unique_identifier")
 ```
 
@@ -26,6 +25,10 @@ request_finished.connect(my_callback)
 
 from django.db.models.signals import pre_init
 pre_init.connect(my_signal, sender=TestSignal)
+```
+#### `pre_save`
+[官方文档](http://ramwin.com:8888/ref/signals.html#pre-save)
+```
 ```
 
 #### post_save
@@ -63,7 +66,6 @@ m2m_changed.connect(function, sender=ManyModel.texts.through)
 * [ ] Model_signals
     * [ ] pre_init
     * [ ] post_init
-    * [ ] pre_save
     * [ ] post_save
     * [ ] pre_delete
     * [ ] class_prepared

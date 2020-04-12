@@ -1,7 +1,7 @@
-*admin界面设置*
+admin界面设置
 
 # Admin Site 管理界面
-[官网](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/)
+[官网](https://docs.djangoproject.com/en/3.0/ref/contrib/admin/)
 ## 最简单的
 ```
 from django.contrib import admin
@@ -44,6 +44,32 @@ class FlatPageAdmin(admin.ModelAdmin):
             'description': '描述',
         }),
     )
+```
+* ...
+* [ ] `radio_fields`
+* [autocomplete_fields](https://docs.djangoproject.com/en/3.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.autocomplete_fields)
+实现在添加Choice的时候，可以搜索question的`question_text`字段  
+为了防止数据的泄露。用户创建时，必须要有外键model的view和change权限
+```
+class QuestionAdmin(admin.ModelAdmin):
+    ordering = ['date_created']
+    search_fields = ['question_text']
+class ChoiceAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['question']
+```
+* [ ] `raw_id_fields`
+* ...
+
+
+## [InlineModelAdmin](https://docs.djangoproject.com/en/3.0/ref/contrib/admin/#inlinemodeladmin-objects)
+```
+from django.contrib import admin
+class BookInline(admin.TabularInline):
+    model = Book
+class AuthorAdmin(admin.ModelAdmin):
+    inlines = [
+        BookInline,
+    ]
 ```
 
 ## [自定义]
