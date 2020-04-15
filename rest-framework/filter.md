@@ -1,5 +1,4 @@
-**Xiang Wang @ 2017-03-01 10:04:45**
-*django-filter的参考*
+Xiang Wang @ 2017-03-01 10:04:45
 
 [官网](https://django-filter.readthedocs.io/en/master/index.html)
 
@@ -50,6 +49,13 @@ queryset = MyFilter({'type': 'type1'}, models.Model.objects.all()).qs
 
 
 ## [所有的filter](https://django-filter.readthedocs.io/en/master/ref/filters.html)
+```
+def filter_queryset(self, queryset):
+    for name, value in self.form.cleaned_data.items():
+        queryset = self.filters[name].filter(queryset, value)
+        assert isintance(queryset, models.QuerySet)
+    return queryset
+```
 
 ### MultiChoiceFilter [官网](https://django-filter.readthedocs.io/en/master/ref/filters.html#multiplechoicefilter)
 使用了多重过滤,以后输入 `url?_type=类型1&_type=类型2` 就能过滤几个url
@@ -57,6 +63,30 @@ queryset = MyFilter({'type': 'type1'}, models.Model.objects.all()).qs
 _type = django_filters.MultipleChoiceFilter(
     choices=models.TestFilter.TYPE_CHOICE
 )
+/django_filters/filters.py line 231
+class MultipleChoiceFilter(Filter):
+    def filter(self, qs, value):
+        ...
+        for v in set(value):
+            if v == self.null_value:
+                v = None
+            predicate = self.get_filter_predicate(v)
+            if self.conjoined:
+                qs = self.get_method(qs)(**predicate)
+            else:
+                q |= Q(**predicate)
+        if not self.conjoined:
+            qs = self.get_method(qs)(q)
+        return qs.distinct() if self.distinct else qs
+        ...
+    def get_filter_predicate(self, v):
+        name = self.field_name
+        if name and self.lookup_expr != 'exact':
+            name = LOOKUP_SEP.join([name, self.lookup_expr])
+        try:
+            return {name: getattr(v, self.field.to_field_name)}
+        except (AttributeError, TypeError):
+            return {name: v}
 ```
 
 * ModelChoiceFilter [参考](http://django-filter.readthedocs.io/en/develop/ref/filters.html#modelchoicefilter)
