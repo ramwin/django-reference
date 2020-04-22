@@ -104,6 +104,21 @@ request.FILES['file']
 * [Settings]
     * [ ] overview
     * [ ] Full list of settings
+        * Core Settings
+            * [ ] CSRF_TRUSTED_ORIGINS
+            * [Databases](http://ramwin.com:8888/ref/settings.html#databases)
+            ```
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'django.db.backends.postgresql',
+                    'NAME': 'mydatabase',
+                    'USER': 'mydatabaseuser',
+                    'PASSWORD': 'mypassword',
+                    'HOST': '127.0.0.1',
+                    'PORT': '5432',
+                }
+            }
+            ```
         * Auth
             * AUTH_USER_MODEL
         * Sessions

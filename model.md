@@ -96,7 +96,7 @@ models.EmailField()
 如果是其他的，一般都是存bigint表明要多少microseconds  
 
 * [ ] EmailField
-* #### FileField:
+* #### [FileField](https://docs.djangoproject.com/en/3.0/ref/models/fields/)
 `class FileField(upload_to="uploads/%Y/%m/%d")`
 * [ ] FilePathField
 * [FloatField](https://docs.djangoproject.com/en/2.2/ref/models/fields/#floatfield)
