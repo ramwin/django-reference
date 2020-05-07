@@ -48,3 +48,62 @@ out.write(style.SUCCESS(serializer.data))
 ```
 各个样式:  
 ![the style of output](./img/command_style.png)
+
+#### 源码分析
+* [ ] 继续查看Loader的原理  
+
+```
+python3 manage.py sqlmigrate testapp 0002
+
+# core/management/__init__.py
+argv = ['manage.py', 'sqlmigrate', 'testapp', '0002']
+def execute_from_command_line(argv=None):
+    """Run a ManagementUtility."""
+    utility = ManagementUtility(argv)
+    utility.execute()
+
+# core/management/__init__.py
+class ManagementUtility:
+    def execute(self):
+        subcommand = self.argv[1]
+            self.fetch_command(subcommand).run_from_argv(self.argv)
+
+    def fetch_command(self, subcommand):
+        commands = get_commands()
+        app_name = commands[subcommand]
+        # django.core.sqlmigrate
+        klass = load_command_class(app_name, subcommand)
+        return klass
+fetch_command就是返回的Command了
+
+# core/managements/command/sqlmigrate.py
+class Command(BaseCommand):
+    def run_from_argv(self, argv):
+        self.execute(*args, **cmd_options)
+    def execute(self):
+        self.handle()
+    def handle(self, *args, **options):
+        plan = [(loader.graph.nodes[target], options['backwards'])]
+        # plan:  [(<Migration testapp.0002_auto_20200422_1247>, False)]
+        sql_statements = loader.collect_sql(plan)  # 这句最关键
+        # sql_statements:
+        ['--',
+         '-- Alter field name on mymodel',
+         '--',
+         'CREATE TABLE "new__testapp_mymodel" ("id" integer NOT NULL PRIMARY KEY '
+         'AUTOINCREMENT, "name" varchar(32) NOT NULL UNIQUE);',
+         'INSERT INTO "new__testapp_mymodel" ("id", "name") SELECT "id", "name" FROM '
+         '"testapp_mymodel";',
+         'DROP TABLE "testapp_mymodel";',
+         'ALTER TABLE "new__testapp_mymodel" RENAME TO "testapp_mymodel";',
+         'CREATE UNIQUE INDEX "testapp_mymodel_name_ba5e2bd2_uniq" ON '
+         '"testapp_mymodel" ("name");',
+         '--',
+         '-- Alter unique_together for mymodel (0 constraint(s))',
+         '--',
+         'DROP INDEX "__unnamed_constraint_1__";'
+        ]
+        if not sql_statements and options['verbosity'] >= 1:
+            self.stderr.write('No operations found.')
+        return '\n'.join(sql_statements)
+```
