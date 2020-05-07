@@ -7,7 +7,11 @@ the test project is in [rest-framework-test][rest-framework-test] repository
 
 [官网文档](https://docs.djangoproject.com/en/3.0/)
 
-# [django-bootstrap4](https://github.com/zostera/django-bootstrap4)
+# 一些有用的插件
+* [django-dirtyfields](https://github.com/romgar/django-dirtyfields/)  
+利用`__init__`的时候备份数据，实现知道一个model哪些数据变化了
+
+* [django-bootstrap4](https://github.com/zostera/django-bootstrap4)
 ```
 pip install django-bootstrap4
 {% load bootstrap4 %}
