@@ -148,6 +148,12 @@ def errors(self):
 
 #### `validate_<field_name>`:
 校验某个字段,这个字段是已经通过序列化转化的数据，所以是校验后才会调用
+```
+def validate_even(self, value):
+    if value % 2 != 0:
+        raise serializers.ValidationError("不是偶数")
+    return value
+```
 
 #### `validated_data`:  
 返回格式化的数据，注意*如果是外键，会变成model的instance*
