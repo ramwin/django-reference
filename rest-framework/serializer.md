@@ -5,13 +5,13 @@ serializer
 
 ### 基础使用
 ```
-    from rest_framework import serializers
-    class ShopSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = Shop
-    serializer = ModelSerializer(data={...})
-    serializer.is_valid(raise_exception=True)  # 会判断外键是否存在
-    serializer.save(**kwargs)  # 这个数据会覆盖掉原来的data, 并且可以设置一些read_only的数据
+from rest_framework import serializers
+class ShopSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shop
+serializer = ModelSerializer(data={...})
+serializer.is_valid(raise_exception=True)  # 会判断外键是否存在
+serializer.save(**kwargs)  # 这个数据会覆盖掉原来的data, 并且可以设置一些read_only的数据
 ```
 * 注意事项:
     * 不能把id放入
@@ -34,6 +34,36 @@ serializer
         save会根据有没有instance来调用 create 获取 update
         调用完以后，会把data里面的字段用instance重新去渲染
         return instance
+
+
+### 源码剖析
+```
+// serializer.__new__
+def __new__(cls, *args, **kwargs):
+    if kwargs.pop('many', False):  # 如果传了many, 就会调用many_init
+        return cls.many_init(*args, **kwargs)
+    return super().__new__(cls, *args, **kwargs)
+field.__new__
+// class Field
+    def __new__(cls, *args, **kwargs):
+        """
+        When a field is instantiated, we store the arguments that were used,
+        so that we can present a helpful representation of the object.
+        """
+        instance = super().__new__(cls)
+        instance._args = args
+        instance._kwargs = kwargs
+        return instance
+// class BaseSerializer
+def __init__(self, instance=None, data=empty, **kwargs):
+    self.instance = instance
+    if data is not empty:
+        self.initial_data = data
+    self.partial = kwargs.pop('partial', False)
+    self._context = kwargs.pop('context', {})
+    kwargs.pop('many', None)
+    super().__init__(**kwargs)
+```
 
 
 ### [Validation](https://www.django-rest-framework.org/api-guide/serializers/#validation)
@@ -148,6 +178,12 @@ def errors(self):
 
 #### `validate_<field_name>`:
 校验某个字段,这个字段是已经通过序列化转化的数据，所以是校验后才会调用
+```
+def validate_even(self, value):
+    if value % 2 != 0:
+        raise serializers.ValidationError("不是偶数")
+    return value
+```
 
 #### `validated_data`:  
 返回格式化的数据，注意*如果是外键，会变成model的instance*

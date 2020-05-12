@@ -1,4 +1,7 @@
 [rest-framework官网](https://www.django-rest-framework.org/)
+<head>
+  <title>rest-framework</title>
+</head>
 
 ## [Views](./view.md)
 
@@ -139,6 +142,22 @@ class APIViewSet(mixins.CreateModalMixin, GenericViewSet):
 
 ## [serializer序列化](./serializer.md)
 ### ModelSerializer
+
+## Authentication
+### TokenAuthentication
+```
+INSTALLED_APPS = [
+    ...
+    "rest_framework.authtoken",
+]
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ]
+}
+```
 
 ## Permissions权限
 ```python
