@@ -1,4 +1,4 @@
-**Xiang Wang @ 2017-02-09 13:49:33**
+Xiang Wang @ 2017-02-09 13:49:33
 
 [官网](https://docs.djangoproject.com/en/2.2/howto/custom-management-commands/)
 
@@ -85,7 +85,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         plan = [(loader.graph.nodes[target], options['backwards'])]
         # plan:  [(<Migration testapp.0002_auto_20200422_1247>, False)]
-        sql_statements = loader.collect_sql(plan)  # 这句最关键
+        sql_statements = executor.collect_sql(plan)  # 这句最关键
         # sql_statements:
         ['--',
          '-- Alter field name on mymodel',
@@ -106,4 +106,27 @@ class Command(BaseCommand):
         if not sql_statements and options['verbosity'] >= 1:
             self.stderr.write('No operations found.')
         return '\n'.join(sql_statements)
+
+# db/migrations/executor.py
+class MigrationExecutor
+    def collect_sql(self, plan):
+        for migration, backwards in plan:
+            with self.connection.schema_editor(collect_sql=True, atomic=migration.atomic) as schema_editor:
+                if state is None:
+                    state = self.load.project_state(...)
+                if not backwards:
+                    state = migration.apply(state, schema_editor, collect_sql=True)
+
+
+# db/backends/base/base.py
+
+def schema_editor(self, *args, **kwargs):
+    return self.SchemaEditorClass(self, *args, **kwargs)
+
+# db/backwards/base/schema.py
+
+# db/migrations/migration.py
+def apply(self, project_state, schema_editor, collect_sql=False):
+    for operation in self.operations:
+          
 ```

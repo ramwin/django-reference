@@ -1,4 +1,4 @@
-**Xiang Wang @ 2017-01-23 14:05:03**
+Xiang Wang @ 2017-01-23 14:05:03
 
 [A quick reference for django][django-reference] 
 the test project is in [rest-framework-test][rest-framework-test] repository  
@@ -110,6 +110,12 @@ request.FILES['file']
             ```
             DATABASES = {
                 'default': {
+                    'ENGINE': 'django.db.backends.sqlite3',
+                    'NAME': 'mydatabase',
+                }
+            }
+            DATABASES = {
+                'default': {
                     'ENGINE': 'django.db.backends.postgresql',
                     'NAME': 'mydatabase',
                     'USER': 'mydatabaseuser',
@@ -217,9 +223,36 @@ objectslist.has_previous | has_next # 判断是否有下一页
 objectslist.previous_page_number | next_page_number # 获取上一页或下一页的页码
 objectslist.number  # 当前页码
 ```
+
 ## [Data Validation](./validator表单验证.md)
 
 # [Other core functionalities 其他功能](https://docs.djangoproject.com/en/2.1/#other-core-functionalities)
+## [Content Types and Generic relations](http://ramwin.com:8888/ref/contrib/contenttypes.html)
+* The ContentType Model 
+    * app_label: application的名字.如果有层import,就是最后的路径
+    * model: model的name
+    * name: 人看的name
+* [ContentType的方法](http://ramwin.com:8888/ref/contrib/contenttypes.html#methods-on-contenttype-instances)
+    * [ ]
+    * model_class(): 返回contenttype对应的model
+    ```
+    class ContentType(models.Model):
+        def model_class(self):
+            try:
+                return apps.get_model(self.app_label, self.model)
+            except LookupError:
+                return None
+    ```
+* ContentTypeManager
+    * [ ]
+    * get_for_model(model)
+    ```
+    ContentType.objects.get_for_model(User)
+    ```
+    * [ ]
+
+
+
 ## [signal](./signal信号.md)
 
 # TODO list

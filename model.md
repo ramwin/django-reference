@@ -6,6 +6,8 @@
 * null = True,    # 是否可以是NULL
 * blank=True      # admin界面是不是可以不填写。不填写的话就是NULL, 但是不影响model的创建
 * [ ] `db_tablespace`
+* [ ] choices
+* db_column 数据库内的字段名. django会封装的,所以不用担心有特殊字符. 默认就是field的name
 * default = '0',  # 默认的数值
 * editable  
 如果是False, 那么这个字段就不会在ModelForm里面显示
@@ -324,7 +326,7 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
 * [ ] other attributes 其他属性
 
 [models]: https://docs.djangoproject.com/en/2.1/topics/db/models/
-[options]: https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-options
+[options]: http://ramwin.com:8888/ref/models/fields.html#field-options
 [unique-fields-allow-null]: https://stackoverflow.com/questions/454436/unique-fields-that-allow-nulls-in-django
 [method]: https://docs.djangoproject.com/en/2.1/ref/models/instances/
 [save]: https://docs.djangoproject.com/en/2.1/ref/models/instances/#django.db.models.Model.save
