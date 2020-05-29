@@ -117,7 +117,9 @@ def get_serializer_context(self):
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
         def filter_queryset(self, queryset):
-            queryset = backend().filter_queryset(self.request, queryset, self)
+            for backend in list(self.filter_backends):
+                queryset = backend().filter_queryset(self.request, queryset, self)
+            return queryset
         def paginate_queryset(queryset):
             if self.paginator is None:
                 return None
