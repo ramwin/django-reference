@@ -116,3 +116,17 @@ from django import template
 def current_time(format_string):
     return datetime.datetime.now().strftime(format_string)
 ```
+
+## [Template API](http://ramwin.com:8888/ref/templates/api.html)
+### Loading a Template
+```
+from django.template import Template
+template = Template("My name is {{ my_name }}")
+```
+
+### Rendering a context
+```
+from django.template import Context
+context = Context({"my_name": "ramwni"})
+template.render(context)
+```

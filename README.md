@@ -18,6 +18,80 @@ pip install django-bootstrap4
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
 ```
+## django-import-export 导入导出功能
+* Resource
+```
+def get_instance(self, instance_loader, row):
+    import_id_fields = [
+        self.fields[f] for f in self.get_import_id_fields()
+    ]
+    for field in import_id_fields:
+        if field.column_name not in row:
+            return
+    return instance_loader.get_instance(row)
+def import_date():
+    import_data_inner
+def import_data_inner
+    instance_loader = instance_loaders.ModelInstanceLoader
+    instance_loader = self._meta.instance_loader_class(self, dataset)
+    row_result = self.import_row(
+        row, instance_loader, ...
+    )
+def import_row(self, row):
+    self.before_import(row, **kwargs)
+    instance, new = self.get_or_init_instance(instance_loader, row)
+    self.import_obj(instance, row, dry_run)
+def get_or_init_instance(self, instance_loader, row):
+    instance = self.get_instance(instance_loader, row)
+    if instance:
+        return (instance, False)
+    else:
+        return (self.init_instance(row), True)
+def init_instance(self, row)
+    return self._meta.model()  # ModelResource
+    raise NotImplementedError()
+def import_obj(self, obj, data, dry_run):
+    for field:
+        self.import_field(field, obj, data)
+def import_field(self, field, obj, data, is_m2m=False):
+    if field.attribute and field.column_name in data:
+        field.save(obj, data, is_m2m)  # 看下面的Field.save
+```
+* Field
+```
+from import_export.fields import Field
+class Field:
+    def clean(self, data):
+        """
+        Translates the value stored in the imported datasource to an
+        appropriate Python object and returns it.
+        """
+        try:
+            value = data[self.column_name]
+        except KeyError:
+            raise KeyError("Column '%s' not found in dataset. Available "
+                           "columns are: %s" % (self.column_name, list(data)))
+
+        # If ValueError is raised here, import_obj() will handle it
+        value = self.widget.clean(value, row=data)
+
+        if value in self.empty_values and self.default != NOT_PROVIDED:
+            if callable(self.default):
+                return self.default()
+            return self.default
+
+        return value
+    def save(self, obj, data, is_m2m=False):
+        cleaned = self.clean(data)
+        setattr(obj, attr, cleaned)
+```
+* ModelInstanceLoader
+```
+def get_instance(self, row):  # 用来修改数据的
+    for key in self.resource.get_import_id_fields():
+        field = self.resource.fields[key]
+        params[field.attribute] = field.clean(row)
+```
 
 # [django-rest-framework](./rest-framework/README.md)
 * ## [swagger](http://api-docs.easemob.com/#/)

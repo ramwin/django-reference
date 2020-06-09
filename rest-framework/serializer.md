@@ -176,6 +176,69 @@ def errors(self):
 返回一个 BindingDict {'text': Field }
 ```
 
+#### run_validation
+```
+def run_validation(self, data=empty)
+    """
+    We override the default `run_validation`, because the validation
+    performed by validators and the `.validate()` method should
+    be coerced into an error dictionary with a 'non_fields_error' key.
+    """
+    (is_empty_value, data) = self.validate_empty_values(data)
+    if is_empty_value:
+        return data
+
+    value = self.to_internal_value(data)
+    try:
+        self.run_validators(value)
+        value = self.validate(value)
+        assert value is not None, '.validate() should return the validated data'
+    except (ValidationError, DjangoValidationError) as exc:
+        raise ValidationError(detail=as_serializer_error(exc))
+
+    return value
+```
+
+#### to_internal_value
+```
+def to_internal_value(self, data):
+    """
+    Dict of native values <- Dict of primitive datatypes.
+    """
+    if not isinstance(data, Mapping):
+        message = self.error_messages['invalid'].format(
+            datatype=type(data).__name__
+        )
+        raise ValidationError({
+            api_settings.NON_FIELD_ERRORS_KEY: [message]
+        }, code='invalid')
+
+    ret = OrderedDict()
+    errors = OrderedDict()
+    fields = self._writable_fields
+
+    for field in fields:
+        validate_method = getattr(self, 'validate_' + field.field_name, None)
+        primitive_value = field.get_value(data)
+        try:
+            validated_value = field.run_validation(primitive_value)
+            if validate_method is not None:
+                validated_value = validate_method(validated_value)
+        except ValidationError as exc:
+            errors[field.field_name] = exc.detail
+        except DjangoValidationError as exc:
+            errors[field.field_name] = get_error_detail(exc)
+        except SkipField:
+            pass
+        else:
+            set_value(ret, field.source_attrs, validated_value)
+
+    if errors:
+        raise ValidationError(errors)
+
+    return ret
+```
+
 #### `validate_<field_name>`:
 校验某个字段,这个字段是已经通过序列化转化的数据，所以是校验后才会调用
 ```
