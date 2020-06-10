@@ -387,6 +387,66 @@ regex=r'^tmp-\d+\'
     * 可以接受django的datetime当作data传入
     * `input_formats`
     默认['iso-8601']. 如果包含'%Y-%m-%d', 那么输入日期进去也可以，会变成当天的0点(local的)
+    * 源码剖析
+    ```
+    def to_inernal_value(self, value):
+        input_formats = getattr(self, 'input_formats', api_settings.DATETIME_INPUT_FORMATS)
+
+        # 支持直接是datetime
+        if isinstance(value, datetime.date) and not isinstance(value, datetime.datetime):
+            self.fail('date')
+
+        if isinstance(value, datetime.datetime):
+            return self.enforce_timezone(value)
+
+        # 尝试用各种去解析
+        for input_format in input_formats:
+            if input_format.lower() == ISO_8601:
+                try:
+                    parsed = parse_datetime(value)  # 用的是django的dateparse.parse_datetime
+                    if parsed is not None:
+                        return self.enforce_timezone(parsed)  # 然后强制datetime
+                except (ValueError, TypeError):
+                    pass
+            else:
+                try:
+                    parsed = self.datetime_parser(value, input_format)
+                    return self.enforce_timezone(parsed)
+                except (ValueError, TypeError):
+                    pass
+
+        humanized_format = humanize_datetime.datetime_formats(input_formats)
+        self.fail('invalid', format=humanized_format)
+
+    def enforce_timezone(parsed):
+        """
+        如果没有开启USE_TZ就会返回None. 从而导致field_timezone = None
+        When `self.default_timezone` is `None`, always return naive datetimes.
+        When `self.default_timezone` is not `None`, always return aware datetimes.
+        """
+        field_timezone = getattr(self, 'timezone', self.default_timezone())
+
+        if field_timezone is not None:
+            if timezone.is_aware(value):
+                try:
+                    return value.astimezone(field_timezone)
+                except OverflowError:
+                    self.fail('overflow')
+            try:
+                return timezone.make_aware(value, field_timezone)
+            except InvalidTimeError:
+                self.fail('make_aware', timezone=field_timezone)
+        elif (field_timezone is None) and timezone.is_aware(value):
+            return timezone.make_naive(value, utc)
+        return value
+
+    def default_timezone(self):
+        return timezone.get_current_timezone() if settings.USE_TZ else None
+
+    def django.utils.dateparse.parse_datetime(value):
+        "2020-06-10T03:45:13.026Z" => "datetime.datetime(2020, 6, 10, 3, 45, 13, 26000, tzinfo=<UTC>)"
+        
+    ```
 * [ ] DateField
 * DurationField  
 [官网](https://www.django-rest-framework.org/api-guide/fields/#durationfield)  
