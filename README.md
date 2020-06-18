@@ -19,16 +19,9 @@ pip install django-bootstrap4
 {% bootstrap_javascript jquery='full' %}
 ```
 ## django-import-export 导入导出功能
-* Resource
+### Resource
+* 源码剖析
 ```
-def get_instance(self, instance_loader, row):
-    import_id_fields = [
-        self.fields[f] for f in self.get_import_id_fields()
-    ]
-    for field in import_id_fields:
-        if field.column_name not in row:
-            return
-    return instance_loader.get_instance(row)
 def import_date():
     import_data_inner
 def import_data_inner
@@ -41,6 +34,8 @@ def import_row(self, row):
     self.before_import(row, **kwargs)
     instance, new = self.get_or_init_instance(instance_loader, row)
     self.import_obj(instance, row, dry_run)
+    self.save_instance(instance, using_transactions, dry_run)
+    self.save_m2m(instance, row, using_transactions, dry_run)
 def get_or_init_instance(self, instance_loader, row):
     instance = self.get_instance(instance_loader, row)
     if instance:
@@ -56,8 +51,28 @@ def import_obj(self, obj, data, dry_run):
 def import_field(self, field, obj, data, is_m2m=False):
     if field.attribute and field.column_name in data:
         field.save(obj, data, is_m2m)  # 看下面的Field.save
+def save_instance(self, instance, using_transactions=True, dry_run=False):
+    self.before_save_instance(instance, using_transactions, dry_unr)
+    if not using_transactions and dry_run:
+        # we don't have transactions and we want to do a dry_run
+        pass
+    else:
+        instance.save()
+    self.after_save_instance(instance, using_transactions, dry_run)
 ```
-* Field
+* `Resource.get_instance`
+只有在`get_instance`以后,才会用field的clean方法获取object
+```
+def get_instance(self, instance_loader, row):
+    import_id_fields = [
+        self.fields[f] for f in self.get_import_id_fields()
+    ]
+    for field in import_id_fields:
+        if field.column_name not in row:
+            return
+    return instance_loader.get_instance(row)
+```
+### Field
 ```
 from import_export.fields import Field
 class Field:
@@ -85,7 +100,7 @@ class Field:
         cleaned = self.clean(data)
         setattr(obj, attr, cleaned)
 ```
-* ModelInstanceLoader
+### ModelInstanceLoader
 ```
 def get_instance(self, row):  # 用来修改数据的
     for key in self.resource.get_import_id_fields():

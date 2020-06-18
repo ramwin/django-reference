@@ -88,7 +88,9 @@ MingpianChange.objects.order_by("amount").values("amount").annotate(Count("id"))
 
 ##### Methods that do not return Querysets 不返回Queryset的方法
 `get, create, get_or_create`
-* [bulk_create](https://docs.djangoproject.com/en/2.2/ref/models/querysets/#bulk-create): 一次性创建多个instance
+* `update_or_create(defaults=None, **kwargs)`
+通过kwargs来查找数据. 如果没有就创建
+* [bulk_create](http://ramwin.com:8888/ref/models/querysets.html#bulk-create): 一次性创建多个instance
     * 如果某个创建失败了,会导致之后的也创建失败, 类似事务
     * 如果把foreignkey的对象传进去,不会校验,而是直接读取pk属性
 ```

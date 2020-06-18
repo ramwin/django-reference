@@ -463,10 +463,31 @@ regex=r'^tmp-\d+\'
         return obj.students(is_class_leader=True)
     ```
 * SlugRelatedField
+    * 案例
     ```
     # 输入的是name，但是会根据username去搜索，返回一个user对象出来
     name = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field="username")
     ```
+    * 源码剖析
+    ```
+    def __init__(self, slug_field=None, **kwargs):
+        assert slug_field is not None, 'The `slug_field` argument is required.'
+        self.queryset = kwargs["queryset"]
+        self.slug_field = slug_field
+        super().__init__(**kwargs)
+
+    def to_internal_value(self, data):
+        try:
+            return self.get_queryset().get(**{self.slug_field: data})
+        except ObjectDoesNotExist:
+            self.fail('does_not_exist', slug_name=self.slug_field, value=smart_str(data))
+        except (TypeError, ValueError):
+            self.fail('invalid')
+
+    def to_representation(self, obj):
+        return getattr(obj, self.slug_field)
+    ```
+
 * [ListField](https://www.django-rest-framework.org/api-guide/fields/#listfield)  
 ```
 advantages = serializers.ListField(child=serializers.CharField())

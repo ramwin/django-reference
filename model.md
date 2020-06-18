@@ -286,10 +286,18 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
                     sender=origin, instance=self, raw=raw, using=using,
                     update_fields=update_fields
                 )
-            with transaction.atomic(using=using, savepoint=False):
-                if not raw:
-                    self._save_parents(cls, using, update_fields)
-                    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+            # with transaction.atomic(using=using, savepoint=False):
+            #     if not raw:
+            #         self._save_parents(cls, using, update_fields)
+            #         updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+            context_manager = ...
+            with context_manager:
+                updated = self._save_table(
+                )
+            if not meta.auto_created:
+                post_save.send(
+                    sender=origin, instance=self, created=(not updated),
+                    update_fields=update_fields, raw=raw, using=using,)
         def _save_table(self, raw=False, force_insert=False,
                         force_update=False, using=None, update_fields=None):
             meta = cls._meta

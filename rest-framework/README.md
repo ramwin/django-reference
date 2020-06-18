@@ -159,7 +159,8 @@ REST_FRAMEWORK = {
 }
 ```
 
-## Permissions权限
+## [Permissions权限](https://www.django-rest-framework.org/api-guide/permissions/)
+* 自定义Permission
 ```python
 from rest_framework.permissions import BasePermission
 class MyPermission(BasePermission):
@@ -170,6 +171,27 @@ class MyPermission(BasePermission):
         可以return False 这样 response就是 {"detail": "您没有..权限"}
         或者 raise PermissionDenied({"message": "账户过期"})
 ```
+* [ ] permission支持逻辑上的and, or, not操作
+* AllowAny
+这个没啥用, 因为你可以直接设置成为`permission_classes=[]`. 但是用了他你可以显式地生命这个view是allowany的
+* IsAuthenticated
+```
+return bool(request.user and request.user.is_authenticated)
+```
+* IsAdminUser
+```
+return bool(request.user and request.user.is_staff)
+```
+* IsAuthenticatedOrReadOnly
+```
+return bool(
+    request.method in SAFE_METHODS or
+    request.user and request.user.is_authenticated
+)
+```
+* [ ] djangorestframework可以和django的permission结合
+
+
 ## [Filter过滤](./filter.md)
 ## [request and response](./request_and_response.md)
 ## throtte限速 [官网](https://www.django-rest-framework.org/api-guide/throttling/)

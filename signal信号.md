@@ -1,6 +1,30 @@
 **Xiang Wang @ 2017-05-24 16:32:47**
 
 [官方教程](https://docs.djangoproject.com/en/3.0/topics/signals/#preventing-duplicate-signals) [参考](https://docs.djangoproject.com/en/3.0/ref/signals/)
+
+### 源码剖析
+注册一个`post_save`后,就会在receivers里面添加对应的key和函数. 如果下次sender来了,就根据`_make_id`来判断是否要执行. 这会导致dispatch无法处理proxy的model. [想解决?12年前就提出来了,没采纳](https://code.djangoproject.com/attachment/ticket/9318/0001-Propagate-message-to-parent-s-handler-sender-is-chil.patch)
+
+```python3
+def _make_id(target):
+    if hasattr(target, "__func__"):
+        return (id(target.__self__), id(target.__function__))
+    return id(target)
+class Signal:
+
+    def send(self, sender, **named):
+        return [
+            (receiver, receiver(signal=self, sender=sender, **named)
+            for receiver in self._live_receivers(sender)
+        ]
+
+    def _live_receivers(self, sender):
+        senderkey = _make_id(sender)
+        for (receiverkey, r_senderkey), receiver in self.receivers:
+            if r_senderkey == NONE_ID or r_senderkey = senderkey:
+                receivers.append(receiver)
+```
+
 ### Listening to signals
 * preventing duplicate signals
 每次绑定的时候，同样的函数只会绑定一次。多个函数会按照绑定的顺序依次执行。 如果你希望一个函数绑定2次，需要添加`dispatch_uid`参数
