@@ -150,12 +150,13 @@ unique, blank, null的用法，歧义解释
 ### [Introduction to Migrations](https://docs.djangoproject.com/en/3.0/topics/migrations)
 ### [压缩迁移 Squashing migrations](https://docs.djangoproject.com/en/3.0/topics/migrations/#squashing-migrations)
 
-## Advanced
+## [Advanced](./advanced.md)
 ### [ ] Managers
 ### [ ] Custom lookups
 ### [Multiple databases](https://docs.djangoproject.com/en/3.0/topics/db/multi-db/)
-### [Query Expressions](./queryset.md#Advanced:-query-expressions)
+### [Query Expressions](./advanced.md#query-expressions)
 ### [ ] Conditional Expressions
+### Database Functions
 
 ## TODO list
 * [ ] Model Instance
