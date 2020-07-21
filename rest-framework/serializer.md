@@ -335,6 +335,19 @@ def update(self, instance, validated_data):
         name = CharField(source="user.name")
         source = 'user.name'  如果写入的话，数据是这样 {'user': {'name': 'new name'}}, 而不是直接的{'user': 'new name'}
         ```
+        * 源码剖析
+        ```
+        在Serializer.to_internal_value的时候
+        for field in fields:
+            set_value(ret, field.source_attrs, validated_value)
+        这样就会把
+        data: {
+          'user_name': 'xiaoming'
+        }变成
+        {
+          'user': User(Xiao Ming)
+        }
+        ```
     * [ ] validators
     * [ ] error_messages
     * [ ] label
