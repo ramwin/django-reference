@@ -97,8 +97,21 @@ class Field:
 
         return value
     def save(self, obj, data, is_m2m=False):
-        cleaned = self.clean(data)
-        setattr(obj, attr, cleaned)
+        if not self.readonly:
+            attrs = self.attribute.split("__")
+            for attr in attrs[:-1]:
+                obj = getattr(obj, attr, None)
+            cleaned = self.clean(data)
+            if cleaned is not None or self.saves_null_values:
+                if not is_m2m:
+                    setattr(obj, attrs[-1], cleaned)
+                else:
+                    getattr(obj, attrs[-1]).set(cleaned)
+    def export(self, obj):
+        value = self.get_value(obj)
+        if value is None:
+            return ""
+        return self.widget.render(value, obj)
 ```
 ### ModelInstanceLoader
 ```
@@ -290,6 +303,7 @@ from __future__ import unicode_literals
 
 # [常用的网站应用 Common Web application tools][common-tool]
 ## [用户认证 Authentication](./auth认证模块.md)
+* [已经有了AbstractUser的情况下,自定义user](https://www.caktusgroup.com/blog/2019/04/26/how-switch-custom-django-user-model-mid-project/)
 
 ## cache 缓存系统,
 [官网](https://docs.djangoproject.com/en/2.2/topics/cache/)
