@@ -392,7 +392,11 @@ regex=r'^tmp-\d+\'
 ```
 
 * FloatField
-* [ ] DecimalField
+* DecimalField
+    * max_digits
+    * decimal_places
+    * coerce_to_string
+    * rounding: 四舍五入的方式
 * #### DateTimeField
     * `auto_now_add`
     没有`auto_now_add`这个参数。必须model里面存在`auto_now_add`  
