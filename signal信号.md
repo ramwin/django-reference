@@ -1,6 +1,6 @@
 **Xiang Wang @ 2017-05-24 16:32:47**
 
-[官方教程](https://docs.djangoproject.com/en/3.0/topics/signals/#preventing-duplicate-signals) [参考](https://docs.djangoproject.com/en/3.0/ref/signals/)
+[官方教程](https://docs.djangoproject.com/en/3.1/topics/signals/) [参考](https://docs.djangoproject.com/en/3.0/ref/signals/)
 
 ### 源码剖析
 注册一个`post_save`后,就会在receivers里面添加对应的key和函数. 如果下次sender来了,就根据`_make_id`来判断是否要执行. 这会导致dispatch无法处理proxy的model. [想解决?12年前就提出来了,没采纳](https://code.djangoproject.com/attachment/ticket/9318/0001-Propagate-message-to-parent-s-handler-sender-is-chil.patch)
@@ -49,15 +49,28 @@ request_finished.connect(my_callback)
 from django.db.models.signals import pre_init
 pre_init.connect(my_signal, sender=TestSignal)
 ```
+
+#### `pre_init`
+#### `post_init`
+
 #### `pre_save`
 [官方文档](http://ramwin.com:8888/ref/signals.html#pre-save)
 
 #### post_save
+再用django-rest-framework的ModelSerializer的时候, 因为ModelSerializer的create, 是先创建model,然后设置manytomany的, 所以会导致如果通过post_save来创建, 会导致拿不到关联的manytomany的情况
+```
+def create(self, validated_data):
+    for field in info.relations.items():
+        many_to_many[field_name] = validated_data.pop(field_name)
+    instance = create(**validated_data)
+    for field_name, value in many_to_many.items():
+        getattr(instance, field_name).set(value)
+```
 * 参数:
     * sender: class的类
     * instance: 对象
     * created: 是否是刚创建的
-    * `update_fields`: TODO 待完善
+    * `update_fields`: 这个是Model.save的时候传入的. 不传就是None了
 
 
 #### post_delete
