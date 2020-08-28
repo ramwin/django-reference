@@ -186,7 +186,26 @@ FILE uploads 文件上传
 request.FILES['file']
 ```
 
-* ## [Class-based View](./classbaseView.md)
+## [Class-based View](./classbaseView.md)
+
+## Middleware
+```
+def simple_middleware(get_response):
+    # One-time configuration and initialization.
+
+    def middleware(request):
+        # Code to be executed for each request before
+        # the view (and later middleware) are called.
+
+        response = get_response(request)
+
+        # Code to be executed for each request/response after
+        # the view is called.
+
+        return response
+
+    return middleware
+```
 
 # [The template layer 模板](templates.md)
 
