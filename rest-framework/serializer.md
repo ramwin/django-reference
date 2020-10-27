@@ -124,8 +124,6 @@ def validate(self, data):
 
 #### [ ] validators
 
-
-
 ### 属性和方法
 
 #### context
@@ -317,7 +315,7 @@ def update(self, instance, validated_data):
     }
 ```
 
-### [Fields](https://www.django-rest-framework.org/api-guide/fields/) [官网](https://www.django-rest-framework.org/api-guide/fields/)
+### [Fields](https://www.django-rest-framework.org/api-guide/fields/)
 * #### [core arguments核心参数](https://www.django-rest-framework.org/api-guide/fields/#core-arguments)
     * [ ] read_only
     * [ ] write_only

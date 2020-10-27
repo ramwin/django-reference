@@ -243,7 +243,11 @@ school.students.through.objects.filter(school=school)
 ### [ ] Field attribute reference
 [官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-attribute-reference)
 
+### [Field API reference](https://docs.djangoproject.com/en/3.1/ref/models/fields/#field-api-reference)
+
+
 ### Meta
+[官网](https://docs.djangoproject.com/en/3.1/ref/models/options/)
 ```
 class Meta:
     unique_together = ("user","date")   # 同一个用户同一个时间只允许一次(比如投票)
@@ -254,6 +258,22 @@ class Meta:
     proxy = True  # 用来给已有的表添加其他功能
     verbose_name = '显示名字'
     verbose_name_plural = '显示名字'
+```
+#### [API](https://docs.djangoproject.com/en/3.1/ref/models/meta/)
+* `get_field`
+获取某个Field
+```
+>>> User._meta.get_field("username")
+<django.db.models.fields.CharField: username>
+```
+* `get_fields(include_parents=True, include_hidden=False`
+```
+User._meta.get_fields()
+(
+    <ManyToOneRel: admin.logentry>,
+    <django.db.models.fields.AutoField: id>,
+    ...
+)
 ```
 
 ### [Instance methods 实例方法][method]

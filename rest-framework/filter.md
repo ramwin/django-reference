@@ -31,7 +31,7 @@ queryset = MyFilter({'type': 'type1'}, models.Model.objects.all()).qs
 ```
 
 # core arguments
-* `name` 查找哪个字段
+* `field_name` 查找哪个字段
 * `lookup_expr` 查找的时候的后缀添加属性
 * `help_text` 备注信息
 * `required` 默认False，是否需要。如果为True的话，就会返回空的queryset
@@ -43,6 +43,7 @@ queryset = MyFilter({'type': 'type1'}, models.Model.objects.all()).qs
     def filter_inbox(self, queryset, name, value):
         return queryset
     ```
+* `exclude` 是否要用exclude
 
 
 # Filter

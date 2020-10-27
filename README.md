@@ -72,7 +72,8 @@ def get_instance(self, instance_loader, row):
             return
     return instance_loader.get_instance(row)
 ```
-### Field
+### [Field](https://django-import-export.readthedocs.io/en/stable/api_fields.html)
+* 因为源码里是用`__`来split的,注意
 ```
 from import_export.fields import Field
 class Field:
@@ -112,6 +113,12 @@ class Field:
         if value is None:
             return ""
         return self.widget.render(value, obj)
+    def get_value(self, obj):
+        attrs = self.attribute.splic("__")
+        value = obj
+        for attr in attrs:
+            value = getattr(value, attr, None)
+        return value
 ```
 ### ModelInstanceLoader
 ```
