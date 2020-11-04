@@ -36,12 +36,18 @@
 * 方法
     * copy: 用来把request.POST的数据copy, 这样才能修改
 
-### response
+### [response](https://docs.djangoproject.com/en/3.1/ref/request-response/)
 
 ##### [参数](https://docs.djangoproject.com/en/1.11/ref/request-response/#httpresponse-objects)
 * content
 * charset
 * status_code
+
+#### JsonResponse
+```
+from django.http import JsonResponse
+response = JsonResponse({"foo": "bar"})
+```
 
 #### 返回文件
 ```
