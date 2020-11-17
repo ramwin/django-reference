@@ -121,3 +121,42 @@ class MultipleChoiceFilter(Filter):
         {'time__gt': '2017-12-11T11:19:28+00:00'} # 这种标准的格式肯定没有问题的
         {'time__gt': '2017-12-11 08:19:27'}  # 这种不标准的格式就会默认当作当前时区，所以就算是传递的 08 时，这个00UTC时的数据也会显示出来
         ```
+
+### [RangeFilter](https://django-filter.readthedocs.io/en/master/ref/filters.html#rangefilter)
+* 用法
+```
+    class F(FilterSet):
+        """Filter for Books by Price"""
+        price = RangeFilter()
+
+        class Meta:
+            model = Book
+            fields = ['price']
+      
+    qs = Book.objects.all().order_by('title')
+
+    # Range: Books between 5€ and 15€
+    f = F({'price_min': '5', 'price_max': '15'}, queryset=qs)
+
+    # Min-Only: Books costing more the 11€
+    f = F({'price_min': '11'}, queryset=qs)
+
+    # Max-Only: Books costing less than 19€
+    f = F({'price_max': '19'}, queryset=qs)
+```
+
+* 原理
+
+### DateFromToRangeFilter
+* 用法
+````
+    class F(FilterSet):
+        date = DateFromToRangeFilter()
+
+        class Meta:
+            model = Comment
+            fields = ['date']
+
+    f = F({'date_after': '2016-01-01', 'date_before': '2016-02-01'})
+```
+

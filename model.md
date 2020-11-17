@@ -36,8 +36,7 @@
     ```
     * [null和blank的问题](https://stackoverflow.com/questions/8609192/differentiate-null-true-blank-true-in-django/50015717#50015717)
 
-### Field Types 字段类型
-[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-types)
+### [Field Types 字段类型](https://docs.djangoproject.com/en/3.1/ref/models/fields/#field-types)
 * AutoField, BigAutoField, BigIntegerField, BinaryField
 * [BooleanField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#booleanfield)  
 > before 1.11 version: use NullBooleanField  
@@ -98,7 +97,8 @@ models.EmailField()
 如果是其他的，一般都是存bigint表明要多少microseconds  
 
 * [ ] EmailField
-* #### [FileField](https://docs.djangoproject.com/en/3.0/ref/models/fields/)
+
+#### [FileField](https://docs.djangoproject.com/en/3.0/ref/models/fields/)
 `class FileField(upload_to="uploads/%Y/%m/%d")`
 * [ ] FilePathField
 * [FloatField](https://docs.djangoproject.com/en/2.2/ref/models/fields/#floatfield)
@@ -133,15 +133,18 @@ integer:    1, '1', 不可以是 '2.9', 但是可以是 2.9(之后存入2), 调�
 * SmallIntegerField
 * TextField
 TextField如果定义了max_length, 会影响view和form. 但是在数据库底层实现上没有max_length这个说法.
-* TimeField, URLField, 
-* UUIDField
+* TimeField
+#### URLField  
+其实就是CharField加上了URLValidator,  默认是200个字符长度
+
+#### UUIDField
 ```
 import uuid
 models.UUIDField(default=uuid.uuid4)
 ```
 
 ### [Relationship fields 关联字段][relation]
-#### ForeignKey
+#### [ForeignKey](https://docs.djangoproject.com/en/3.1/ref/models/fields/#foreignkey)
 * Example 例子  
     ```
     def get_default_user():
