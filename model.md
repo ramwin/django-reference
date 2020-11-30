@@ -163,6 +163,7 @@ models.UUIDField(default=uuid.uuid4)
     * models.SET_NULL: `设置为空`
     * models.SET_DEFAULT: `设置为默认`
     * models.SET(): `调用函数`
+    * models.DO_NOTHING: `什么都不做,但是数据库如果限制会有报错`
 
 #### [OneToOneField][onetoone]
 ```
