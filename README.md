@@ -168,6 +168,23 @@ unique, blank, null的用法，歧义解释
 
 ## [Migrations](https://docs.djangoproject.com/en/3.0/#the-model-layer)
 ### [Introduction to Migrations](https://docs.djangoproject.com/en/3.0/topics/migrations)
+### Data Migrations 数据迁移
+```
+python manage.py makemigrations --empty yourappname
+from django.db import migrations
+def combine_names(apps, schema_editor):
+    Person = apps.get("yourappname", "Person")
+    for person in Person.objects.all():
+        person.name = "%s %s" % (person.first_name, person.last_name)
+        person.save()
+class Migration(migrations.Migration):
+    dependencies = [
+        ("yourappname", "0001_initial"),
+    ]
+    operations = [
+        migrations.RunPython(combine_names)
+    ]
+```
 ### [压缩迁移 Squashing migrations](https://docs.djangoproject.com/en/3.0/topics/migrations/#squashing-migrations)
 
 ## [Advanced](./advanced.md)
