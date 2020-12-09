@@ -18,6 +18,9 @@ pip install django-bootstrap4
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
 ```
+
+## [django-redis](./django-redis.md)
+
 ## django-import-export 导入导出功能
 ### Resource
 * 源码剖析
@@ -173,7 +176,7 @@ unique, blank, null的用法，歧义解释
 python manage.py makemigrations --empty yourappname
 from django.db import migrations
 def combine_names(apps, schema_editor):
-    Person = apps.get("yourappname", "Person")
+    Person = apps.get_model("yourappname", "Person")
     for person in Person.objects.all():
         person.name = "%s %s" % (person.first_name, person.last_name)
         person.save()
