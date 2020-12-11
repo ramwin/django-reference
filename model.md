@@ -38,7 +38,7 @@
 
 ### [Field Types 字段类型](https://docs.djangoproject.com/en/3.1/ref/models/fields/#field-types)
 * AutoField, BigAutoField, BigIntegerField, BinaryField
-* [BooleanField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#booleanfield)  
+* [BooleanField](https://docs.djangoproject.com/en/3.1/ref/models/fields/#booleanfield)  
 > before 1.11 version: use NullBooleanField  
 > after 2.0 version: user BooleanField(null=True)
 * CharField
@@ -49,11 +49,11 @@ models.TextField()  # 默认会为""
 models.EmailField()
 # 底层还是 CharField 只不过用 EmailValidator 去校验
 ```
-* #### [DateField](https://docs.djangoproject.com/en/2.1/ref/models/fields/#datefield)
+* #### [DateField](https://docs.djangoproject.com/en/3.1/ref/models/fields/#datefield)
 对于日期,不存在时区的概念,都是直接存入的日期,没有转化成utc
-    * [`auto_now`](https://docs.djangoproject.com/en/2.1/ref/models/fields/#django.db.models.DateField.auto_now)
+    * [`auto_now`](https://docs.djangoproject.com/en/3.1/ref/models/fields/#django.db.models.DateField.auto_now)
     自动保存为当前时间。当调用Model.save()的时候，这个字段会自动更新。如果你不希望更新，就使用QuerySet.update()
-    * [`auto_now_add`](https://docs.djangoproject.com/en/2.1/ref/models/fields/#django.db.models.DateField.auto_now_add)
+    * [`auto_now_add`](https://docs.djangoproject.com/en/3.1/ref/models/fields/#django.db.models.DateField.auto_now_add)
     只有当model第一次创建的时候，自动设置为当前时间。所以后续可以更改。
 
 * #### DateTimeField
@@ -92,7 +92,7 @@ models.EmailField()
         * 有了default就可以不传
         * 如果设置了blank=True, admin页面就能传递None(就算有default也不会设置成default, 而是这是成None), 后台不支持null=True的话就会报错
 * DurationField  
-[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#durationfield)
+[官网](https://docs.djangoproject.com/en/3.1/ref/models/fields/#durationfield)
 时间字段, 返回python里的timedelta. 如果是PostgreSQL, 使用的是interval类型.  
 如果是其他的，一般都是存bigint表明要多少microseconds  
 
@@ -199,7 +199,7 @@ class Person(models.Model):
 
 * through = "ModelRefName"  *可以把中间关联的表拿出来写成model加参数*
 * `through_fields`
-[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#django.db.models.ManyToManyField.through_fields)
+[官网](https://docs.djangoproject.com/en/3.1/ref/models/fields/#django.db.models.ManyToManyField.through_fields)
 `through_fields = ("source_field_name", "target_field_name")`
 当through定义的时候才有效, 如果through的表里面有多个field外键到同一张表, 第一个字段代表那个field代表了自己这个model, 第二个字段代表哪个field代表了manytomany的field
 
@@ -245,7 +245,7 @@ school.students.through.objects.filter(school=school)
 ```
 
 ### [ ] Field attribute reference
-[官网](https://docs.djangoproject.com/en/2.1/ref/models/fields/#field-attribute-reference)
+[官网](https://docs.djangoproject.com/en/3.1/ref/models/fields/#field-attribute-reference)
 
 ### [Field API reference](https://docs.djangoproject.com/en/3.1/ref/models/fields/#field-api-reference)
 
@@ -292,7 +292,7 @@ obj.refresh_from_db()  # reload all the fields
 #### [save][save]
 save的时候，会把model的所有数据全量更新一遍，所以两个线程来了，只会save最后一个的数据
 * 主键有就是update，主键没有就是insert
-* [save的时候发生了什么](https://docs.djangoproject.com/en/2.1/ref/models/instances/#what-happens-when-you-save)
+* [save的时候发生了什么](https://docs.djangoproject.com/en/3.1/ref/models/instances/#what-happens-when-you-save)
     ```
     django.db.models.Model
         def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
@@ -357,11 +357,11 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
 * [ ] extra instance methods 额外方法
 * [ ] other attributes 其他属性
 
-[models]: https://docs.djangoproject.com/en/2.1/topics/db/models/
+[models]: https://docs.djangoproject.com/en/3.1/topics/db/models/
 [options]: http://ramwin.com:8888/ref/models/fields.html#field-options
 [unique-fields-allow-null]: https://stackoverflow.com/questions/454436/unique-fields-that-allow-nulls-in-django
-[method]: https://docs.djangoproject.com/en/2.1/ref/models/instances/
-[save]: https://docs.djangoproject.com/en/2.1/ref/models/instances/#django.db.models.Model.save
+[method]: https://docs.djangoproject.com/en/3.1/ref/models/instances/
+[save]: https://docs.djangoproject.com/en/3.1/ref/models/instances/#django.db.models.Model.save
 [slugfield]: https://docs.djangoproject.com/en/2.2/ref/models/fields/#slugfield
-[relation]: https://docs.djangoproject.com/en/2.1/ref/models/fields/#module-django.db.models.fields.related
-[onetoone]: https://docs.djangoproject.com/en/2.1/ref/models/fields/#onetoonefield
+[relation]: https://docs.djangoproject.com/en/3.1/ref/models/fields/#module-django.db.models.fields.related
+[onetoone]: https://docs.djangoproject.com/en/3.1/ref/models/fields/#onetoonefield
