@@ -8,6 +8,25 @@ the test project is in [rest-framework-test][rest-framework-test] repository
 [官网文档](https://docs.djangoproject.com/en/3.0/)
 
 # 一些有用的插件
+* [django-simple-history](https://django-simple-history.readthedocs.io/en/latest/quick_start.html)  
+利用`post_save`来记录每一次的model变更
+```
+INSTALLED_APPS = [
+    # ...
+    'simple_history',
+]
+MIDDLEWARE = [
+    # ...
+    'simple_history.middleware.HistoryRequestMiddleware',
+]
+from simple_history.models import HistoricalRecords
+class Model(models.Model):
+    history = HistoricalRecords(exclude_fields=["update_datetime"])  # maybe you don't need the update_datetime since the history model contains history_date
+model = Model.objects.first()
+model.history.latest()
+model.as_of(datetime(2021, 1, 1, 0, 0, 0))
+```
+
 * [django-dirtyfields](https://github.com/romgar/django-dirtyfields/)  
 利用`__init__`的时候备份数据，实现知道一个model哪些数据变化了
 
@@ -345,7 +364,8 @@ from __future__ import unicode_literals
 ```
 
 # [常用的网站应用 Common Web application tools][common-tool]
-## [用户认证 Authentication](./auth认证模块.md)
+## [用户认证 权限](./auth认证模块.md)
+Authentication Permission  
 * [已经有了AbstractUser的情况下,自定义user](https://www.caktusgroup.com/blog/2019/04/26/how-switch-custom-django-user-model-mid-project/)
 
 ## cache 缓存系统,
