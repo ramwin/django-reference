@@ -1,6 +1,6 @@
-[官网](https://docs.djangoproject.com/en/2.1/#common-web-application-tools)
+[官网](https://docs.djangoproject.com/en/3.1/#common-web-application-tools)
 
-### Using the authentication system 使用认证系统 [官网](https://docs.djangoproject.com/en/2.1/topics/auth/default/#authentication-in-web-requests)
+### [Using the authentication system 使用认证系统](https://docs.djangoproject.com/en/2.1/topics/auth/default/#authentication-in-web-requests)
 
 #### User objects
 * Authenticating Users  
@@ -24,7 +24,9 @@ u.save()
 `from django.contrib.auth.hashers import make_password`
 
 #### Permissions and Authorization
-##### Programmatically creating permissions
+##### 组 Groups
+
+##### [创建权限](https://docs.djangoproject.com/en/3.1/topics/auth/default/#programmatically-creating-permissions)
 ```
 from myapp.models import BlogPost
 from django.contrib.auth.models import Permission
