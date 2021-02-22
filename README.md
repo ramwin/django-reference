@@ -38,6 +38,16 @@ pip install django-bootstrap4
 {% bootstrap_javascript jquery='full' %}
 ```
 
+## [django-guardian](https://django-guardian.readthedocs.io/en/stable/overview.html)
+权限校验
+```
+from guardian.shortcuts import assign_perm, remove_perm
+assign_perm("basic", user, obj)
+remove_perm("basic", user, obj)
+get_objects_for_user(user, "basic", ModelClass)
+>>> return Queryset
+```
+
 ## [django-redis](./django-redis.md)
 
 ## django-import-export 导入导出功能
