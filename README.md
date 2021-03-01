@@ -149,6 +149,11 @@ remove_perm("basic", user, obj)
 get_objects_for_user(user, "basic", ModelClass)
 >>> return Queryset
 ```
+* get_users_with_perms
+获取有某个对象权限的用户
+```
+get_users_with_perms(obj)
+```
 
 ## [django-simple-history](https://django-simple-history.readthedocs.io/en/latest/quick_start.html)  
 利用`post_save`来记录每一次的model变更
