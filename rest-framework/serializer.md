@@ -250,10 +250,8 @@ def validate_even(self, value):
 返回格式化的数据，注意*如果是外键，会变成model的instance*
 
 #### `to_representation`(self, instance/validated_data)  
-如果直接在`is_valid`后调用`.data`就会导致输入是OrderedDict而不是instance
+* 使用情景
     ```
-    # 返回数据
-
     # 如果要根据不同的instance返回不同的字段怎么办。比如高私密文件就不能看detail
     def to_representation(self, instance):
         if self.context['request'].user.level >= instance.level:
@@ -262,6 +260,16 @@ def validate_even(self, value):
             self.fields.pop('detail')
         return super(Serializer, self).to_representation(instance)
     ```
+* 源码剖析  
+如何返回的dict  
+
+
+    ret = OrderedDict()
+    fields = self._readable_fields
+    for field in fields:
+        attribute = field.get_attribute(instance)
+        ret[field.field_name] = field.to_representation(attribute)
+    return ret
 
 #### save
 ```

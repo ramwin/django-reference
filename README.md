@@ -8,7 +8,149 @@ the test project is in [rest-framework-test][rest-framework-test] repository
 [官网文档](https://docs.djangoproject.com/en/3.0/)
 
 # 一些有用的插件
-* [django-simple-history](https://django-simple-history.readthedocs.io/en/latest/quick_start.html)  
+
+## [django-bootstrap4](https://github.com/zostera/django-bootstrap4)
+```
+pip install django-bootstrap4
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+```
+
+## [django-dirtyfields](https://github.com/romgar/django-dirtyfields/)  
+利用`__init__`的时候备份数据，实现知道一个model哪些数据变化了
+
+## django-import-export 导入导出功能
+
+### Resource
+* 源码剖析
+  ```
+  def import_date():
+      import_data_inner
+  def import_data_inner
+      instance_loader = instance_loaders.ModelInstanceLoader
+      instance_loader = self._meta.instance_loader_class(self, dataset)
+      row_result = self.import_row(
+          row, instance_loader, ...
+      )
+  def import_row(self, row):
+      self.before_import(row, **kwargs)
+      instance, new = self.get_or_init_instance(instance_loader, row)
+      self.import_obj(instance, row, dry_run)
+      self.save_instance(instance, using_transactions, dry_run)
+      self.save_m2m(instance, row, using_transactions, dry_run)
+  def get_or_init_instance(self, instance_loader, row):
+      instance = self.get_instance(instance_loader, row)
+      if instance:
+          return (instance, False)
+      else:
+          return (self.init_instance(row), True)
+  def init_instance(self, row)
+      return self._meta.model()  # ModelResource
+      raise NotImplementedError()
+  def import_obj(self, obj, data, dry_run):
+      for field:
+          self.import_field(field, obj, data)
+  def import_field(self, field, obj, data, is_m2m=False):
+      if field.attribute and field.column_name in data:
+          field.save(obj, data, is_m2m)  # 看下面的Field.save
+  def save_instance(self, instance, using_transactions=True, dry_run=False):
+      self.before_save_instance(instance, using_transactions, dry_unr)
+      if not using_transactions and dry_run:
+          # we don't have transactions and we want to do a dry_run
+          pass
+      else:
+          instance.save()
+      self.after_save_instance(instance, using_transactions, dry_run)
+  ```
+* `Resource.get_instance`
+只有在`get_instance`以后,才会用field的clean方法获取object
+  ```
+  def get_instance(self, instance_loader, row):
+      import_id_fields = [
+          self.fields[f] for f in self.get_import_id_fields()
+      ]
+      for field in import_id_fields:
+          if field.column_name not in row:
+              return
+      return instance_loader.get_instance(row)
+  ```
+### [Field](https://django-import-export.readthedocs.io/en/stable/api_fields.html)
+* 因为源码里是用`__`来split的,注意
+  ```
+  from import_export.fields import Field
+  class Field:
+      def clean(self, data):
+          """
+          Translates the value stored in the imported datasource to an
+          appropriate Python object and returns it.
+          """
+          try:
+              value = data[self.column_name]
+          except KeyError:
+              raise KeyError("Column '%s' not found in dataset. Available "
+                             "columns are: %s" % (self.column_name, list(data)))
+
+          # If ValueError is raised here, import_obj() will handle it
+          value = self.widget.clean(value, row=data)
+
+          if value in self.empty_values and self.default != NOT_PROVIDED:
+              if callable(self.default):
+                  return self.default()
+              return self.default
+
+          return value
+      def save(self, obj, data, is_m2m=False):
+          if not self.readonly:
+              attrs = self.attribute.split("__")
+              for attr in attrs[:-1]:
+                  obj = getattr(obj, attr, None)
+              cleaned = self.clean(data)
+              if cleaned is not None or self.saves_null_values:
+                  if not is_m2m:
+                      setattr(obj, attrs[-1], cleaned)
+                  else:
+                      getattr(obj, attrs[-1]).set(cleaned)
+      def export(self, obj):
+          value = self.get_value(obj)
+          if value is None:
+              return ""
+          return self.widget.render(value, obj)
+      def get_value(self, obj):
+          attrs = self.attribute.splic("__")
+          value = obj
+          for attr in attrs:
+              value = getattr(value, attr, None)
+          return value
+  ```
+### ModelInstanceLoader
+* 源码剖析
+  ```
+  def get_instance(self, row):  # 用来修改数据的
+      for key in self.resource.get_import_id_fields():
+          field = self.resource.fields[key]
+          params[field.attribute] = field.clean(row)
+  ```
+
+## [django-guardian](https://django-guardian.readthedocs.io/en/stable/)
+设置一个model对象的权限
+
+### User Guide
+* 校验权限
+user.has_perm("vip", obj)
+
+### Shortcuts
+* assign_perm(perm, user_or_group, obj)
+* remove_perm(perm, user_or_group, obj)
+```
+from guardian.shortcuts import assign_perm, remove_perm
+assign_perm("basic", user, obj)
+remove_perm("basic", user, obj)
+get_objects_for_user(user, "basic", ModelClass)
+>>> return Queryset
+```
+
+## [django-simple-history](https://django-simple-history.readthedocs.io/en/latest/quick_start.html)  
 利用`post_save`来记录每一次的model变更
 ```
 INSTALLED_APPS = [
@@ -36,16 +178,6 @@ pip install django-bootstrap4
 {% load bootstrap4 %}
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %}
-```
-
-## [django-guardian](https://django-guardian.readthedocs.io/en/stable/overview.html)
-权限校验
-```
-from guardian.shortcuts import assign_perm, remove_perm
-assign_perm("basic", user, obj)
-remove_perm("basic", user, obj)
-get_objects_for_user(user, "basic", ModelClass)
->>> return Queryset
 ```
 
 ## [django-redis](./django-redis.md)
@@ -214,7 +346,7 @@ class Migration(migrations.Migration):
         ("yourappname", "0001_initial"),
     ]
     operations = [
-        migrations.RunPython(combine_names)
+        migrations.RunPython(combine_names, reverse_core=migrations.RunPython.noop)
     ]
 ```
 ### [压缩迁移 Squashing migrations](https://docs.djangoproject.com/en/3.0/topics/migrations/#squashing-migrations)
