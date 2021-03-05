@@ -381,7 +381,8 @@ request.FILES['file']
 
 ## [Class-based View](./classbaseView.md)
 
-## Middleware
+## [Middleware](https://docs.djangoproject.com/en/3.1/topics/http/middleware/)
+* 编写自己的Middleware
 ```
 def simple_middleware(get_response):
     # One-time configuration and initialization.
@@ -399,6 +400,12 @@ def simple_middleware(get_response):
 
     return middleware
 ```
+### 内置的middleware
+* CommonMiddleware
+  * 禁止Disallowed_user_agents访问
+  * 自动append_slash和prepend_www
+  * 设置Content-Length
+
 
 # [The template layer 模板](templates.md)
 
