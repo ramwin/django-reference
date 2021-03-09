@@ -19,6 +19,16 @@ from datetime import timedelta
 Entry.objects.filter(mod_date__gt=F('pub_date') + timedelta(days=3))  找到发布3天后，仍然被修改的书籍
 ```
 * [ ] The pk lookup shortcut
+
+#### [删除数据](https://docs.djangoproject.com/en/3.1/topics/db/queries/#deleting-objects)
+* [查询关联的删除](https://stackoverflow.com/questions/26807858/how-can-i-check-what-objects-will-be-cascade-deleted-in-django/66540097#66540097)
+```
+from django.contrib.admin.utils import NestedObjects
+nested_object = NestedObjects("default")
+nested_object.collect([Item])
+print(nested_object.nested())
+```
+
 #### 待整理
 一些基础的知识，创建数据，删除数据等等
 * 查看查询的SQL语句
