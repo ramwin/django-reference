@@ -337,6 +337,7 @@ unique, blank, null的用法，歧义解释
 
 ## [Migrations](https://docs.djangoproject.com/en/3.0/#the-model-layer)
 ### [Introduction to Migrations](https://docs.djangoproject.com/en/3.0/topics/migrations)
+
 ### Data Migrations 数据迁移
 ```
 python manage.py makemigrations --empty yourappname
@@ -351,7 +352,7 @@ class Migration(migrations.Migration):
         ("yourappname", "0001_initial"),
     ]
     operations = [
-        migrations.RunPython(combine_names, reverse_core=migrations.RunPython.noop)
+        migrations.RunPython(combine_names, reverse_code=migrations.RunPython.noop)
     ]
 ```
 ### [压缩迁移 Squashing migrations](https://docs.djangoproject.com/en/3.0/topics/migrations/#squashing-migrations)
