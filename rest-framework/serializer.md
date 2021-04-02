@@ -122,7 +122,15 @@ def validate(self, data):
     return data  # 这个data必须返回。返回后会当作serializer的 _validated_data
 ```
 
-#### [ ] validators
+#### validators
+* 源码剖析
+```
+self.run_validation(self, data=empty) =>
+  self.run_validators(value) =>
+    Field.run_validators:
+      for validator in self.validators:
+        validator(value)
+```
 
 ### 属性和方法
 
@@ -515,8 +523,7 @@ regex=r'^tmp-\d+\'
 ```
 advantages = serializers.ListField(child=serializers.CharField())
 or
-# 写成declarative格式,来方便复用这个listfield
-class StringListField(serializers.ListField):
+class StringListField(serializers.ListField): # 写成declarative格式,来方便复用这个listfield
     child = serializers.CharField()
 ```
     * `child`

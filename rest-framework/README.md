@@ -1,40 +1,40 @@
-[rest-framework官网](https://www.django-rest-framework.org/)
-<head>
-  <title>rest-framework</title>
-</head>
-
 ## [Views](./view.md)
 
 ## Generic Views
 ## GenericAPIView
 ### Methods
+
 * `get_serializer(self, instance=None, data=None, many=False, partial=False)`  
 返回serializer。
-```
-def get_serializer(self, *args, **kwargs):
-    """
-    Return the serializer instance that should be used for validating and
-    deserializing input, and for serializing output.
-    """
-    serializer_class = self.get_serializer_class()
-    kwargs['context'] = self.get_serializer_context()
-    return serializer_class(*args, **kwargs)
-```
-* `filter_queryset(self, queryset)`
-```
-for backend in list(self.filter_backends):
-    queryset = backend().filter_queryset(self.request, queryset, self)
-return queryset
-```
+
+
+    def get_serializer(self, *args, **kwargs):
+        """
+        Return the serializer instance that should be used for validating and
+        deserializing input, and for serializing output.
+        """
+        serializer_class = self.get_serializer_class()
+        kwargs['context'] = self.get_serializer_context()
+        return serializer_class(*args, **kwargs)
+
+
+* `filter_queryset(self, queryset)`  
+
+
+    for backend in list(self.filter_backends):
+        queryset = backend().filter_queryset(self.request, queryset, self)
+    return queryset
+
+
     * DjangoFilterBackend
-    ```
+
+
     def get_filterset(self, request, queryset, view):
         filterset_class = self.get_filterset_class(view, queryset)
         if filterset_class is None:
             return None
         kwargs = self.get_filterset_kwargs(request, queryset, view)
         return filterset_class(**kwargs)
-
     def get_filterset_class(self, view, queryset=None):
         """
         return the `FilterSet` class used to filter the queryset
@@ -52,7 +52,6 @@ return queryset
                     fileds = filterset_fields
             return AutoFilterSet
         return None
-
     def filter_queryset(self, request, queryset, view):
         filterset = self.get_filterset(request, queryset, view)
         if filterset is None
@@ -60,64 +59,90 @@ return queryset
         if not filterset.is_valid() and self.raise_exception:
             raise utils.translate_validation(filterset.errors)
         return filterset.qs
-    ```
 
-### Mixins
+
+### Mixin
+
 [官网](https://www.django-rest-framework.org/api-guide/generic-views/#mixins)
 * ListModelMixin
-```
-class ListModelMixin(object):
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        page = self.paginate_queryset(queryset)
-        if page is not None
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-```
+
+
+    class ListModelMixin(object):
+        def list(self, request, *args, **kwargs):
+            queryset = self.filter_queryset(self.get_queryset())
+            page = self.paginate_queryset(queryset)
+            if page is not None
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
+
+
 * CreateModalMixin  
 如果成功，返回201以及创建好的数据。如果数据里面有url，就在header里面加location [参考](https://en.wikipedia.org/wiki/HTTP_location)
-```
-class CreateModalMixin(object):
-    """
-    Create a model instance.
-    """
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-    def perform_create(self, serializer):
-        serializer.save()
 
-    def get_success_headers(self, data):
-        try:
-            return {'Location': str(data[api_settings.URL_FIELD_NAME])}
-        except (TypeError, KeyError):
-            return {}
-```
+    class CreateModalMixin(object):
+        """
+        Create a model instance.
+        """
+        def create(self, request, *args, **kwargs):
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+        def perform_create(self, serializer):
+            serializer.save()
+
+        def get_success_headers(self, data):
+            try:
+                return {'Location': str(data[api_settings.URL_FIELD_NAME])}
+            except (TypeError, KeyError):
+                return {}
+
+
 * RetrieveModelMixin
-```
-class RetrieveModelMixin(object):
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
-```
+
+
+    class RetrieveModelMixin(object):
+        def retrieve(self, request, *args, **kwargs):
+            instance = self.get_object()
+            serializer = self.get_serializer(instance)
+            return Response(serializer.data)
+
 
 ## [ViewSets](https://www.django-rest-framework.org/api-guide/viewsets/)
-```
-class UserViewSet(viewsets.ViewSet):
-    
-from rest_framework import mixins
-from rest_framework import viewsets
 
-class MyViewSet(mixins.RetrieveModelMixin,
-                viewsets.GenericViewSet)
-```
+* 基础
+
+    class UserViewSet(viewsets.ViewSet):
+        
+    from rest_framework import mixins
+    from rest_framework import viewsets
+
+    class MyViewSet(mixins.RetrieveModelMixin,
+                    viewsets.GenericViewSet)
+
+### [添加额外接口 Marking extra actions for routing][extra-action]
+
+    from rest_framework.decorators import action
+    @action(detail=True, methods=["post"], url_path='customer')
+    def set_password(self, request):
+        return
+
+* `url_path`  
+action对应的url, 默认为函数名称
+
+
+    def decorator(func): 
+        ...
+        func.url_path = url_path if url_path else func.__name__
+        func.url_name = url_name if url_name else func.__name__.replace('_', '-')
+        ...
+    return decorator
+
 
 ### ViewSet actions
 通过`self.action`可以知道当前的请求的状态，根据这个状态来判断不同的序列化类
@@ -144,7 +169,9 @@ class APIViewSet(mixins.CreateModalMixin, GenericViewSet):
 ### ModelSerializer
 
 ## Authentication
+
 ### TokenAuthentication
+安装
 ```
 INSTALLED_APPS = [
     ...
@@ -235,3 +262,6 @@ self.assertEqual(res.json()["id"], 1)
 ```
 
 ## Settings
+
+
+[extra-action]: https://www.django-rest-framework.org/api-guide/viewsets/#marking-extra-actions-for-routing
