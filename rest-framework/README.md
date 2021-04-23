@@ -263,5 +263,30 @@ self.assertEqual(res.json()["id"], 1)
 
 ## Settings
 
+    REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+            'rest_framework.authentication.TokenAuthentication',
+            'rest_framework.authentication.BasicAuthentication',
+            # 'rest_framework.authentication.SessionAuthentication',
+            "rest_extensions.authentication.SessionAuthentication",
+        ),
+        "DEFAULT_RENDERER_CLASS": {
+            "rest_framework.renderers.JSONRenderer",
+            "rest_framework.renderers.TemplateHTMLRenderer",
+            "rest_framework.renderers.BrowsableAPIRenderer",
+        },
+        'DEFAULT_FILTER_BACKENDS': (
+            'django_filters.rest_framework.DjangoFilterBackend',
+            'rest_framework.filters.OrderingFilter',
+            'rest_framework.filters.SearchFilter',  # 需要在viewset设置了search_fields才会生效哦
+        ),
+        "DEFAULT_PERMISSION_CLASSES": (
+            "rest_framework.permissions.IsAuthenticated",
+        ),
+        "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+        "PAGE_SIZE": 10,
+    }
+
 
 [extra-action]: https://www.django-rest-framework.org/api-guide/viewsets/#marking-extra-actions-for-routing
+[settings]: https://www.django-rest-framework.org/api-guide/settings/
