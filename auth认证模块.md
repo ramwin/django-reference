@@ -84,6 +84,13 @@ class MyView(LoginRequiredMixin, View):
 
 ### [自定义认证系统][自定义认证系统]
 
+
+    from django.contrib.auth.admin import UserAdmin
+    @admin.register(user)
+    class MyUserAdmin(UserAdmin):
+        pass
+
+
 #### 自定义User取代
 使用一个app里面的User来替换django的User
 ##### 引用User
