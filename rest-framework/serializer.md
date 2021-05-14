@@ -369,6 +369,7 @@ def update(self, instance, validated_data):
     * [ ] initial
     * [ ] style
 * #### [CharField](http://www.django-rest-framework.org/api-guide/fields/#charfield)
+每秒大概可以转化 3E6 条数据
     * 参数
         * `trim_whitespace`: *默认`True`, 把字符的前后空白字符删除*
         * `max_length`, `min_length`, `allow_blank`, `trim_whitespace`, `allow_null`
