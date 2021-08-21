@@ -132,6 +132,20 @@ class Migration(migrations.Migration):
 ### [压缩迁移 Squashing migrations](https://docs.djangoproject.com/en/3.0/topics/migrations/#squashing-migrations)
 
 ## [Advanced](./advanced.md)
+### Transactions 事务
+[链接](https://docs.djangoproject.com/en/3.2/topics/db/transactions/)
+
+    ```
+    from django.db import transaction
+
+    @transaction.atomic
+    def viewfunc(request):
+        do_stuff()
+
+    with transaction.atomic():
+        do_more_stuff()
+    ```
+
 ### [ ] Managers
 ### [ ] Custom lookups
 ### [Multiple databases](https://docs.djangoproject.com/en/3.0/topics/db/multi-db/)
