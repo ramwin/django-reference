@@ -287,6 +287,9 @@ self.assertEqual(res.json()["id"], 1)
         "PAGE_SIZE": 10,
     }
 
+## 其他
+* [swagger](http://api-docs.easemob.com/#/)
+
 
 [extra-action]: https://www.django-rest-framework.org/api-guide/viewsets/#marking-extra-actions-for-routing
 [settings]: https://www.django-rest-framework.org/api-guide/settings/

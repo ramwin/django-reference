@@ -20,118 +20,7 @@ pip install django-bootstrap4
 ## [django-dirtyfields](https://github.com/romgar/django-dirtyfields/)  
 利用`__init__`的时候备份数据，实现知道一个model哪些数据变化了
 
-## django-import-export 导入导出功能
-
-### Resource
-* 源码剖析
-  ```
-  def import_date():
-      import_data_inner
-  def import_data_inner
-      instance_loader = instance_loaders.ModelInstanceLoader
-      instance_loader = self._meta.instance_loader_class(self, dataset)
-      row_result = self.import_row(
-          row, instance_loader, ...
-      )
-  def import_row(self, row):
-      self.before_import(row, **kwargs)
-      instance, new = self.get_or_init_instance(instance_loader, row)
-      self.import_obj(instance, row, dry_run)
-      self.save_instance(instance, using_transactions, dry_run)
-      self.save_m2m(instance, row, using_transactions, dry_run)
-  def get_or_init_instance(self, instance_loader, row):
-      instance = self.get_instance(instance_loader, row)
-      if instance:
-          return (instance, False)
-      else:
-          return (self.init_instance(row), True)
-  def init_instance(self, row)
-      return self._meta.model()  # ModelResource
-      raise NotImplementedError()
-  def import_obj(self, obj, data, dry_run):
-      for field:
-          self.import_field(field, obj, data)
-  def import_field(self, field, obj, data, is_m2m=False):
-      if field.attribute and field.column_name in data:
-          field.save(obj, data, is_m2m)  # 看下面的Field.save
-  def save_instance(self, instance, using_transactions=True, dry_run=False):
-      self.before_save_instance(instance, using_transactions, dry_unr)
-      if not using_transactions and dry_run:
-          # we don't have transactions and we want to do a dry_run
-          pass
-      else:
-          instance.save()
-      self.after_save_instance(instance, using_transactions, dry_run)
-  ```
-* `Resource.get_instance`
-只有在`get_instance`以后,才会用field的clean方法获取object
-  ```
-  def get_instance(self, instance_loader, row):
-      import_id_fields = [
-          self.fields[f] for f in self.get_import_id_fields()
-      ]
-      for field in import_id_fields:
-          if field.column_name not in row:
-              return
-      return instance_loader.get_instance(row)
-  ```
-### [Field](https://django-import-export.readthedocs.io/en/stable/api_fields.html)
-* 因为源码里是用`__`来split的,注意
-  ```
-  from import_export.fields import Field
-  class Field:
-      def clean(self, data):
-          """
-          Translates the value stored in the imported datasource to an
-          appropriate Python object and returns it.
-          """
-          try:
-              value = data[self.column_name]
-          except KeyError:
-              raise KeyError("Column '%s' not found in dataset. Available "
-                             "columns are: %s" % (self.column_name, list(data)))
-
-          # If ValueError is raised here, import_obj() will handle it
-          value = self.widget.clean(value, row=data)
-
-          if value in self.empty_values and self.default != NOT_PROVIDED:
-              if callable(self.default):
-                  return self.default()
-              return self.default
-
-          return value
-      def save(self, obj, data, is_m2m=False):
-          if not self.readonly:
-              attrs = self.attribute.split("__")
-              for attr in attrs[:-1]:
-                  obj = getattr(obj, attr, None)
-              cleaned = self.clean(data)
-              if cleaned is not None or self.saves_null_values:
-                  if not is_m2m:
-                      setattr(obj, attrs[-1], cleaned)
-                  else:
-                      getattr(obj, attrs[-1]).set(cleaned)
-      def export(self, obj):
-          value = self.get_value(obj)
-          if value is None:
-              return ""
-          return self.widget.render(value, obj)
-      def get_value(self, obj):
-          attrs = self.attribute.splic("__")
-          value = obj
-          for attr in attrs:
-              value = getattr(value, attr, None)
-          return value
-  ```
-### ModelInstanceLoader
-* 源码剖析
-  ```
-  def get_instance(self, row):  # 用来修改数据的
-      for key in self.resource.get_import_id_fields():
-          field = self.resource.fields[key]
-          params[field.attribute] = field.clean(row)
-  ```
-
+## [django-import-export 导入导出功能](./import-export导入导出.md)
 ## [django-guardian](https://django-guardian.readthedocs.io/en/stable/)
 设置一个model对象的权限
 
@@ -157,163 +46,47 @@ get_users_with_perms(obj)
 
 ## [django-simple-history](https://django-simple-history.readthedocs.io/en/latest/quick_start.html)  
 利用`post_save`来记录每一次的model变更
-```
-INSTALLED_APPS = [
-    # ...
-    'simple_history',
-]
-MIDDLEWARE = [
-    # ...
-    'simple_history.middleware.HistoryRequestMiddleware',
-]
-from simple_history.models import HistoricalRecords
-class Model(models.Model):
-    history = HistoricalRecords(exclude_fields=["update_datetime"])  # maybe you don't need the update_datetime since the history model contains history_date
-model = Model.objects.first()
-model.history.latest()
-model.as_of(datetime(2021, 1, 1, 0, 0, 0))
-```
+    INSTALLED_APPS = [
+        # ...
+        'simple_history',
+    ]
+    MIDDLEWARE = [
+        # ...
+        'simple_history.middleware.HistoryRequestMiddleware',
+    ]
+    from simple_history.models import HistoricalRecords
+    class Model(models.Model):
+        history = HistoricalRecords(exclude_fields=["update_datetime"])  # maybe you don't need the update_datetime since the history model contains history_date
+    model = Model.objects.first()
+    model.history.latest()
+    model.as_of(datetime(2021, 1, 1, 0, 0, 0))
 
-* [django-dirtyfields](https://github.com/romgar/django-dirtyfields/)  
+## [django-dirtyfields](https://github.com/romgar/django-dirtyfields/)  
 利用`__init__`的时候备份数据，实现知道一个model哪些数据变化了
 
-* [django-bootstrap4](https://github.com/zostera/django-bootstrap4)
-```
-pip install django-bootstrap4
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
-```
+## [django-bootstrap4](https://github.com/zostera/django-bootstrap4)
+
+    pip install django-bootstrap4
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
 
 ## [django-redis](./django-redis.md)
 
-## django-import-export 导入导出功能
-### Resource
-* 源码剖析
-```
-def import_date():
-    import_data_inner
-def import_data_inner
-    instance_loader = instance_loaders.ModelInstanceLoader
-    instance_loader = self._meta.instance_loader_class(self, dataset)
-    row_result = self.import_row(
-        row, instance_loader, ...
-    )
-def import_row(self, row):
-    self.before_import(row, **kwargs)
-    instance, new = self.get_or_init_instance(instance_loader, row)
-    self.import_obj(instance, row, dry_run)
-    self.save_instance(instance, using_transactions, dry_run)
-    self.save_m2m(instance, row, using_transactions, dry_run)
-def get_or_init_instance(self, instance_loader, row):
-    instance = self.get_instance(instance_loader, row)
-    if instance:
-        return (instance, False)
-    else:
-        return (self.init_instance(row), True)
-def init_instance(self, row)
-    return self._meta.model()  # ModelResource
-    raise NotImplementedError()
-def import_obj(self, obj, data, dry_run):
-    for field:
-        self.import_field(field, obj, data)
-def import_field(self, field, obj, data, is_m2m=False):
-    if field.attribute and field.column_name in data:
-        field.save(obj, data, is_m2m)  # 看下面的Field.save
-def save_instance(self, instance, using_transactions=True, dry_run=False):
-    self.before_save_instance(instance, using_transactions, dry_unr)
-    if not using_transactions and dry_run:
-        # we don't have transactions and we want to do a dry_run
-        pass
-    else:
-        instance.save()
-    self.after_save_instance(instance, using_transactions, dry_run)
-```
-* `Resource.get_instance`
-只有在`get_instance`以后,才会用field的clean方法获取object
-```
-def get_instance(self, instance_loader, row):
-    import_id_fields = [
-        self.fields[f] for f in self.get_import_id_fields()
-    ]
-    for field in import_id_fields:
-        if field.column_name not in row:
-            return
-    return instance_loader.get_instance(row)
-```
-### [Field](https://django-import-export.readthedocs.io/en/stable/api_fields.html)
-* 因为源码里是用`__`来split的,注意
-```
-from import_export.fields import Field
-class Field:
-    def clean(self, data):
-        """
-        Translates the value stored in the imported datasource to an
-        appropriate Python object and returns it.
-        """
-        try:
-            value = data[self.column_name]
-        except KeyError:
-            raise KeyError("Column '%s' not found in dataset. Available "
-                           "columns are: %s" % (self.column_name, list(data)))
-
-        # If ValueError is raised here, import_obj() will handle it
-        value = self.widget.clean(value, row=data)
-
-        if value in self.empty_values and self.default != NOT_PROVIDED:
-            if callable(self.default):
-                return self.default()
-            return self.default
-
-        return value
-    def save(self, obj, data, is_m2m=False):
-        if not self.readonly:
-            attrs = self.attribute.split("__")
-            for attr in attrs[:-1]:
-                obj = getattr(obj, attr, None)
-            cleaned = self.clean(data)
-            if cleaned is not None or self.saves_null_values:
-                if not is_m2m:
-                    setattr(obj, attrs[-1], cleaned)
-                else:
-                    getattr(obj, attrs[-1]).set(cleaned)
-    def export(self, obj):
-        value = self.get_value(obj)
-        if value is None:
-            return ""
-        return self.widget.render(value, obj)
-    def get_value(self, obj):
-        attrs = self.attribute.splic("__")
-        value = obj
-        for attr in attrs:
-            value = getattr(value, attr, None)
-        return value
-```
-### ModelInstanceLoader
-```
-def get_instance(self, row):  # 用来修改数据的
-    for key in self.resource.get_import_id_fields():
-        field = self.resource.fields[key]
-        params[field.attribute] = field.clean(row)
-```
-
-# [django-rest-framework](./rest-framework/README.md)
-* ## [swagger](http://api-docs.easemob.com/#/)
-* ## [serializer](./rest-framework/serializer.md)
-* ## [filters](./rest-framework/filter.md)
-* ## [views](./rest-framework/view.md)
+# django-rest-framework
+[参考](./rest-framework/README.md)
 
 # FAQ
 ## Databases and models
 * How can I see the raw SQL queries Django is running? 查看queryset的sql语句
 使用connection.queries
-```
-DEBUG模式
-from django.db import connection
-connection.queires
-from djabgo.db import reset_queries
-reset_queries()  # 清空query
-```
+
+    DEBUG模式
+    from django.db import connection
+    connection.queires
+    from djabgo.db import reset_queries
+    reset_queries()  # 清空query
+
 或者使用`print(queryset.query)` `queryset.query.sql_with_params()` [stackoverflow链接](https://stackoverflow.com/questions/1074212/how-can-i-see-the-raw-sql-queries-django-is-running)
 
 # Topic guides
@@ -335,7 +108,8 @@ unique, blank, null的用法，歧义解释
 
 ## [QuerySets](./queryset.md)
 
-## [Migrations](https://docs.djangoproject.com/en/3.0/#the-model-layer)
+## Migrations
+[链接](https://docs.djangoproject.com/en/3.0/#the-model-layer)
 ### [Introduction to Migrations](https://docs.djangoproject.com/en/3.0/topics/migrations)
 
 ### Data Migrations 数据迁移
@@ -401,6 +175,7 @@ def simple_middleware(get_response):
 
     return middleware
 ```
+
 ### 内置的middleware
 * CommonMiddleware
   * 禁止Disallowed_user_agents访问
@@ -413,6 +188,7 @@ def simple_middleware(get_response):
 # [Forms 表单](https://docs.djangoproject.com/en/2.1/#forms)
 
 ## [Form API](https://docs.djangoproject.com/en/2.1/ref/forms/api/#)
+
 ### [Using forms to validate data](https://docs.djangoproject.com/en/2.1/ref/forms/api/#using-forms-to-validate-data)
 * attribute
     * errors  *具体的报错信息*
@@ -422,6 +198,7 @@ def simple_middleware(get_response):
     ```
 * method
     * `clean()`  *其实就是调用了clean_data*
+
 ## Built-in fields
 * FileField
 
@@ -487,7 +264,7 @@ def simple_middleware(get_response):
     * MultipleObjectsReturned
     * PermissionDenied()
 
-* ## django-admin and manage.py
+## django-admin and manage.py
 ### [customcommand 自定义指令](./customcommand.md)
 
 ## [Testing 测试](./test测试.md)
