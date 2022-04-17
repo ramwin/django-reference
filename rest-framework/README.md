@@ -8,80 +8,85 @@
 返回serializer。
 
 
-    def get_serializer(self, *args, **kwargs):
-        """
-        Return the serializer instance that should be used for validating and
-        deserializing input, and for serializing output.
-        """
-        serializer_class = self.get_serializer_class()
-        kwargs['context'] = self.get_serializer_context()
-        return serializer_class(*args, **kwargs)
+```
+def get_serializer(self, *args, **kwargs):
+    """
+    Return the serializer instance that should be used for validating and
+    deserializing input, and for serializing output.
+    """
+    serializer_class = self.get_serializer_class()
+    kwargs['context'] = self.get_serializer_context()
+    return serializer_class(*args, **kwargs)
+```
 
 
 * `filter_queryset(self, queryset)`  
 
-
-    for backend in list(self.filter_backends):
-        queryset = backend().filter_queryset(self.request, queryset, self)
-    return queryset
-
-
-    * DjangoFilterBackend
+```
+for backend in list(self.filter_backends):
+    queryset = backend().filter_queryset(self.request, queryset, self)
+return queryset
+```
 
 
-    def get_filterset(self, request, queryset, view):
-        filterset_class = self.get_filterset_class(view, queryset)
-        if filterset_class is None:
-            return None
-        kwargs = self.get_filterset_kwargs(request, queryset, view)
-        return filterset_class(**kwargs)
-    def get_filterset_class(self, view, queryset=None):
-        """
-        return the `FilterSet` class used to filter the queryset
-        """
-        filterset_class = getattr(view, 'filterset_class', None)
-        filterset_fields = getattr(view, 'filterset_fields', None)
-        if filterset_class:
-            使用这个filterset_class
-        if filterset_fields and queryset is not None:
-            MetaBase = getattr(self.filterset_base, "Meta", object)
+* DjangoFilterBackend
 
-            class AutoFilterSet(self.filterset_base):
-                class Meta(MetaBase):
-                    mode = queryset.model
-                    fileds = filterset_fields
-            return AutoFilterSet
+```
+def get_filterset(self, request, queryset, view):
+    filterset_class = self.get_filterset_class(view, queryset)
+    if filterset_class is None:
         return None
-    def filter_queryset(self, request, queryset, view):
-        filterset = self.get_filterset(request, queryset, view)
-        if filterset is None
-            return queryset
-        if not filterset.is_valid() and self.raise_exception:
-            raise utils.translate_validation(filterset.errors)
-        return filterset.qs
+    kwargs = self.get_filterset_kwargs(request, queryset, view)
+    return filterset_class(**kwargs)
+def get_filterset_class(self, view, queryset=None):
+    """
+    return the `FilterSet` class used to filter the queryset
+    """
+    filterset_class = getattr(view, 'filterset_class', None)
+    filterset_fields = getattr(view, 'filterset_fields', None)
+    if filterset_class:
+        使用这个filterset_class
+    if filterset_fields and queryset is not None:
+        MetaBase = getattr(self.filterset_base, "Meta", object)
 
+        class AutoFilterSet(self.filterset_base):
+            class Meta(MetaBase):
+                mode = queryset.model
+                fileds = filterset_fields
+        return AutoFilterSet
+    return None
+def filter_queryset(self, request, queryset, view):
+    filterset = self.get_filterset(request, queryset, view)
+    if filterset is None
+        return queryset
+    if not filterset.is_valid() and self.raise_exception:
+        raise utils.translate_validation(filterset.errors)
+    return filterset.qs
+```
 
 ### Mixin
 
 [官网](https://www.django-rest-framework.org/api-guide/generic-views/#mixins)
 * ListModelMixin
 
-
-    class ListModelMixin(object):
-        def list(self, request, *args, **kwargs):
-            queryset = self.filter_queryset(self.get_queryset())
-            page = self.paginate_queryset(queryset)
-            if page is not None
-                serializer = self.get_serializer(page, many=True)
-                return self.get_paginated_response(serializer.data)
-            serializer = self.get_serializer(queryset, many=True)
-            return Response(serializer.data)
+```
+class ListModelMixin(object):
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+```
 
 
 * CreateModalMixin  
 如果成功，返回201以及创建好的数据。如果数据里面有url，就在header里面加location [参考](https://en.wikipedia.org/wiki/HTTP_location)
 
 
+```
     class CreateModalMixin(object):
         """
         Create a model instance.
@@ -101,22 +106,26 @@
                 return {'Location': str(data[api_settings.URL_FIELD_NAME])}
             except (TypeError, KeyError):
                 return {}
+```
 
 
 * RetrieveModelMixin
 
 
+```
     class RetrieveModelMixin(object):
         def retrieve(self, request, *args, **kwargs):
             instance = self.get_object()
             serializer = self.get_serializer(instance)
             return Response(serializer.data)
+```
 
 
 ## [ViewSets](https://www.django-rest-framework.org/api-guide/viewsets/)
 
 * 基础
 
+```
     class UserViewSet(viewsets.ViewSet):
         
     from rest_framework import mixins
@@ -124,24 +133,29 @@
 
     class MyViewSet(mixins.RetrieveModelMixin,
                     viewsets.GenericViewSet)
+```
 
 ### [添加额外接口 Marking extra actions for routing][extra-action]
 
+```
     from rest_framework.decorators import action
     @action(detail=True, methods=["post"], url_path='customer')
     def set_password(self, request):
         return
+```
 
 * `url_path`  
 action对应的url, 默认为函数名称
 
 
+```
     def decorator(func): 
         ...
         func.url_path = url_path if url_path else func.__name__
         func.url_name = url_name if url_name else func.__name__.replace('_', '-')
         ...
     return decorator
+```
 
 
 ### ViewSet actions

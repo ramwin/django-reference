@@ -1,5 +1,8 @@
 ## django-import-export 导入导出功能
 
+[官网](https://django-import-export.readthedocs.io/en/latest/)
+[github](https://github.com/django-import-export/django-import-export)
+
 ### Resource
 * 源码剖析
   ```

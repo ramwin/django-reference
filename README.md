@@ -2,10 +2,9 @@ Xiang Wang @ 2017-01-23 14:05:03
 
 [A quick reference for django][django-reference] 
 the test project is in [rest-framework-test][rest-framework-test] repository  
-建议使用markdown工具打开[原始文件][raw]，
-直接看的话因为github的每一级菜单字体太接近了，所以看上去会有点混乱
 
-[官网文档](https://docs.djangoproject.com/en/3.0/)
+[官网文档](https://docs.djangoproject.com/en/3.0/)  
+[django-rest-framework](./rest-framework/README.md)  
 
 # 一些有用的插件
 
@@ -46,20 +45,22 @@ get_users_with_perms(obj)
 
 ## [django-simple-history](https://django-simple-history.readthedocs.io/en/latest/quick_start.html)  
 利用`post_save`来记录每一次的model变更
-    INSTALLED_APPS = [
-        # ...
-        'simple_history',
-    ]
-    MIDDLEWARE = [
-        # ...
-        'simple_history.middleware.HistoryRequestMiddleware',
-    ]
-    from simple_history.models import HistoricalRecords
-    class Model(models.Model):
-        history = HistoricalRecords(exclude_fields=["update_datetime"])  # maybe you don't need the update_datetime since the history model contains history_date
-    model = Model.objects.first()
-    model.history.latest()
-    model.as_of(datetime(2021, 1, 1, 0, 0, 0))
+```
+INSTALLED_APPS = [
+    # ...
+    'simple_history',
+]
+MIDDLEWARE = [
+    # ...
+    'simple_history.middleware.HistoryRequestMiddleware',
+]
+from simple_history.models import HistoricalRecords
+class Model(models.Model):
+    history = HistoricalRecords(exclude_fields=["update_datetime"])  # maybe you don't need the update_datetime since the history model contains history_date
+model = Model.objects.first()
+model.history.latest()
+model.as_of(datetime(2021, 1, 1, 0, 0, 0))
+```
 
 ## [django-dirtyfields](https://github.com/romgar/django-dirtyfields/)  
 利用`__init__`的时候备份数据，实现知道一个model哪些数据变化了
@@ -73,8 +74,7 @@ get_users_with_perms(obj)
 
 ## [django-redis](./django-redis.md)
 
-# django-rest-framework
-[参考](./rest-framework/README.md)
+# [django-rest-framework](./rest-framework/README.md)
 
 # FAQ
 ## Databases and models
