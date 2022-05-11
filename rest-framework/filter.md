@@ -1,8 +1,42 @@
-Xiang Wang @ 2017-03-01 10:04:45
+*Xiang Wang @ 2017-03-01 10:04:45*
 
+# DjangoFilterBackend
+```
+def get_filterset(self, request, queryset, view):
+    filterset_class = self.get_filterset_class(view, queryset)
+    if filterset_class is None:
+        return None
+    kwargs = self.get_filterset_kwargs(request, queryset, view)
+    return filterset_class(**kwargs)
+def get_filterset_class(self, view, queryset=None):
+    """
+    return the `FilterSet` class used to filter the queryset
+    """
+    filterset_class = getattr(view, 'filterset_class', None)
+    filterset_fields = getattr(view, 'filterset_fields', None)
+    if filterset_class:
+        使用这个filterset_class
+    if filterset_fields and queryset is not None:
+        MetaBase = getattr(self.filterset_base, "Meta", object)
+
+        class AutoFilterSet(self.filterset_base):
+            class Meta(MetaBase):
+                mode = queryset.model
+                fileds = filterset_fields
+        return AutoFilterSet
+    return None
+def filter_queryset(self, request, queryset, view):
+    filterset = self.get_filterset(request, queryset, view)
+    if filterset is None
+        return queryset
+    if not filterset.is_valid() and self.raise_exception:
+        raise utils.translate_validation(filterset.errors)
+    return filterset.qs
+```
+
+# django-filter基础
 [官网](https://django-filter.readthedocs.io/en/master/index.html)
 
-# 基础
 ```python
 pip install django-filter
 import django_filters

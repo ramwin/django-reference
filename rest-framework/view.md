@@ -83,29 +83,54 @@ def get_serializer_context(self):
 
 
 ## 常用的view
-* ### GenericAPIView
-    ```
-    def get_serializer(instance, *args, **kwargs):
-        serializer_class = self.get_serializer_class()
-        kwargs['context'] = self.get_serializer_context()
-        return serializer_class(*args, **kwargs)
+### GenericAPIView
+* 代码
+```
+def get_serializer(instance, *args, **kwargs):
+    serializer_class = self.get_serializer_class()
+    kwargs['context'] = self.get_serializer_context()
+    return serializer_class(*args, **kwargs)
 
-    def get_serializer_class(self):
-        return self.serializer_class
+def get_serializer_class(self):
+    return self.serializer_class
 
-    def get_serializer_context(self):
-        return {
-            'request': self.request,
-            'format': self.format_kwarg,
-            'view': self
-        }
+def get_serializer_context(self):
+    return {
+        'request': self.request,
+        'format': self.format_kwarg,
+        'view': self
+    }
 
-    def get_object(self):
-        ...
-        self.check_object_permissions(self.request, obj)
-    ```
+def get_object(self):
+    ...
+    self.check_object_permissions(self.request, obj)
+```
 
-* ### ListCreateAPIView
+* `get_serializer(self, instance=None, data=None, many=False, partial=False)`  
+返回serializer。
+
+```
+def get_serializer(self, *args, **kwargs):
+    """
+    Return the serializer instance that should be used for validating and
+    deserializing input, and for serializing output.
+    """
+    serializer_class = self.get_serializer_class()
+    kwargs['context'] = self.get_serializer_context()
+    return serializer_class(*args, **kwargs)
+```
+
+
+* `filter_queryset(self, queryset)`  
+
+```
+for backend in list(self.filter_backends):
+    queryset = backend().filter_queryset(self.request, queryset, self)
+return queryset
+```
+
+
+### ListCreateAPIView
     * GET请求顺序  
         ```
         def list(self, request, *args, **kwargs):

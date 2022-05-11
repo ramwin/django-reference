@@ -1,125 +1,5 @@
 ## [Views](./view.md)
-
-## Generic Views
-## GenericAPIView
-### Methods
-
-* `get_serializer(self, instance=None, data=None, many=False, partial=False)`  
-返回serializer。
-
-
-```
-def get_serializer(self, *args, **kwargs):
-    """
-    Return the serializer instance that should be used for validating and
-    deserializing input, and for serializing output.
-    """
-    serializer_class = self.get_serializer_class()
-    kwargs['context'] = self.get_serializer_context()
-    return serializer_class(*args, **kwargs)
-```
-
-
-* `filter_queryset(self, queryset)`  
-
-```
-for backend in list(self.filter_backends):
-    queryset = backend().filter_queryset(self.request, queryset, self)
-return queryset
-```
-
-
-* DjangoFilterBackend
-
-```
-def get_filterset(self, request, queryset, view):
-    filterset_class = self.get_filterset_class(view, queryset)
-    if filterset_class is None:
-        return None
-    kwargs = self.get_filterset_kwargs(request, queryset, view)
-    return filterset_class(**kwargs)
-def get_filterset_class(self, view, queryset=None):
-    """
-    return the `FilterSet` class used to filter the queryset
-    """
-    filterset_class = getattr(view, 'filterset_class', None)
-    filterset_fields = getattr(view, 'filterset_fields', None)
-    if filterset_class:
-        使用这个filterset_class
-    if filterset_fields and queryset is not None:
-        MetaBase = getattr(self.filterset_base, "Meta", object)
-
-        class AutoFilterSet(self.filterset_base):
-            class Meta(MetaBase):
-                mode = queryset.model
-                fileds = filterset_fields
-        return AutoFilterSet
-    return None
-def filter_queryset(self, request, queryset, view):
-    filterset = self.get_filterset(request, queryset, view)
-    if filterset is None
-        return queryset
-    if not filterset.is_valid() and self.raise_exception:
-        raise utils.translate_validation(filterset.errors)
-    return filterset.qs
-```
-
-### Mixin
-
-[官网](https://www.django-rest-framework.org/api-guide/generic-views/#mixins)
-* ListModelMixin
-
-```
-class ListModelMixin(object):
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        page = self.paginate_queryset(queryset)
-        if page is not None
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-```
-
-
-* CreateModalMixin  
-如果成功，返回201以及创建好的数据。如果数据里面有url，就在header里面加location [参考](https://en.wikipedia.org/wiki/HTTP_location)
-
-
-```
-    class CreateModalMixin(object):
-        """
-        Create a model instance.
-        """
-        def create(self, request, *args, **kwargs):
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            self.perform_create(serializer)
-            headers = self.get_success_headers(serializer.data)
-            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-        def perform_create(self, serializer):
-            serializer.save()
-
-        def get_success_headers(self, data):
-            try:
-                return {'Location': str(data[api_settings.URL_FIELD_NAME])}
-            except (TypeError, KeyError):
-                return {}
-```
-
-
-* RetrieveModelMixin
-
-
-```
-    class RetrieveModelMixin(object):
-        def retrieve(self, request, *args, **kwargs):
-            instance = self.get_object()
-            serializer = self.get_serializer(instance)
-            return Response(serializer.data)
-```
-
+## [Mixin](./mixin.md)
 
 ## [ViewSets](https://www.django-rest-framework.org/api-guide/viewsets/)
 
@@ -181,6 +61,21 @@ class APIViewSet(mixins.CreateModalMixin, GenericViewSet):
 
 ## [serializer序列化](./serializer.md)
 ### ModelSerializer
+
+## Validators
+```
+def f(x):
+    if x % 2 != 0:
+        raise serializers.ValidationError(f"{x} is not an even number")
+
+class Greater:
+    def __init__(self, base):
+        self.base = base
+    def __call__(self, value):
+        if value < self.base:
+            raise serializers.ValidationError(f"{value} is too small')
+field_name = models.Integer(Field validators=[f, Greater(4)])
+```
 
 ## Authentication
 
@@ -276,7 +171,8 @@ self.assertEqual(res.json()["id"], 1)
 ```
 
 ## Settings
-
+默认配置
+```
     REST_FRAMEWORK = {
         'DEFAULT_AUTHENTICATION_CLASSES': (
             'rest_framework.authentication.TokenAuthentication',
@@ -300,6 +196,7 @@ self.assertEqual(res.json()["id"], 1)
         "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
         "PAGE_SIZE": 10,
     }
+```
 
 ## 其他
 * [swagger](http://api-docs.easemob.com/#/)
