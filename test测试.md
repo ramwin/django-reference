@@ -38,4 +38,16 @@ class AnimalTestCase(TestCase):
 >>> b'<!DOCTYPE html...'
 ```
 
+#### TestCase
+* assertNumQueries
+
+    ```
+    with self.assertNumQueries(2):  # 可以用在验证Prefetch是否实现
+        Person.objects.create(name="Alice")
+        Person.objects.create(name="Bob")
+    with self.assertNumQueries(2):  # 可以用在验证Prefetch是否实现
+        client.get("/customer/?page=1")
+    ```
+
+
 ### Advanced topics
