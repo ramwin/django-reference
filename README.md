@@ -23,6 +23,13 @@ pip install django-bootstrap4
 ## [django-guardian](https://django-guardian.readthedocs.io/en/stable/)
 设置一个model对象的权限
 
+## [django-performance-monitor](https://github.com/afsal-parseltongue/django-performance-monitor)
+超级简单的利用middleware来查看请求耗时
+
+    sudo pip3 install django-performance-monitor
+    INSTALLED_APPS.append("django_performance_monitor")
+    MIDDLEWARE.append("django_performance_monitor.middleware.LogRequestMiddleware")
+
 ### User Guide
 * 校验权限
 user.has_perm("vip", obj)
