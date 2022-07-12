@@ -18,9 +18,11 @@ admin.site.site_header = 'Django administration'
 * `site_header`: 修改全局的标题，默认 `Django administration`
 * `site_title`: 页面的title
 
-## [ModelAdmin](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#modeladmin-objects):
+## [ModelAdmin][ModelAdmin]:
 * `list_display`: 在列表页面需要显示的字段数据
 * `list_filter`: 在列表页面，可以进行分类查看的数据
+* `list_per_page`: 默认100, 一页多少数据
+* `list_select_related`: 哪些字段要通过join先查找出来，避免太多sql语句
 * `search_fields`: 在列表页面的搜索框搜索的字段
 * `readonly_fields`: 在详情页面，哪些字段只能读，不能写。一般用于auto_now_add 和 auto_now 的时间，以及id
 * ### [get_readonly_fields](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.get_readonly_fields)
@@ -47,13 +49,13 @@ class FlatPageAdmin(admin.ModelAdmin):
 ```
 * ...
 * [ ] `radio_fields`
-* [autocomplete_fields](https://docs.djangoproject.com/en/3.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.autocomplete_fields)
+* [autocomplete_fields][autocomplete_fields]
 实现在添加Choice的时候，可以搜索question的`question_text`字段  
-为了防止数据的泄露。用户创建时，必须要有外键model的view和change权限
+为了防止数据的泄露。用户创建时，必须要有外键model的view和change权限  
 ```
 class QuestionAdmin(admin.ModelAdmin):
     ordering = ['date_created']
-    search_fields = ['question_text']
+    search_fields = ['question_text']  # 必须能search才能autocomplete
 class ChoiceAdmin(admin.ModelAdmin):
     autocomplete_fields = ['question']
 ```
@@ -108,3 +110,6 @@ class AuthorAdmin(admin.ModelAdmin):
 # Admin actions
 
 # Admin documentation generator
+
+[ModelAdmin]: https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#modeladmin-objects
+[autocomplete_fields]: https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.autocomplete_fields
