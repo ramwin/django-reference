@@ -59,6 +59,15 @@ class APIViewSet(mixins.CreateModalMixin, GenericViewSet):
 ```
 
 
+## Routers
+
+```python
+from rest_framework import routers
+router = routers.DefaultRouter
+router.register(r'model', ModelViewSet)
+urlpatterns = router.urls
+```
+
 ## [serializer序列化](./serializer.md)
 ### ModelSerializer
 
