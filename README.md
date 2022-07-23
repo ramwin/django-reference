@@ -290,8 +290,10 @@ def simple_middleware(get_response):
 
 ## [Testing 测试](./test测试.md)
 
-* Deployment 部署
-    * [WSGI servers, uwsgi](./uwsgi部署.md)
+## Deployment 部署
+### [WSGI servers, uwsgi](./uwsgi部署.md)
+### [gunicorn](./gunicorn.md)
+
     * [ ] to be continued
 
 # The Admin 后台管理系统cms
