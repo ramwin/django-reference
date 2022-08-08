@@ -1,9 +1,6 @@
-**Xiang Wang @ 2018-11-16 17:33:22**
+# Introduction
+# Writting and running tests [官网][run test]
 
-
-**使用django的测试工具**
-### Introduction
-### Writting and running tests [官网](https://docs.djangoproject.com/en/2.0/topics/testing/overview/#running-tests)
 * Writing tests
 
 ```
@@ -23,8 +20,8 @@ class AnimalTestCase(TestCase):
         self.assertEqual(cat.speak(), 'The cat says "meow"')
 ```
 
-### Included testing tools [官网](https://docs.djangoproject.com/en/2.1/topics/testing/tools/)
-#### The test client
+# Included testing tools [官网][test tools]
+## The test client
 * example
 
 ```
@@ -38,7 +35,25 @@ class AnimalTestCase(TestCase):
 >>> b'<!DOCTYPE html...'
 ```
 
-#### TestCase
+## TestCase
+* [overriding settings](https://docs.djangoproject.com/en/4.1/topics/testing/tools/#overriding-settings)
+```python
+from django.test import TestCase, override_settings
+
+class LoginTestCase(TestCase):
+    with self.settings(LOGIN_URL='/other/login/'):
+        ...
+
+    with self.modify_settings(MIDDLEWARE={
+        "append": "插入的",
+        "prepend": "前面插入的",
+        "remove": [...], # 删除的
+    }):
+        ...
+    @override_settings(LOGIN_URL="")
+    def test_login(self):
+        ...
+```
 * assertNumQueries
 
     ```
@@ -50,4 +65,7 @@ class AnimalTestCase(TestCase):
     ```
 
 
-### Advanced topics
+# Advanced topics
+
+[run test]: https://docs.djangoproject.com/en/4.1/topics/testing/overview/#running-tests
+[test tools]: https://docs.djangoproject.com/en/4.1/topics/testing/tools/
