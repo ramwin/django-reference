@@ -139,6 +139,17 @@ class Migration(migrations.Migration):
 ### [压缩迁移 Squashing migrations](https://docs.djangoproject.com/en/3.0/topics/migrations/#squashing-migrations)
 
 ## [Advanced](./advanced.md)
+
+### [Raw SQL](https://docs.djangoproject.com/en/4.1/topics/db/sql/)
+
+```
+from django.db import connection
+with connection.cursor() as cursor:
+    cursor.execute("SELECT foo FROM bar WHERE baz = %s", [self.baz])
+    row = cursor.fetchone()
+    print(row)
+```
+
 ### Transactions 事务
 [链接](https://docs.djangoproject.com/en/3.2/topics/db/transactions/)
 
