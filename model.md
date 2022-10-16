@@ -36,7 +36,7 @@
     ```
     * [null和blank的问题](https://stackoverflow.com/questions/8609192/differentiate-null-true-blank-true-in-django/50015717#50015717)
 
-### [Field Types 字段类型](https://docs.djangoproject.com/en/3.1/ref/models/fields/#field-types)
+### [Field Types 字段类型][fieldtypes]
 * AutoField, BigAutoField, BigIntegerField, BinaryField
 * [BooleanField](https://docs.djangoproject.com/en/3.1/ref/models/fields/#booleanfield)  
 > before 1.11 version: use NullBooleanField  
@@ -365,3 +365,4 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
 [slugfield]: https://docs.djangoproject.com/en/2.2/ref/models/fields/#slugfield
 [relation]: https://docs.djangoproject.com/en/3.1/ref/models/fields/#module-django.db.models.fields.related
 [onetoone]: https://docs.djangoproject.com/en/3.1/ref/models/fields/#onetoonefield
+[fieldtypes]: https://docs.djangoproject.com/en/4.1/ref/models/fields/#field-types

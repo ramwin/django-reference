@@ -126,7 +126,7 @@ But the date is filtered by the date of server timezone. What if you want to fil
     Entry.objects.filter(pub_date__date=datetime)
     ```
 
-##### [Query Expressions 查询语句](https://docs.djangoproject.com/en/3.0/ref/models/expressions/)
+##### [Query Expressions 查询语句][expressions]
 * Example  
 	```python
 	from django.db.models import Count, F, Value
@@ -177,9 +177,10 @@ But the date is filtered by the date of server timezone. What if you want to fil
 * [ ] Build-in Expressions
 
 #### Query-related tools
-##### Q() objects
-用这个以后可以使用 |(or) 和 &(and) 操作
+##### [Q() objects][q-objects]
+用这个以后可以使用 |(or), &(and), ^(XOR), ~(NOT)操作
 ```
+from django.db.models import Q
 q1 = Q(name0="name0") | Q(name1="name1") & Q(name2="name2")
 q2 = Q(name0="name0") | Q(name1="name1")
 q2 &= Q(name2="name2")
@@ -192,3 +193,5 @@ q2 &= Q(name2="name2")
 
 [queryset api]: https://docs.djangoproject.com/en/2.2/ref/models/querysets/#queryset-api
 
+[expressions]: https://docs.djangoproject.com/en/4.1/ref/models/expressions/
+[q-objects]: https://docs.djangoproject.com/en/4.1/topics/db/queries/#complex-lookups-with-q
