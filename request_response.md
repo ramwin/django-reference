@@ -68,6 +68,7 @@ response = JsonResponse({"foo": "bar"})
     write = csv.write(response)
     write.writerow(['Firstrow', 'Foo', 'Bar', 'Baz'])
     write.writerow(['Second row', 'A', 'B', 'C', '"Testing"'])
+```
 
 ## 设置cookie
     a = HttpResponse('ok')
@@ -76,5 +77,10 @@ response = JsonResponse({"foo": "bar"})
 
 
 ## 重定向(HttpResponseRedirect)
-    return HttpResponseRedirect('http://www.ramwin.com')
+```
+from django.http import HttpResponseRedirect
+return HttpResponseRedirect('http://www.ramwin.com')
+
+from django.views.generic.base import Redirectiew
+path(".*$", Redirectiew.as_view(url="/home"), namespace="other")
 ```

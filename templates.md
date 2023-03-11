@@ -26,6 +26,7 @@
     block3
 {% endif %}
 ```
+
 ### [ifequal](https://docs.djangoproject.com/en/2.0/ref/templates/builtins/#ifequal-and-ifnotequal) *deprecated*
 
 ### [for](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#for)
