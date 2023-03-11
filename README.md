@@ -175,44 +175,8 @@ with connection.cursor() as cursor:
 * [ ] Model Instance
 * [ ] Other
 
-# [View][view]
-
-* [URLconfs](./urls.md)
-解析url, 反编译url
-
-* [Requests and Response](./request_response.md)  
-FILE uploads 文件上传
-```
-request.FILES['file']
-```
-
-## [Class-based View](./classbaseView.md)
-
-## [Middleware](https://docs.djangoproject.com/en/3.1/topics/http/middleware/)
-* 编写自己的Middleware
-```
-def simple_middleware(get_response):
-    # One-time configuration and initialization.
-
-    def middleware(request):
-        # Code to be executed for each request before
-        # the view (and later middleware) are called.
-
-        response = get_response(request)
-
-        # Code to be executed for each request/response after
-        # the view is called.
-
-        return response
-
-    return middleware
-```
-
-### 内置的middleware
-* CommonMiddleware
-  * 禁止Disallowed_user_agents访问
-  * 自动append_slash和prepend_www
-  * 设置Content-Length
+# [views](./views.md)
+## [url](./views.md#URL)
 
 
 # [The template layer 模板](templates.md)
@@ -378,7 +342,6 @@ get_random_string(length=6)
 
 [django-reference]: https://github.com/ramwin/django-reference
 [raw]: https://raw.githubusercontent.com/ramwin/django-reference/master/README.md
-[view]: https://docs.djangoproject.com/en/2.0/#the-view-layer
 [rest-framework-test]: https://github.com/ramwin/rest-framework-test
 [api-reference]: https://docs.djangoproject.com/en/2.2/ref/class-based-views/
 [exceptions]: https://docs.djangoproject.com/en/2.1/ref/exceptions/

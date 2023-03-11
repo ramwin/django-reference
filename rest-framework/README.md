@@ -1,7 +1,7 @@
-## [Views](./view.md)
-## [Mixin](./mixin.md)
+# [Views](./view.md)
+# [Mixin](./mixin.md)
 
-## [ViewSets](https://www.django-rest-framework.org/api-guide/viewsets/)
+# [ViewSets](https://www.django-rest-framework.org/api-guide/viewsets/)
 
 * 基础
 
@@ -15,7 +15,7 @@
                     viewsets.GenericViewSet)
 ```
 
-### [添加额外接口 Marking extra actions for routing][extra-action]
+## [添加额外接口 Marking extra actions for routing][extra-action]
 
 ```
     from rest_framework.decorators import action
@@ -38,7 +38,7 @@ action对应的url, 默认为函数名称
 ```
 
 
-### ViewSet actions
+## ViewSet actions
 通过`self.action`可以知道当前的请求的状态，根据这个状态来判断不同的序列化类
 list|create|retrieve|update|partial_update|destroy
 ```
@@ -59,7 +59,7 @@ class APIViewSet(mixins.CreateModalMixin, GenericViewSet):
 ```
 
 
-## Routers
+# Routers
 
 ```python
 from rest_framework import routers
@@ -68,10 +68,10 @@ router.register(r'model', ModelViewSet)
 urlpatterns = router.urls
 ```
 
-## [serializer序列化](./serializer.md)
-### ModelSerializer
+# [serializer序列化](./serializer.md)
+## ModelSerializer
 
-## Validators
+# Validators
 ```
 def f(x):
     if x % 2 != 0:
@@ -86,9 +86,9 @@ class Greater:
 field_name = models.Integer(Field validators=[f, Greater(4)])
 ```
 
-## Authentication
+# Authentication
 
-### TokenAuthentication
+## TokenAuthentication
 安装
 ```
 INSTALLED_APPS = [
@@ -104,7 +104,7 @@ REST_FRAMEWORK = {
 }
 ```
 
-## [Permissions权限](https://www.django-rest-framework.org/api-guide/permissions/)
+# [Permissions权限](https://www.django-rest-framework.org/api-guide/permissions/)
 * 自定义Permission
 ```python
 from rest_framework.permissions import BasePermission
@@ -137,9 +137,19 @@ return bool(
 * [ ] djangorestframework可以和django的permission结合
 
 
-## [Filter过滤](./filter.md)
-## [request and response](./request_and_response.md)
-## throtte限速 [官网](https://www.django-rest-framework.org/api-guide/throttling/)
+# [Filter过滤](./filter.md)
+# Pagination
+[分页](https://www.django-rest-framework.org/api-guide/pagination/#pagenumberpagination)
+
+```
+from rest_framework.pagination import PageNumberPagination
+
+class MyPageNumberPagination(PageNumberPagination):
+    page_size = 20
+```
+
+# [request and response](./request_and_response.md)
+# throtte限速 [官网](https://www.django-rest-framework.org/api-guide/throttling/)
     ```
     from rest_framework.throttling import BaseThrottle, ScopedRateThrottle
     class MyThrottle(BaseThrottle):
@@ -152,7 +162,7 @@ return bool(
         1. view 里面加入属性 throttle_scope = "自己定义一个scope, 同一个scope共享throlle"
         2. settings 里面添加这个scop的条数限制
 
-## 基础  
+# 基础  
     from rest_framework import permissions
     class IsOwner(permissions.BasePermission):
         def has_permission(self, request, view):
@@ -164,13 +174,13 @@ return bool(
         def post(self, request):
             self.check_object_permissions(request, obj)
 
-## Exceptions
+# Exceptions
 * `rest_framework.exceptions.ValidationError`
 * `rest_framework.exceptions.PermissionDenied`
 * `raise rest_framework.exceptions.Throttled(second)`: `raise Throttled(30)`
 
-## Testing
-### APIClient
+# Testing
+## APIClient
 ```
 from rest_framework.test import APIClient
 client = APIClient()
@@ -179,7 +189,7 @@ self.assertEqual(res.status_code, 201)
 self.assertEqual(res.json()["id"], 1)
 ```
 
-## Settings
+# Settings
 默认配置
 ```
     REST_FRAMEWORK = {
@@ -207,7 +217,7 @@ self.assertEqual(res.json()["id"], 1)
     }
 ```
 
-## 其他
+# 其他
 * [swagger](http://api-docs.easemob.com/#/)
 
 
