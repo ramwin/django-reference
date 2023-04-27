@@ -17,24 +17,32 @@
 
 ## [添加额外接口 Marking extra actions for routing][extra-action]
 
-```
-    from rest_framework.decorators import action
-    @action(detail=True, methods=["post"], url_path='customer')
-    def set_password(self, request):
-        return
+```python
+from rest_framework.decorators import action
+@action(detail=True, methods=["post"], url_path='customer')
+def set_password(self, request):
+    return
 ```
 
 * `url_path`  
 action对应的url, 默认为函数名称
 
 
+```python
+def decorator(func): 
+    ...
+    func.url_path = url_path if url_path else func.__name__
+    func.url_name = url_name if url_name else func.__name__.replace('_', '-')
+    ...
+return decorator
 ```
-    def decorator(func): 
-        ...
-        func.url_path = url_path if url_path else func.__name__
-        func.url_name = url_name if url_name else func.__name__.replace('_', '-')
-        ...
-    return decorator
+
+* [路径里添加额外的参数](https://stackoverflow.com/questions/50425262/django-rest-framework-pass-extra-parameter-to-actions/72187999#72187999)
+```python
+@action(detail=True, methods=["GET"],
+        url_path="parameters/(?P<my_pk>[^/.]+)")
+def parameters(self, request, *args, **kwargs):
+    print(kwargs["my_pk"])
 ```
 
 
@@ -63,7 +71,7 @@ class APIViewSet(mixins.CreateModalMixin, GenericViewSet):
 
 ```python
 from rest_framework import routers
-router = routers.DefaultRouter
+router = routers.DefaultRouter()
 router.register(r'model', ModelViewSet)
 urlpatterns = router.urls
 ```
