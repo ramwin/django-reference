@@ -5,6 +5,8 @@
 ### 基础
 * 配置日志
 ```
+LOG_DIR = BASE_DIR / 'log'
+LOG_DIR.mkdir(exist_ok=True)
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -22,13 +24,13 @@ LOGGING = {
         'error_file': {
             'level': "ERROR",
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'log/error.log'),
+            'filename': LOG_DIR / 'error.log',
             'formatter': 'verbose',
         },
         'warning_file': {
             'level': "WARNING",
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'log/warning.log'),
+            'filename': LOG_DIR / 'warning.log',
             'maxBytes': 1024 * 1024 * 10,
             'backupCount': 20,
             'formatter': 'verbose',
@@ -38,7 +40,7 @@ LOGGING = {
             'class': 'logging.handlers.RotatingFileHandler',
             'maxBytes': 1024 * 1024 * 10,
             'backupCount': 20,
-            'filename': os.path.join(BASE_DIR, 'log/info.log'),
+            'filename': LOG_DIR / 'info.log',
             'formatter': 'verbose',
         },
         'debug_file': {
@@ -46,7 +48,7 @@ LOGGING = {
             'class': 'logging.handlers.RotatingFileHandler',
             'maxBytes': 1024 * 1024 * 10,
             'backupCount': 20,
-            'filename': os.path.join(BASE_DIR, 'log/debug.log'),
+            'filename': LOG_DIR / 'debug.log',
             'formatter': 'verbose',
         },
         'console': {
