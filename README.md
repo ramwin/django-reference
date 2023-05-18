@@ -233,6 +233,10 @@ with connection.cursor() as cursor:
 ## django-admin and manage.py
 ### [customcommand 自定义指令](./customcommand.md)
 
+```
+from django.core.management import call_command
+```
+
 ## [Testing 测试](./test测试.md)
 
 ## Deployment 部署
