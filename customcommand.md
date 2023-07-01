@@ -1,6 +1,6 @@
 Xiang Wang @ 2017-02-09 13:49:33
 
-[官网](https://docs.djangoproject.com/en/2.2/howto/custom-management-commands/)
+[官网][custom_command]
 
 #### 案例
 mkdir -p app/management/commands/
@@ -32,6 +32,12 @@ class Command(BaseCommand):
             poll.save()
 
             self.stdout.write(self.style.SUCCESS('Successfully closed poll "%s"' % poll_id))
+```
+
+#### [手动调用][call_command]
+```
+from django.core.management import call_command
+call_command(命令名字)
 ```
 
 
@@ -130,3 +136,7 @@ def apply(self, project_state, schema_editor, collect_sql=False):
     for operation in self.operations:
           
 ```
+
+
+[custom_command]: https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/
+[call_command]: https://docs.djangoproject.com/en/4.2/ref/django-admin/#running-management-commands-from-your-code
