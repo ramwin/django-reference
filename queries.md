@@ -1,36 +1,11 @@
 ** Xiang Wang @ 2016-09-30 16:14:18 **
 
-# 查找
-* 示例
-    ```
-    obj, created = <model>.objects.get_or_create(user__name='wangx')
-    # 不存在用户就不登录而是注册
-    # created 为 True， 代表了obj是新建
-    # 如果返回多条数据，会报错的
-    # 创建的时候的时候会自动保存, 但是要注意, 如果有写field不允许null, 就需要get的时候把参数传进去
-    # get_or_create里面如果传递的是过滤参数，就会先用过滤参数过来
-    obj, created = <model>.objects.get_or_create(text='text', time__gt='2017-12-12T10:24:00+08:00')
-    ```
 * 添加额外字段
     * [官网参考](https://docs.djangoproject.com/en/1.11/ref/models/database-functions/#module-django.db.models.functions.datetime)
     * 代码
     ```
     from django.db.models.functions import ExtractWeekDay
     TestDate.objects.all().annotate(weekday=ExtractWeekDay('date'))
-    ```
-
-* 仅仅查询需要的字段
-    ```
-    >>> User.objects.all().values('username')
-    >>> 返回 [{'username': 'ramwin'}], 是一个queryset, 可以用来exclude，而如果是自己写的[{'uesrname': 'ramwin'}] 就不可以用来过滤
-    ```
-    
-# 过滤
-* 基础
-    ```
-    Search.objects.all()
-    Search.objects.filter(text='text')  # 单个条件过滤
-    Search.objects.filter(user=wx)  # 外健用对象或者对象id过滤,user_id, user__id也可以
     ```
 
 * 通过不关联的表字段进行过滤

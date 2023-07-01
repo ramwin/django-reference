@@ -1,6 +1,6 @@
 **Xiang Wang @ 2018-11-27 14:10:45**
 
-[官网](https://docs.djangoproject.com/en/3.0/topics/db/queries/)
+[官网][queryset]
 
 ### [My Reference(以前我的文档)](./queries.md)  
 ### [ ] Making Queries  
@@ -73,7 +73,7 @@ Blog.objects.filter(entry__authors__name__isnull=True)
 
 #### [When Querysets Are Evaluated](https://docs.djangoproject.com/en/2.0/ref/models/querysets/#when-querysets-are-evaluated)
 
-#### [QuerySet API][queryset api]
+#### [QuerySet API][queryset_api]
 
 ##### Methods that return new Querysets 返回Queryset的方法
 * [ ] annotate
@@ -92,7 +92,17 @@ ManyModel.objects.annotate(text_id=Min("texts__id")).order_by("text_id")  # 按�
 TestFilterModel2.objects.values('_bool', '_int').annotate(Count('id'))  # 利用_bool, _int进行分组，查看数量
 MingpianChange.objects.order_by("amount").values("amount").annotate(Count("id"))  # 查看各个amount对应的数量
 ```
-* [ ] values_list
+###### values_list
+[官网][values_list]  
+`values_list(*fields, flat=False, named=False)`  
+原理是通过select只看部分字段, 所以遇到外键是会有None, 遇到ManyToMany时数据会重复  
+named可以返回`django.db.models.utils.Row`, 直接获取属性  
+
+```python
+Entry.objects.values("id", flat=True)
+<Queryset [1, 2]>  可以继续过滤, 也可以直接迭代得到1, 2
+```
+
 * defer
 `Entry.objects.defer("body")`: only access the body field when you use the `body` field to optimize the performance
 
@@ -191,7 +201,9 @@ q2 &= Q(name2="name2")
 比较高端，暂时没用过
 
 
-[queryset api]: https://docs.djangoproject.com/en/2.2/ref/models/querysets/#queryset-api
+[queryset_api]: https://docs.djangoproject.com/en/4.2/ref/models/querysets/#queryset-api
 
 [expressions]: https://docs.djangoproject.com/en/4.1/ref/models/expressions/
 [q-objects]: https://docs.djangoproject.com/en/4.1/topics/db/queries/#complex-lookups-with-q
+[queryset]: https://docs.djangoproject.com/en/4.2/topics/db/queries/
+[values_list]: https://docs.djangoproject.com/en/4.2/ref/models/querysets/#values-list
