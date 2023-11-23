@@ -252,12 +252,10 @@ school.students.through.objects.filter(school=school)
 ### [Field API reference](https://docs.djangoproject.com/en/3.1/ref/models/fields/#field-api-reference)
 
 
-### Meta
-[官网](https://docs.djangoproject.com/en/3.1/ref/models/options/)
+### [Meta][meta]
+
 ```
 class Meta:
-    unique_together = ("user","date")   # 同一个用户同一个时间只允许一次(比如投票)
-如果不符合，会报错  django.db.utils.IntegrityError
     ordering = "-id"  # 指定默认排序方式
     db_table = "table"  # 指定表的名称
     abstract = True # 表不进行创建，只用来继承
@@ -265,6 +263,22 @@ class Meta:
     verbose_name = '显示名字'
     verbose_name_plural = '显示名字'
 ```
+
+* indexes 联合索引
+```python
+indexes = [
+    models.Index(fields=["last_name", "first_name"]),
+]
+```
+
+* unique_together:
+
+```python
+class Meta:
+    unique_together = ("user","date")   # 同一个用户同一个时间只允许一次(比如投票)
+如果不符合，会报错  django.db.utils.IntegrityError
+```
+
 #### [API](https://docs.djangoproject.com/en/3.1/ref/models/meta/)
 * `get_field`
 获取某个Field
@@ -368,3 +382,4 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
 [relation]: https://docs.djangoproject.com/en/3.1/ref/models/fields/#module-django.db.models.fields.related
 [onetoone]: https://docs.djangoproject.com/en/3.1/ref/models/fields/#onetoonefield
 [fieldtypes]: https://docs.djangoproject.com/en/4.1/ref/models/fields/#field-types
+[meta]: https://docs.djangoproject.com/en/4.2/ref/models/options/
