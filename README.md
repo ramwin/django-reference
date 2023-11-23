@@ -116,8 +116,7 @@ unique, blank, null的用法，歧义解释
 ## [QuerySets](./queryset.md)
 
 ## Migrations
-[链接](https://docs.djangoproject.com/en/3.0/#the-model-layer)
-### [Introduction to Migrations](https://docs.djangoproject.com/en/3.0/topics/migrations)
+### [Introduction to Migrations][migrations]
 
 ### Data Migrations 数据迁移
 ```
@@ -351,3 +350,4 @@ get_random_string(length=6)
 [exceptions]: https://docs.djangoproject.com/en/2.1/ref/exceptions/
 [international]: https://docs.djangoproject.com/en/2.0/#internationalization-and-localization
 [common-tool]: https://docs.djangoproject.com/en/2.1/#common-web-application-tools
+[migrations]: https://docs.djangoproject.com/en/4.2/topics/migrations/
