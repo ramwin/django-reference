@@ -32,9 +32,18 @@
 * 其他
     * `request.META['REMOTE_ADDR']`  # 获取IP地址
 
-### QueryDict objects
-* 方法
-    * copy: 用来把request.POST的数据copy, 这样才能修改
+### [QueryDict][QueryDict]
+django.http.request.QueryDict, 是一个MultiValueDict
+```python
+query = QueryDict('a=1&a=2&b=3')
+query['a'] == '2'
+query.getlist('a') == ['1', '2']
+query.getlist('c') == []
+```
+* copy: 用来把request.POST的数据copy, 这样才能修改
+* get/__getitem__: 返回最后一个的值
+* getlist(key, default=None)
+必定返回list或者default的值
 
 ### [response](https://docs.djangoproject.com/en/3.1/ref/request-response/)
 
@@ -70,13 +79,13 @@ response = JsonResponse({"foo": "bar"})
     write.writerow(['Second row', 'A', 'B', 'C', '"Testing"'])
 ```
 
-## 设置cookie
+#### 设置cookie
     a = HttpResponse('ok')
     a.set_cookie('foo', value='bar')
     return a
 
 
-## 重定向(HttpResponseRedirect)
+#### 重定向(HttpResponseRedirect)
 ```
 from django.http import HttpResponseRedirect
 return HttpResponseRedirect('http://www.ramwin.com')
@@ -84,3 +93,5 @@ return HttpResponseRedirect('http://www.ramwin.com')
 from django.views.generic.base import Redirectiew
 path(".*$", Redirectiew.as_view(url="/home"), namespace="other")
 ```
+
+[QueryDict]: https://docs.djangoproject.com/en/4.2/ref/request-response/#querydict-objects

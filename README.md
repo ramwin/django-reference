@@ -177,6 +177,9 @@ with connection.cursor() as cursor:
 # [views](./views.md)
 ## [url](./views.md#URL)
 
+## [Request and Response](./request_response.md)
+[QueryDict](./request_response.md#querydict)
+
 
 # [The template layer 模板](templates.md)
 
