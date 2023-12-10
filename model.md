@@ -309,65 +309,72 @@ obj.refresh_from_db()  # reload all the fields
 save的时候，会把model的所有数据全量更新一遍，所以两个线程来了，只会save最后一个的数据
 * 主键有就是update，主键没有就是insert
 * [save的时候发生了什么](https://docs.djangoproject.com/en/3.1/ref/models/instances/#what-happens-when-you-save)
-    ```
-    django.db.models.Model
-        def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-            # 保证所有的外键field都有PK
-            for field in self._meta.concrete_fields:
-               [ ] 待研究 
-            [ ] 待研究
-            self.save_base(using=using, force_insert=force_insert,
-                           force_update=force_update, update_fields=update_fields)
-        def save_base(self, raw=False, force_insert=False,
-                      force_update=False, using=None, update_fields=None):
-            [ ] 待研究
-            if not meta.auto_created:
-                pre_save.send(
-                    sender=origin, instance=self, raw=raw, using=using,
-                    update_fields=update_fields
-                )
-            # with transaction.atomic(using=using, savepoint=False):
-            #     if not raw:
-            #         self._save_parents(cls, using, update_fields)
-            #         updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
-            context_manager = ...
-            with context_manager:
-                updated = self._save_table(
-                )
-            if not meta.auto_created:
-                post_save.send(
-                    sender=origin, instance=self, created=(not updated),
-                    update_fields=update_fields, raw=raw, using=using,)
-        def _save_table(self, raw=False, force_insert=False,
-                        force_update=False, using=None, update_fields=None):
-            meta = cls._meta
-            non_pks = [f for f in meta.local_concrete_fields if not f.primary_key]
-            [ ] 待研究
-            if not updated:
-                result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
-            [ ] 待研究
-        @property
-        def _base_manager(cls):
-            return cls._meta.base_manager
-        def _do_insert(self, manager, using, fields, update_pk, raw):
-            return manager._insert([self], fields=fields, return_id=update_pk,
-                                   using=using, raw=raw)
-    django.db.models.
-    ```
-    1. 触发model的pre—save信号
-    2. 处理数据，每个field触发`pre_save`，比如`auto_now_add`和`auto_now`
-    3. 处理给数据库的数据，每个field触发`get_db_prep_save`
-    4. 插入数据
-    5. 触发post-save信号
+
+```
+django.db.models.Model
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        # 保证所有的外键field都有PK
+        for field in self._meta.concrete_fields:
+           [ ] 待研究 
+        [ ] 待研究
+        self.save_base(using=using, force_insert=force_insert,
+                       force_update=force_update, update_fields=update_fields)
+    def save_base(self, raw=False, force_insert=False,
+                  force_update=False, using=None, update_fields=None):
+        [ ] 待研究
+        if not meta.auto_created:
+            pre_save.send(
+                sender=origin, instance=self, raw=raw, using=using,
+                update_fields=update_fields
+            )
+        # with transaction.atomic(using=using, savepoint=False):
+        #     if not raw:
+        #         self._save_parents(cls, using, update_fields)
+        #         updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+        context_manager = ...
+        with context_manager:
+            updated = self._save_table(
+            )
+        if not meta.auto_created:
+            post_save.send(
+                sender=origin, instance=self, created=(not updated),
+                update_fields=update_fields, raw=raw, using=using,)
+    def _save_table(self, raw=False, force_insert=False,
+                    force_update=False, using=None, update_fields=None):
+        meta = cls._meta
+        non_pks = [f for f in meta.local_concrete_fields if not f.primary_key]
+        [ ] 待研究
+        if not updated:
+            result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+        [ ] 待研究
+    @property
+    def _base_manager(cls):
+        return cls._meta.base_manager
+    def _do_insert(self, manager, using, fields, update_pk, raw):
+        return manager._insert([self], fields=fields, return_id=update_pk,
+                               using=using, raw=raw)
+django.db.models.
+```
+
+1. 触发model的pre—save信号
+2. 处理数据，每个field触发`pre_save`，比如`auto_now_add`和`auto_now`
+3. 处理给数据库的数据，每个field触发`get_db_prep_save`
+4. 插入数据
+5. 触发post-save信号
+
 * django怎么区分update和insert
 * 指定更新哪些field: `product.save(update_fields=["name"])`
     * 更新后，并不会触发`refresh_from_db`
 * 如果是queryset的update操作，不会触发自定义的save方法。比如save的时候计算总分，如果update某个分数，总分并不会自动更新 `python3 manage.py test testapp.test_queries.TestMethodTestCase`
 
+#### [deleting objects 删除数据][delete]
+* delete(using=DEFAULT_DB_ALIAS)
+* adelete(using=DEFAULT_DB_ALIAS)
+异步删除
+
 #### to be continued
 * [ ] creating objects 创建数据
 * [ ] validating objects 数据校验
-* [ ] deleting objects 删除数据
 * [ ] pickling objects 序列化数据
 * [ ] other instance methods 其他方法
 * [ ] extra instance methods 额外方法
@@ -383,3 +390,5 @@ save的时候，会把model的所有数据全量更新一遍，所以两个线�
 [onetoone]: https://docs.djangoproject.com/en/3.1/ref/models/fields/#onetoonefield
 [fieldtypes]: https://docs.djangoproject.com/en/4.1/ref/models/fields/#field-types
 [meta]: https://docs.djangoproject.com/en/4.2/ref/models/options/
+
+[delete]: https://docs.djangoproject.com/en/5.0/ref/models/instances/#deleting-objects
