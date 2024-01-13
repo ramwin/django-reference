@@ -1,6 +1,6 @@
 **Xiang Wang @ 2017-05-24 16:32:47**
 
-[官方教程](https://docs.djangoproject.com/en/3.1/topics/signals/) [参考](https://docs.djangoproject.com/en/3.0/ref/signals/)
+[官方教程](https://docs.djangoproject.com/en/5.0/topics/signals/) [参考](https://docs.djangoproject.com/en/3.0/ref/signals/)
 
 ### 源码剖析
 注册一个`post_save`后,就会在receivers里面添加对应的key和函数. 如果下次sender来了,就根据`_make_id`来判断是否要执行. 这会导致dispatch无法处理proxy的model. [想解决?12年前就提出来了,没采纳](https://code.djangoproject.com/attachment/ticket/9318/0001-Propagate-message-to-parent-s-handler-sender-is-chil.patch)
@@ -31,6 +31,20 @@ class Signal:
 ```
 from django.core.signals import request_finished  
 request_finished.connect(my_callback, dispatch_uid="my_unique_identifier")
+```
+
+### [定义signal](https://docs.djangoproject.com/en/5.0/topics/signals/#defining-and-sending-signals)
+#### Defining signals
+```
+import django.dispatch
+
+pizza_done = django.dispatch.Signal()
+pizza_done.connect(function, sender)
+```
+
+#### Sending signals
+```
+pizza_done.send(sender=self.__class__, toppings=toppings, size=size)
 ```
 
 ### ModelSignals
