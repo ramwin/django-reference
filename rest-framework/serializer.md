@@ -615,3 +615,7 @@ class StringListField(serializers.ListField): # 写成declarative格式,来方�
             {"label": "ID", "read_only": True}
         }
     ```
+
+### Field
+* run_validation(data)  
+把data的数据校验后返回，经常用于SlugField().run_validation(data)
