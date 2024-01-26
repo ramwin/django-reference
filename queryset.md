@@ -106,6 +106,21 @@ Entry.objects.values("id", flat=True)
 * defer
 `Entry.objects.defer("body")`: only access the body field when you use the `body` field to optimize the performance
 
+###### [select_for_update][select_for_update]
+用来给行加锁, 这样其他函数调用时会卡在那。
+```
+# 线程1
+from django.db import transaction
+with transaction.atomic():
+    entry = Entry.objects.select_for_update(nowait=True).filter(status="inactive").first()
+    entry.status = "active"
+    entry.save()
+
+# 线程2
+Entry.objects.get(id=1)  # 这句卡住，直到上面status改了save了
+```
+
+
 ##### Methods that do not return Querysets 不返回Queryset的方法
 `get, create, get_or_create`
 * `update_or_create(defaults=None, **kwargs)`
@@ -207,3 +222,4 @@ q2 &= Q(name2="name2")
 [q-objects]: https://docs.djangoproject.com/en/4.1/topics/db/queries/#complex-lookups-with-q
 [queryset]: https://docs.djangoproject.com/en/4.2/topics/db/queries/
 [values_list]: https://docs.djangoproject.com/en/4.2/ref/models/querysets/#values-list
+[select_for_update]: http://django.ramwin.com/ref/models/querysets.html#select-for-update
