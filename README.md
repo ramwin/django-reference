@@ -88,11 +88,13 @@ model.as_of(datetime(2021, 1, 1, 0, 0, 0))
 * How can I see the raw SQL queries Django is running? 查看queryset的sql语句
 使用connection.queries
 
-    DEBUG模式
-    from django.db import connection
-    connection.queires
-    from djabgo.db import reset_queries
-    reset_queries()  # 清空query
+```
+DEBUG模式
+from django.db import connection
+connection.queires
+from djabgo.db import reset_queries
+reset_queries()  # 清空query
+```
 
 或者使用`print(queryset.query)` `queryset.query.sql_with_params()` [stackoverflow链接](https://stackoverflow.com/questions/1074212/how-can-i-see-the-raw-sql-queries-django-is-running)
 
