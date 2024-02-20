@@ -9,12 +9,12 @@
 #### `F() expressions`
 > F() 代表了一个从model获取的数据，但是不会取出到python内存里。
 * 例子
-```
+```python
 reporter = Reporters.objects.get(name="Tintin")
 reporter.stories_filed += 1  # 取出数据，放入python，加1
 reporter.save()  # 保存到sql
 ```
-```
+```python
 from django.db.models import F
 reporter.stories_filed = F('stories_filed') + 1
 reporter.save()
@@ -22,7 +22,7 @@ reporter.stories_filed  # <CombinedExpression: F(stories_filed) + Value(1)>
 如果需要获取数据，要使用
 reporter.refresh_from_db()
 ```
-```
+```python
 reporter = Reporters.objects.filter(name="Tintin")
 reporter.update(stories_filed=F("stories_filed") + 1)
 ```

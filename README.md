@@ -171,6 +171,8 @@ with connection.cursor() as cursor:
 ### [Query Expressions](./advanced.md#query-expressions)
 ### [ ] Conditional Expressions
 ### Database Functions
+* [F功能](./advanced.md)
+
 
 ## TODO list
 * [ ] Model Instance
