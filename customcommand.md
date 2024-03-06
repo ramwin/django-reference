@@ -35,6 +35,9 @@ class Command(BaseCommand):
 ```
 
 #### [手动调用][call_command]
+call_command会把命令保存在一个字典里，然后用importlib去调用。所以
+1. 不会导致重新遍历文件
+2. 不会导致重新import
 ```
 from django.core.management import call_command
 call_command(命令名字)
