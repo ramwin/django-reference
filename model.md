@@ -39,6 +39,22 @@ can_null_blank_integer = models.IntegerField(null=True, blank=True)
 * [null和blank的问题](https://stackoverflow.com/questions/8609192/differentiate-null-true-blank-true-in-django/50015717#50015717)
 
 ### [Field Types 字段类型][fieldtypes]
+* [ArrayField](https://docs.djangoproject.com/en/5.0/ref/contrib/postgres/fields/#arrayfield)
+postgresql特有的
+```
+from django.contrib.postgres.fields import ArrayField
+from django.db import models
+
+
+class ChessBoard(models.Model):
+    board = ArrayField(
+        ArrayField(
+            models.CharField(max_length=10, blank=True),
+            size=8,
+        ),
+        size=8,
+    )
+```
 * AutoField, BigAutoField, BigIntegerField, BinaryField
 * [BooleanField](https://docs.djangoproject.com/en/3.1/ref/models/fields/#booleanfield)  
 > before 1.11 version: use NullBooleanField  
@@ -388,7 +404,7 @@ django.db.models.
 [slugfield]: https://docs.djangoproject.com/en/2.2/ref/models/fields/#slugfield
 [relation]: https://docs.djangoproject.com/en/3.1/ref/models/fields/#module-django.db.models.fields.related
 [onetoone]: https://docs.djangoproject.com/en/3.1/ref/models/fields/#onetoonefield
-[fieldtypes]: https://docs.djangoproject.com/en/4.1/ref/models/fields/#field-types
+[fieldtypes]: https://docs.djangoproject.com/en/5.0/ref/models/fields/#field-types
 [meta]: https://docs.djangoproject.com/en/4.2/ref/models/options/
 
 [delete]: https://docs.djangoproject.com/en/5.0/ref/models/instances/#deleting-objects
