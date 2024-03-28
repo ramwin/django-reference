@@ -1,6 +1,3 @@
-#### Xiang Wang @ 2016-12-20 10:52:45
-
-
 # 基础
     from django.core.exceptions import ValidationError
     from django.core import validators

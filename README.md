@@ -1,5 +1,3 @@
-Xiang Wang @ 2017-01-23 14:05:03
-
 [A quick reference for django][django-reference] 
 the test project is in [rest-framework-test][rest-framework-test] repository  
 
@@ -179,6 +177,9 @@ with connection.cursor() as cursor:
 * [ ] Other
 
 # [views](./views.md)
+```{toctree}
+./views.md
+```
 ## [url](./views.md#URL)
 
 ## [Request and Response](./request_response.md)
@@ -308,7 +309,10 @@ objectslist.previous_page_number | next_page_number # 获取上一页或下一�
 objectslist.number  # 当前页码
 ```
 
-## [Data Validation](./validator表单验证.md)
+## Data Validation
+```{toctree}
+./validator表单验证.md
+```
 
 # [Other core functionalities 其他功能](https://docs.djangoproject.com/en/2.1/#other-core-functionalities)
 ## [Content Types and Generic relations](http://ramwin.com:8888/ref/contrib/contenttypes.html)
