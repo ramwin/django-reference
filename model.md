@@ -1,8 +1,6 @@
-**Xiang Wang @ 2018-08-07 15:25:20**
+# [Introduction简介][models]
 
-### [Introduction简介][models]
-
-### [Options][options]
+# [Options][options]
 * null = True,    # 是否可以是NULL
 * blank=True      # admin界面是不是可以不填写。不填写的话就是NULL, 但是不影响model的创建
 * [ ] `db_tablespace`
@@ -38,9 +36,10 @@ can_null_blank_integer = models.IntegerField(null=True, blank=True)
 
 * [null和blank的问题](https://stackoverflow.com/questions/8609192/differentiate-null-true-blank-true-in-django/50015717#50015717)
 
-### [Field Types 字段类型][fieldtypes]
+# Field Types 字段类型
+[官网][fieldtypes]
 * [ArrayField](https://docs.djangoproject.com/en/5.0/ref/contrib/postgres/fields/#arrayfield)
-postgresql特有的
+postgresql特有的, size可以不传, 就是动态的size
 ```
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
@@ -67,14 +66,14 @@ models.TextField()  # 默认会为""
 models.EmailField()
 # 底层还是 CharField 只不过用 EmailValidator 去校验
 ```
-* #### [DateField](https://docs.djangoproject.com/en/3.1/ref/models/fields/#datefield)
+* ## [DateField](https://docs.djangoproject.com/en/3.1/ref/models/fields/#datefield)
 对于日期,不存在时区的概念,都是直接存入的日期,没有转化成utc
     * [`auto_now`](https://docs.djangoproject.com/en/3.1/ref/models/fields/#django.db.models.DateField.auto_now)
     自动保存为当前时间。当调用Model.save()的时候，这个字段会自动更新。如果你不希望更新，就使用QuerySet.update()
     * [`auto_now_add`](https://docs.djangoproject.com/en/3.1/ref/models/fields/#django.db.models.DateField.auto_now_add)
     只有当model第一次创建的时候，自动设置为当前时间。所以后续可以更改。
 
-* #### DateTimeField
+* ## DateTimeField
     * 参数
         * `auto_now_add = True`: 保存为当前时间，不再改变 见DateField
         * `auto_now = True`: 保存未当前时间，每次保存时候会自动变更 见DateField
@@ -95,7 +94,7 @@ models.EmailField()
             ```
         * 结论: 服务器端都用timezone，客户端都用带iso 8601
 
-#### DecimalField
+## DecimalField
 [官网](https://docs.djangoproject.com/en/2.2/ref/models/fields/#decimalfield)  
 * decimal:    '1.1', 1.1, decimal.Decimal('1.1')
     * required 参数
@@ -116,12 +115,12 @@ models.EmailField()
 
 * [ ] EmailField
 
-#### [FileField](https://docs.djangoproject.com/en/3.0/ref/models/fields/)
+## [FileField](https://docs.djangoproject.com/en/3.0/ref/models/fields/)
 `class FileField(upload_to="uploads/%Y/%m/%d")`
 * [ ] FilePathField
 * [FloatField](https://docs.djangoproject.com/en/2.2/ref/models/fields/#floatfield)
 * [ ] ImageField
-* #### IntegerField
+* ## IntegerField
 [官网](https://docs.djangoproject.com/en/2.2/ref/models/fields/#integerfield)
 integer:    1, '1', 不可以是 '2.9', 但是可以是 2.9(之后存入2), 调用的是int函数
     * 基础
@@ -152,17 +151,17 @@ integer:    1, '1', 不可以是 '2.9', 但是可以是 2.9(之后存入2), 调�
 * TextField
 TextField如果定义了max_length, 会影响view和form. 但是在数据库底层实现上没有max_length这个说法.
 * TimeField
-#### URLField  
+## URLField  
 其实就是CharField加上了URLValidator,  默认是200个字符长度
 
-#### UUIDField
+## UUIDField
 ```
 import uuid
 models.UUIDField(default=uuid.uuid4)
 ```
 
-### [Relationship fields 关联字段][relation]
-#### [ForeignKey](https://docs.djangoproject.com/en/3.1/ref/models/fields/#foreignkey)
+# [Relationship fields 关联字段][relation]
+## [ForeignKey](https://docs.djangoproject.com/en/3.1/ref/models/fields/#foreignkey)
 * Example 例子  
     ```
     def get_default_user():
@@ -183,7 +182,7 @@ models.UUIDField(default=uuid.uuid4)
     * models.SET(): `调用函数`
     * models.DO_NOTHING: `什么都不做,但是数据库如果限制会有报错`
 
-#### [OneToOneField][onetoone]
+## [OneToOneField][onetoone]
 ```
 models.ForeignKey(Model)    # 关联到另一个Model
 models.OneToOneField(Model, related_name="profile", db_index=True)
@@ -201,10 +200,10 @@ models.OneToOneField(Model, related_name="profile", db_index=True)
     )
     ```
 
-#### ManyToManyField
+## ManyToManyField
 [官网](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
 
-##### 参数
+### 参数
 * [ ] `related_name, related_query_name, limit_choices_to`
 * symmetrical
 [官网](https://docs.djangoproject.com/en/2.0/ref/models/fields/#django.db.models.ManyToManyField.symmetrical)
@@ -226,7 +225,7 @@ class Person(models.Model):
 * [ ] swappable
 * null对于ManyToManyField没有任何效果
 
-##### api
+### api
 [官网](https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_many/)
 * 基础
     ```
@@ -255,20 +254,20 @@ class Person(models.Model):
     model.label.clear()
     ```
 
-#### 其他
+## 其他
 * 如果调用了本身，可以使用 `models.ForeignKey('self', on_delete=models.CASCADE)`
 * 如果单独的manytomany, 可以使用through获取那个隐藏的model
 ```
 school.students.through.objects.filter(school=school)
 ```
 
-### [ ] Field attribute reference
+# [ ] Field attribute reference
 [官网](https://docs.djangoproject.com/en/3.1/ref/models/fields/#field-attribute-reference)
 
-### [Field API reference](https://docs.djangoproject.com/en/3.1/ref/models/fields/#field-api-reference)
+# [Field API reference](https://docs.djangoproject.com/en/3.1/ref/models/fields/#field-api-reference)
 
 
-### [Meta][meta]
+# [Meta][meta]
 
 ```
 class Meta:
@@ -295,7 +294,7 @@ class Meta:
 如果不符合，会报错  django.db.utils.IntegrityError
 ```
 
-#### [API](https://docs.djangoproject.com/en/3.1/ref/models/meta/)
+## [API](https://docs.djangoproject.com/en/3.1/ref/models/meta/)
 * `get_field`
 获取某个Field
 ```
@@ -312,8 +311,8 @@ User._meta.get_fields()
 )
 ```
 
-### [Instance methods 实例方法][method]
-#### Refreshing objects from database
+# [Instance methods 实例方法][method]
+## Refreshing objects from database
 ```
 obj = MyModel.objects.first()
 del obj.field
@@ -321,7 +320,7 @@ obj.field  # loads the only field from database 会重载这个field, 不会重�
 obj.refresh_from_db()  # reload all the fields
 ```
 
-#### [save][save]
+## [save][save]
 save的时候，会把model的所有数据全量更新一遍，所以两个线程来了，只会save最后一个的数据
 * 主键有就是update，主键没有就是insert
 * [save的时候发生了什么](https://docs.djangoproject.com/en/3.1/ref/models/instances/#what-happens-when-you-save)
@@ -383,12 +382,12 @@ django.db.models.
     * 更新后，并不会触发`refresh_from_db`
 * 如果是queryset的update操作，不会触发自定义的save方法。比如save的时候计算总分，如果update某个分数，总分并不会自动更新 `python3 manage.py test testapp.test_queries.TestMethodTestCase`
 
-#### [deleting objects 删除数据][delete]
+## [deleting objects 删除数据][delete]
 * delete(using=DEFAULT_DB_ALIAS)
 * adelete(using=DEFAULT_DB_ALIAS)
 异步删除
 
-#### to be continued
+## to be continued
 * [ ] creating objects 创建数据
 * [ ] validating objects 数据校验
 * [ ] pickling objects 序列化数据

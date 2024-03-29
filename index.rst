@@ -7,8 +7,8 @@ Welcome to django文档's documentation!
 ======================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 3
+   :caption: 目录:
 
    ./README.md
 

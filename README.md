@@ -106,7 +106,11 @@ reset_queries()  # 清空query
 *Django The Model Layer 数据库model层*
 [官网](https://docs.djangoproject.com/en/2.1/#the-model-layer)
 
-## [Model & Field](./model.md)
+## Model & Field
+```{toctree}
+./model.md
+```
+
 * [Field Options](./model.md#field-options-字段选项)  
 unique, blank, null的用法，歧义解释
 * [Field Types](./model.md#field-types-字段类型)
