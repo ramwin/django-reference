@@ -1,4 +1,4 @@
 #!/bin/bash
 # Xiang Wang(ramwin@qq.com)
 
-sphinx-autobuild --port 18001 . build/html/
+sphinx-autobuild -j auto --port 18001 . _build/html/

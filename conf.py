@@ -26,7 +26,7 @@ language = 'zh_CN'
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 source_suffix = {
     '.rst': 'restructuredtext',
@@ -35,3 +35,6 @@ source_suffix = {
 myst_heading_anchors = 4
 myst_enable_extensions = ["colon_fence"]
 suppress_warnings = ["myst.header", "myst.xref_missing"]
+html_css_files = [
+        "custom.css"
+        ]
