@@ -1,4 +1,3 @@
-# Introduction
 # Writting and running tests [官网][run test]
 
 * Writing tests
@@ -36,7 +35,7 @@ class AnimalTestCase(TestCase):
 ```
 
 ## TestCase
-* [overriding settings](https://docs.djangoproject.com/en/4.1/topics/testing/tools/#overriding-settings)
+### [overriding settings](https://docs.djangoproject.com/en/4.1/topics/testing/tools/#overriding-settings)
 ```python
 from django.test import TestCase, override_settings
 
@@ -54,18 +53,25 @@ class LoginTestCase(TestCase):
     def test_login(self):
         ...
 ```
-* assertNumQueries
+### assertNumQueries
 
-    ```
-    with self.assertNumQueries(2):  # 可以用在验证Prefetch是否实现
-        Person.objects.create(name="Alice")
-        Person.objects.create(name="Bob")
-    with self.assertNumQueries(2):  # 可以用在验证Prefetch是否实现
-        client.get("/customer/?page=1")
-    ```
+```
+with self.assertNumQueries(2):  # 可以用在验证Prefetch是否实现
+    Person.objects.create(name="Alice")
+    Person.objects.create(name="Bob")
+with self.assertNumQueries(2):  # 可以用在验证Prefetch是否实现
+    client.get("/customer/?page=1")
+```
 
+### fixtures
+[官网](https://docs.djangoproject.com/en/5.0/topics/testing/tools/#fixture-loading)
+
+```python
+class MyTest(TestCase):
+    fixtures = ["students.json", "lesson.json.gz"]
+```
 
 # Advanced topics
 
-[run test]: https://docs.djangoproject.com/en/4.1/topics/testing/overview/#running-tests
-[test tools]: https://docs.djangoproject.com/en/4.1/topics/testing/tools/
+[run test]: https://docs.djangoproject.com/en/5.0/topics/testing/overview/#running-tests
+[test tools]: https://docs.djangoproject.com/en/5.0/topics/testing/tools/
