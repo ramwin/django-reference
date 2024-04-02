@@ -1,5 +1,14 @@
 # [Views](./view.md)
+
+```{toctree}
+./view.md
+```
+
 # [Mixin](./mixin.md)
+
+```{toctree}
+./mixin.md
+```
 
 # [ViewSets](https://www.django-rest-framework.org/api-guide/viewsets/)
 

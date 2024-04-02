@@ -81,6 +81,10 @@ model.as_of(datetime(2021, 1, 1, 0, 0, 0))
 
 # [django-rest-framework](./rest-framework/README.md)
 
+```{toctree}
+./rest-framework/README.md
+```
+
 # FAQ
 ## Databases and models
 * How can I see the raw SQL queries Django is running? 查看queryset的sql语句

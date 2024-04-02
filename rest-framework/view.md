@@ -1,5 +1,3 @@
-**Xiang Wang @ 2016-10-08 10:38:43**
-
 ## APIView [官网](https://www.django-rest-framework.org/api-guide/views/)
 * 基础
 
