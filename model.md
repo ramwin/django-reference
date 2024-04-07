@@ -58,8 +58,10 @@ class ChessBoard(models.Model):
 * [BooleanField](https://docs.djangoproject.com/en/3.1/ref/models/fields/#booleanfield)  
 > before 1.11 version: use NullBooleanField  
 > after 2.0 version: user BooleanField(null=True)
-* CharField
-当你添加charfield并且设置default以后，旧的进程会保存为None报错。所以建议新增的charfield都设置null=True, 所有进程更新后再删除null
+
+## CharField
+* 当你添加charfield并且设置default以后，旧的进程会保存为None报错。所以建议新增的charfield都设置null=True, 所有进程更新后再删除null
+* 哪怕设置了default，在migrations的时候也会先设置旧数据的default然后删除default，导致已经存在的进程无法保存数据
 ```
 models.CharField(max_length=255)
 models.TextField()  # 默认会为""
@@ -67,6 +69,7 @@ models.TextField()  # 默认会为""
 models.EmailField()
 # 底层还是 CharField 只不过用 EmailValidator 去校验
 ```
+
 * ## [DateField](https://docs.djangoproject.com/en/3.1/ref/models/fields/#datefield)
 对于日期,不存在时区的概念,都是直接存入的日期,没有转化成utc
     * [`auto_now`](https://docs.djangoproject.com/en/3.1/ref/models/fields/#django.db.models.DateField.auto_now)
