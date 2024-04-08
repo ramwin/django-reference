@@ -11,6 +11,7 @@ Welcome to django文档's documentation!
    :caption: 目录:
 
    ./README.md
+   ./available_commands.md
 
 
 

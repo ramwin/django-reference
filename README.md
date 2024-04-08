@@ -247,11 +247,7 @@ with connection.cursor() as cursor:
 
 ## django-admin and manage.py
 
-### Available commands
-
-```{toctree}
-./available_commands.md
-```
+* [可用命令](./available_commands.md)
 
 ### [customcommand 自定义指令](./customcommand.md)
 

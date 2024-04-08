@@ -1,4 +1,5 @@
-# dumpdata
+# 可用命令
+## dumpdata
 导出数据
 ```
 python3 manage.py dumpdata <app>.<model>
@@ -11,5 +12,5 @@ python3 manage.py dumpdata <app>.<model>
 --pk 1,2,3  # 导出哪些数据
 ```
 
-# loaddata
+## loaddata
 dump出来的数据到fixture, 可以直接用在testcase里
