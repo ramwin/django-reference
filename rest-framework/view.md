@@ -1,4 +1,4 @@
-## APIView [官网](https://www.django-rest-framework.org/api-guide/views/)
+# APIView [官网](https://www.django-rest-framework.org/api-guide/views/)
 * 基础
 
 ```python
@@ -32,7 +32,7 @@ from rest_framework.generics import get_object_or_404
     * `handle_exception`  
     处理各种`APIException`
 
-## 常用方法
+# 常用方法
 0. `get_object_or_404`
 ```
 from django.http import Http404
@@ -86,8 +86,8 @@ def get_serializer_context(self):
 ```
 
 
-## 常用的view
-### GenericAPIView
+# 常用的view
+## GenericAPIView
 
 * 代码
 
@@ -136,7 +136,7 @@ return queryset
 ```
 
 
-### ListCreateAPIView
+## ListCreateAPIView
 
 * GET请求顺序  
 
@@ -203,7 +203,7 @@ def get_page_size(self, request):
     return self.page_size
 ```
 
-### CreateAPIView
+## CreateAPIView
 * POST请求顺序  
     ```
     ListCreateAPIView.post  # 没有什么操作
@@ -218,7 +218,7 @@ def get_page_size(self, request):
     1. CreateModelMixin.perform_create  # serializer.save()  如果要save后进行其他操作，修改这个函数
     ```
 
-### RetrieveAPIView
+## RetrieveAPIView
 ```
 def get(self, request, *args, **kwargs):
     return self.retrieve(request, *args, **kwargs)
@@ -246,7 +246,7 @@ def get_object(self):
     return obj
 ```
 
-### DestroyAPIView
+## DestroyAPIView
 
 ```python
 self.delete(self, request, *args, **kwargs)
@@ -258,7 +258,7 @@ DestroyModelMixin.perform_destroy(instance):
     instance.delete()
 ```
 
-### UpdateAPIView
+## UpdateAPIView
 
 ```python
 def patch(self, request, *args, **kwargs)
