@@ -2,7 +2,6 @@
 the test project is in [rest-framework-test][rest-framework-test] repository  
 
 [官网文档](https://docs.djangoproject.com/en/3.0/)  
-[django-rest-framework](./rest-framework/README.md)  
 
 # 一些有用的插件
 
@@ -79,11 +78,6 @@ model.as_of(datetime(2021, 1, 1, 0, 0, 0))
 
 ## [django-redis](./django-redis.md)
 
-# [django-rest-framework](./rest-framework/README.md)
-
-```{toctree}
-./rest-framework/README.md
-```
 
 # FAQ
 ## Databases and models
