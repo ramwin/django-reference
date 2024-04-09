@@ -1,4 +1,7 @@
-### 用gunicorn部署django
+# gunicorn
+
+用来部署django
+
 [官网](https://docs.gunicorn.org/en/latest/signals.html)
 
 * 命令行配置
@@ -24,24 +27,26 @@ errorlog = "log/gunicorn.error.log"
 gunicorn project.wsgi -c config.py
 ```
 
-#### 参数
-* daemon
-* pidfile  
-* workers  
+## 参数
+* daemon  是否当做放在后台运行
+* pidfile  pid保存路径
+* workers  多少个进城
 CPU-1/0  
-* threads  
+* threads  每个进城多少线程
 2-4  
-* max-requests
+* max-requests  处理多少次请求后,重新载入进程
 * max-requests-jitter
 
-#### 信号
+## 信号
 ```shell
 kill -TERM pid
 kill -HUP `cat pidfile`
 ```
 * TERM
 graceful 终止进程
+
 * HUP
 重新载入配置
+
 * TTIN/TTOU
 增加/减少进程数量

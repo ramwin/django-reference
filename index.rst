@@ -12,6 +12,7 @@ Welcome to django文档's documentation!
 
    ./README.md
    ./available_commands.md
+   ./gunicorn.md
 
 
 
