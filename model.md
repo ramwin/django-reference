@@ -59,6 +59,7 @@ class ChessBoard(models.Model):
 > before 1.11 version: use NullBooleanField  
 > after 2.0 version: user BooleanField(null=True)
 * CharField
+当你添加charfield并且设置default以后，旧的进程会保存为None报错。所以建议新增的charfield都设置null=True, 所有进程更新后再删除null
 ```
 models.CharField(max_length=255)
 models.TextField()  # 默认会为""
