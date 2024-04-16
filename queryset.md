@@ -128,6 +128,7 @@ Entry.objects.get(id=1)  # 这句卡住，直到上面status改了save了
 * [bulk_create](http://ramwin.com:8888/ref/models/querysets.html#bulk-create): 一次性创建多个instance
     * 如果某个创建失败了,会导致之后的也创建失败, 类似事务
     * 如果把foreignkey的对象传进去,不会校验,而是直接读取pk属性
+    * 不会触发signal信号，但是auto_now的属性会变化并且各个model不一致
 ```
 Shop.objects.bulk_create([
     Shop(user=user, name='test'),
