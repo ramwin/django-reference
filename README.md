@@ -258,9 +258,17 @@ from django.core.management import call_command
 
 ## Deployment 部署
 ### [WSGI servers, uwsgi](./uwsgi部署.md)
-### [gunicorn](./gunicorn.md)
+### gunicorn
+```{toctree}
+./gunicorn.md
+```
 
-    * [ ] to be continued
+### 信号的处理机制
+* signal绑定的情况下
+    * 如果是runserver的进程, term的时候会直接崩溃
+    * 如果是gunicorn的进程, term的时候也会直接崩溃
+* 没有signal绑定的情况下
+    * 如果是gunicorn的进程, 会先启动新的进程, term的时候会等待最后一个请求完成
 
 # The Admin 后台管理系统cms
 * [Admin site](./admin.md)
