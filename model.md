@@ -187,15 +187,18 @@ models.UUIDField(default=uuid.uuid4)
     * models.DO_NOTHING: `什么都不做,但是数据库如果限制会有报错`
 
 ## [OneToOneField][onetoone]
-```
+* onetoone如果没有设置null=True, 但是实际数据库是None的话, 获取时会报错
+
+```python
 models.ForeignKey(Model)    # 关联到另一个Model
 models.OneToOneField(Model, related_name="profile", db_index=True)
 ```
+
 * 参数
     * limit_choices_to={'is_staff': True}, # 只能设置给 is_staff 的User
     * related_name = "+" # 设置成+或者以+结尾，就会没有反向查找
     * 设置被删除后，设置成一个其他用户
-    ```
+    ```python
     def get_default_user():
         return User.objects.first()
     models.ForeignKey(Model,
@@ -203,6 +206,7 @@ models.OneToOneField(Model, related_name="profile", db_index=True)
         on_delete=models.SET(get_default_user)  # 删除后调用函数设置连带关系的默认直
     )
     ```
+
 
 ## ManyToManyField
 [官网](https://docs.djangoproject.com/en/1.10/ref/models/fields/#manytomanyfield)
