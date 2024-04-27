@@ -115,7 +115,10 @@ unique, blank, null的用法，歧义解释
 * [Relationship fields](./model.md#relationship-fields-关联字段)
 * [Instance methods 实例方法](./model.md#instance-methods-实例方法)
 
-## [QuerySets](./queryset.md)
+## QuerySets
+```{toctree}
+./queryset.md
+```
 
 ## Migrations
 ### [Introduction to Migrations][migrations]
@@ -184,11 +187,17 @@ with connection.cursor() as cursor:
 ```
 ## [url](./views.md#URL)
 
-## [Request and Response](./request_response.md)
-[QueryDict](./request_response.md#querydict)
+## Request and Response
+```{toctree}
+./request_response.md
+```
 
 
-# [The template layer 模板](templates.md)
+# The template layer 模板
+```{toctree}
+./templates模板.md
+./templates.md
+```
 
 # [Forms 表单](https://docs.djangoproject.com/en/2.1/#forms)
 
@@ -210,7 +219,10 @@ with connection.cursor() as cursor:
 # 开发进程 Development Process
 [官网](https://docs.djangoproject.com/en/2.2/#the-development-process)
 
-## [Settings配置](./settings.md)
+## Settings配置
+```{toctree}
+./settings.md
+```
 
 * [Applications](https://docs.djangoproject.com/en/2.2/ref/applications/)
     * Configuring applications
@@ -257,7 +269,11 @@ from django.core.management import call_command
 ```
 
 ## Deployment 部署
-### [WSGI servers, uwsgi](./uwsgi部署.md)
+### WSGI servers, uwsgi
+```{toctree}
+./uwsgi部署.md
+```
+
 ### gunicorn
 ```{toctree}
 ./gunicorn.md
@@ -287,7 +303,10 @@ form表单提交的csrf数据: csrfmiddlewaretoken="wfjdaefefewajfklajsf"
 ```
 
 # [国际化本地化][international]
-* [Time zones 时区](timezone时区.md)
+* Time zones 时区
+```{toctree}
+./timezone时区.md
+```
 
 # [Python Compatibility 23兼容](https://docs.djangoproject.com/en/1.11/topics/python3/)
 ```
@@ -359,7 +378,10 @@ objectslist.number  # 当前页码
 
 
 
-## [signal](./signal信号.md)
+## signal
+```{toctree}
+./signal信号.md
+```
 
 # TODO list
 * [ ] [Document](https://docs.djangoproject.com/en/2.0/#how-the-documentation-is-organized)

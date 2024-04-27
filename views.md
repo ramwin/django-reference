@@ -30,6 +30,10 @@ urlpatterns += [
 ```
 
 ## URL
+```{toctree}
+./urls.md
+```
+
 * [URLconfs](./urls.md)
 解析url, 反编译url
 

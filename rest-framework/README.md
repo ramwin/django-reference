@@ -86,7 +86,11 @@ router.register(r'model', ModelViewSet)
 urlpatterns = router.urls
 ```
 
-## [serializer序列化](./serializer.md)
+## serializer序列化
+```{toctree}
+./serializer.md
+```
+
 ### ModelSerializer
 
 ## Validators
@@ -155,7 +159,12 @@ return bool(
 * [ ] djangorestframework可以和django的permission结合
 
 
-## [Filter过滤](./filter.md)
+## Filter过滤
+
+```{toctree}
+./filter.md
+```
+
 ## Pagination
 [分页](https://www.django-rest-framework.org/api-guide/pagination/#pagenumberpagination)
 
@@ -166,7 +175,11 @@ class MyPageNumberPagination(PageNumberPagination):
     page_size = 20
 ```
 
-## [request and response](./request_and_response.md)
+## request and response
+```{toctree}
+./request_and_response.md
+```
+
 ## throtte限速 [官网](https://www.django-rest-framework.org/api-guide/throttling/)
     ```
     from rest_framework.throttling import BaseThrottle, ScopedRateThrottle

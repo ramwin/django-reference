@@ -298,8 +298,9 @@ indexes = [
 
 ```python
 class Meta:
-    unique_together = ("user","date")   # 同一个用户同一个时间只允许一次(比如投票)
-如果不符合，会报错  django.db.utils.IntegrityError
+    unique_together = ("user","date")
+    # 同一个用户同一个时间只允许一次(比如投票)
+    # 如果不符合，会报错  django.db.utils.IntegrityError
 ```
 
 ## [API](https://docs.djangoproject.com/en/3.1/ref/models/meta/)
