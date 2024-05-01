@@ -581,10 +581,11 @@ class MySerializer(serializers.Field):
 这种嵌套的需要B本来就有A的`manytomany`或者`a_set`的字段。如果需要过滤的话就要手动写method
 
 ```python
-class ASerializer
+class ASerializer:
+    ...
 class BSerializer:
     as = ASerializer(many=True)
-这个时候如果要save，必须手动修改BSerializer的save函数，并且内部得到的 as 里面每个对象都是一个OrderedDict, 而不是序列化类的instance
+    # 这个时候如果要save，必须手动修改BSerializer的save函数，并且内部得到的 as 里面每个对象都是一个OrderedDict, 而不是序列化类的instance
 ```
 
 ### 进阶
