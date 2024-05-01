@@ -16,6 +16,9 @@ pip install django-bootstrap4
 ## [django-dirtyfields](https://github.com/romgar/django-dirtyfields/)  
 利用`__init__`的时候备份数据，实现知道一个model哪些数据变化了
 
+## django-health-check
+[系统健康度检测](https://github.com/revsys/django-health-check)
+
 ## [django-import-export 导入导出功能](./import-export导入导出.md)
 ## [django-guardian](https://django-guardian.readthedocs.io/en/stable/)
 设置一个model对象的权限

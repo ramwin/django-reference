@@ -559,16 +559,18 @@ class StringListField(serializers.ListField): # 写成declarative格式,来方�
 ```
 * ModelField
 
-* 自定义序列化类
-    ```
-    class MySerializer(serializers.Field):
-        def to_internal_value(self, data):
-            # 把传递过来的数据转化成python可以用的数据。
-            pass
-        def to_representation(self, data):
-            # 把pyhton的值转化成用于显示的值。在create的时候，会先调用to_internal_value，然后save，然后调用to_representation
-            pass
-    ```
+#### [自定义序列化类](https://www.django-rest-framework.org/api-guide/fields/#custom-fields)
+
+```python
+class MySerializer(serializers.Field):
+    def to_internal_value(self, data):
+        # 把传递过来的数据转化成python可以用的数据。
+        pass
+    def to_representation(self, value):
+        # 把pyhton的值转化成用于显示的值。在create的时候，会先调用to_internal_value，然后save，然后调用to_representation
+        pass
+```
+
 * 属性
     context
         {'view': object, 'request': object} 可以获取上下文
@@ -577,15 +579,13 @@ class StringListField(serializers.ListField): # 写成declarative格式,来方�
 
 * #### 嵌套的序列化类
 这种嵌套的需要B本来就有A的`manytomany`或者`a_set`的字段。如果需要过滤的话就要手动写method
-    ```
-    class ASerializer
-    class BSerializer:
-        as = ASerializer(many=True)
-    这个时候如果要save，必须手动修改BSerializer的save函数，并且内部得到的 as 里面每个对象都是一个OrderedDict, 而不是序列化类的instance
-    ```
 
-
-### 自定义序列化类
+```python
+class ASerializer
+class BSerializer:
+    as = ASerializer(many=True)
+这个时候如果要save，必须手动修改BSerializer的save函数，并且内部得到的 as 里面每个对象都是一个OrderedDict, 而不是序列化类的instance
+```
 
 ### 进阶
 ```
