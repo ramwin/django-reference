@@ -1,9 +1,7 @@
-** Xiang Wang @ 2016-09-28 15:54:49 **
-
-serializer  
+# serializer  
 [官网](https://www.django-rest-framework.org/api-guide/serializers/)
 
-### 基础使用
+## 基础使用
 ```
 from rest_framework import serializers
 class ShopSerializer(serializers.ModelSerializer):
@@ -36,7 +34,7 @@ serializer.save(**kwargs)  # 这个数据会覆盖掉原来的data, 并且可以
         return instance
 
 
-### 源码剖析
+## 源码剖析
 ```
 // serializer.__new__
 def __new__(cls, *args, **kwargs):
@@ -66,7 +64,7 @@ def __init__(self, instance=None, data=empty, **kwargs):
 ```
 
 
-### [Validation](https://www.django-rest-framework.org/api-guide/serializers/#validation)
+## [Validation](https://www.django-rest-framework.org/api-guide/serializers/#validation)
 在获取data前，需要先调用`is_valid`函数。如果失败了 `.errors` 里面是一个字典，每个key就是报错的字段, 对应的values是一个string构成的列表，表明这个数据不符合哪个规则
 如果希望校验的时候直接报错，可以使用`is_valid(raise_exception=True)`
 * 源码
@@ -111,8 +109,8 @@ if not is_valid:
 ```
 
 
-#### [ ] Field-level validation
-#### [Object-level validation](https://www.django-rest-framework.org/api-guide/serializers/#object-level-validation)
+### [ ] Field-level validation
+### [Object-level validation](https://www.django-rest-framework.org/api-guide/serializers/#object-level-validation)
 
 在所有的默认validate和自定义的`validate_field`都成功后才调用,用来校验整体的数据一致性.  
 ```
@@ -122,7 +120,7 @@ def validate(self, data):
     return data  # 这个data必须返回。返回后会当作serializer的 _validated_data
 ```
 
-#### validators
+### validators
 * 源码剖析
 ```
 self.run_validation(self, data=empty) =>
@@ -132,16 +130,16 @@ self.run_validation(self, data=empty) =>
         validator(value)
 ```
 
-### 属性和方法
+## 属性和方法
 
-#### context
+### context
     ```
     {'view': <views.DetailView object>,
      'format': None,
      'request': <rest_framework.request.Request object>}
     ```
 
-#### data  
+### data  
 访问了这个属性以后，就无法再调用save函数了，所以如果要之前看data，必须使用`validated_data`
 ```
 @property
@@ -166,7 +164,7 @@ def data(self)
     return self._data
 ```
 
-#### errors
+### errors
 返回serializer的errors
 ```
 @property
@@ -177,12 +175,12 @@ def errors(self):
     return self._errors
 ```
 
-#### fields
+### fields
 ```
 返回一个 BindingDict {'text': Field }
 ```
 
-#### run_validation
+### run_validation
 ```
 def run_validation(self, data=empty)
     """
@@ -205,7 +203,7 @@ def run_validation(self, data=empty)
     return value
 ```
 
-#### to_internal_value
+### to_internal_value
 ```
 def to_internal_value(self, data):
     """
@@ -245,7 +243,7 @@ def to_internal_value(self, data):
     return ret
 ```
 
-#### `validate_<field_name>`:
+### `validate_<field_name>`:
 校验某个字段,这个字段是已经通过序列化转化的数据，所以是校验后才会调用
 ```
 def validate_even(self, value):
@@ -254,10 +252,10 @@ def validate_even(self, value):
     return value
 ```
 
-#### `validated_data`:  
+### `validated_data`:  
 返回格式化的数据，注意*如果是外键，会变成model的instance*
 
-#### `to_representation`(self, instance/validated_data)  
+### `to_representation`(self, instance/validated_data)  
 * 使用情景
     ```
     # 如果要根据不同的instance返回不同的字段怎么办。比如高私密文件就不能看detail
@@ -279,7 +277,7 @@ def validate_even(self, value):
         ret[field.field_name] = field.to_representation(attribute)
     return ret
 
-#### save
+### save
 ```
 def save(self, **kwargs):
     validated_data = dict(
@@ -300,7 +298,7 @@ def create(self, validated_data):  # 如果你自定了create方法，一般来�
 ```
 
 
-#### update
+### update
 ```
 def update(self, instance, validated_data):
     raise_errors_on_nested_writes('update', self, validated_data)
@@ -320,7 +318,7 @@ def update(self, instance, validated_data):
 
     return instance
 ```
-### meta
+## meta
 ```
     read_only_fields = ["username", "is_staff"]  # 哪些属性不能修改，不过如果指定了field，必须在field里面加read_only
     write_only_fields = ???  # 这个属性不存在，可惜了
@@ -331,50 +329,62 @@ def update(self, instance, validated_data):
     }
 ```
 
-### [Fields](https://www.django-rest-framework.org/api-guide/fields/)
-* #### [core arguments核心参数](https://www.django-rest-framework.org/api-guide/fields/#core-arguments)
-    * [ ] read_only
-    * [ ] write_only
-    * [ ] required
-    * [ ] default
-    有了default以后，如果没有传入值，就会设置成default。哪怕传入了None或者"",也会使用None或者""
-    * [ ] allow_null
-    * ##### [source](https://www.django-rest-framework.org/api-guide/fields/#source)
-        1. [ ] method that only takes a self argument like `URLField(source='get_absolute_url')`
-        2. [ ] dotted notation to traverse attributes like `EmailField(source='user.email')`  
-        ~~如果user是None, 不会报错，返回None~~, 如果user是None, 会报错, 所以要设置一个default
-        3. [ ] `source="*"` means entire object should be passed through to the field
-        4. [ ] 如果不设置 `read_only=True` 在, save的时候要处理好这个数据
-        ```
-        name = CharField(source="user.name")
-        source = 'user.name'  如果写入的话，数据是这样 {'user': {'name': 'new name'}}, 而不是直接的{'user': 'new name'}
-        ```
-        * 源码剖析
-        ```
-        在Serializer.to_internal_value的时候
-        for field in fields:
-            set_value(ret, field.source_attrs, validated_value)
-        这样就会把
-        data: {
-          'user_name': 'xiaoming'
-        }变成
-        {
-          'user': User(Xiao Ming)
-        }
-        ```
-    * [ ] validators
-    * [ ] error_messages
-    * [ ] label
-    * [ ] help_text
-    * [ ] initial
-    * [ ] style
-* #### [CharField](http://www.django-rest-framework.org/api-guide/fields/#charfield)
+## [Fields](https://www.django-rest-framework.org/api-guide/fields/)
+### 源码剖析
+```python
+class Field:
+    def get_value(self, dictionary: dict):
+        return dictionary.get(self.field_name, empty)
+
+        # field_name的来源，在field.bind serializer的时候设置的
+        # serializer调用BindingDict, __setitem__的时候会调用Bind
+        # BindingDict在调用_get_declared_fields的时候是直接传入的attrs的属性，所以无法变更外部的属性适配serializer
+```
+
+### [core arguments核心参数](https://www.django-rest-framework.org/api-guide/fields/#core-arguments)
+* [ ] read_only
+* [ ] write_only
+* [ ] required
+* [ ] default
+有了default以后，如果没有传入值，就会设置成default。哪怕传入了None或者"",也会使用None或者""
+* [ ] allow_null
+* [source](https://www.django-rest-framework.org/api-guide/fields/#source)
+    1. [ ] method that only takes a self argument like `URLField(source='get_absolute_url')`
+    2. [ ] dotted notation to traverse attributes like `EmailField(source='user.email')`  
+    ~~如果user是None, 不会报错，返回None~~, 如果user是None, 会报错, 所以要设置一个default
+    3. [ ] `source="*"` means entire object should be passed through to the field
+    4. [ ] 如果不设置 `read_only=True` 在, save的时候要处理好这个数据
+    ```
+    name = CharField(source="user.name")
+    source = 'user.name'  如果写入的话，数据是这样 {'user': {'name': 'new name'}}, 而不是直接的{'user': 'new name'}
+    ```
+    * 源码剖析
+    ```
+    在Serializer.to_internal_value的时候
+    for field in fields:
+        set_value(ret, field.source_attrs, validated_value)
+    这样就会把
+    data: {
+      'user_name': 'xiaoming'
+    }变成
+    {
+      'user': User(Xiao Ming)
+    }
+    ```
+* [ ] validators
+* [ ] error_messages
+* [ ] label
+* [ ] help_text
+* [ ] initial
+* [ ] style
+
+### [CharField](http://www.django-rest-framework.org/api-guide/fields/#charfield)
 每秒大概可以转化 3E6 条数据
     * 参数
         * `trim_whitespace`: *默认`True`, 把字符的前后空白字符删除*
         * `max_length`, `min_length`, `allow_blank`, `trim_whitespace`, `allow_null`
-* EmailField
-* #### [RegexField](http://www.django-rest-framework.org/api-guide/fields/#regexfield)
+### EmailField
+### [RegexField](http://www.django-rest-framework.org/api-guide/fields/#regexfield)
 ```
 regex=r'^tmp-\d+\'
 ```
@@ -399,7 +409,7 @@ regex=r'^tmp-\d+\'
     * 其他就会报错
 * NullBooleanField
 
-* #### [IntegerField](http://www.django-rest-framework.org/api-guide/fields/#integerfield)
+### [IntegerField](http://www.django-rest-framework.org/api-guide/fields/#integerfield)
 实际上django的默认id用的是`Integer(label='ID', read_only=True)`, 因为有了`read_only`的存在,所以会不修改  
 `min_value`和`max_value`可以用来代表数值大小的约束
 ```
@@ -412,72 +422,73 @@ regex=r'^tmp-\d+\'
     * decimal_places
     * coerce_to_string
     * rounding: 四舍五入的方式
-* #### DateTimeField
-    * `auto_now_add`
-    没有`auto_now_add`这个参数。必须model里面存在`auto_now_add`  
-    如果model里面有`auto_now_add`参数，那么就无视任何前端传递的值，变成hiddenfield了  
-    * 可以接受django的datetime当作data传入
-    * `input_formats`
-    默认['iso-8601']. 如果包含'%Y-%m-%d', 那么输入日期进去也可以，会变成当天的0点(local的)
-    * 源码剖析
-    ```
-    def to_inernal_value(self, value):
-        input_formats = getattr(self, 'input_formats', api_settings.DATETIME_INPUT_FORMATS)
 
-        # 支持直接是datetime
-        if isinstance(value, datetime.date) and not isinstance(value, datetime.datetime):
-            self.fail('date')
+### DateTimeField
+* `auto_now_add`
+没有`auto_now_add`这个参数。必须model里面存在`auto_now_add`  
+如果model里面有`auto_now_add`参数，那么就无视任何前端传递的值，变成hiddenfield了  
+* 可以接受django的datetime当作data传入
+* `input_formats`
+默认['iso-8601']. 如果包含'%Y-%m-%d', 那么输入日期进去也可以，会变成当天的0点(local的)
+* 源码剖析
+```
+def to_inernal_value(self, value):
+    input_formats = getattr(self, 'input_formats', api_settings.DATETIME_INPUT_FORMATS)
 
-        if isinstance(value, datetime.datetime):
-            return self.enforce_timezone(value)
+    # 支持直接是datetime
+    if isinstance(value, datetime.date) and not isinstance(value, datetime.datetime):
+        self.fail('date')
 
-        # 尝试用各种去解析
-        for input_format in input_formats:
-            if input_format.lower() == ISO_8601:
-                try:
-                    parsed = parse_datetime(value)  # 用的是django的dateparse.parse_datetime
-                    if parsed is not None:
-                        return self.enforce_timezone(parsed)  # 然后强制datetime
-                except (ValueError, TypeError):
-                    pass
-            else:
-                try:
-                    parsed = self.datetime_parser(value, input_format)
-                    return self.enforce_timezone(parsed)
-                except (ValueError, TypeError):
-                    pass
+    if isinstance(value, datetime.datetime):
+        return self.enforce_timezone(value)
 
-        humanized_format = humanize_datetime.datetime_formats(input_formats)
-        self.fail('invalid', format=humanized_format)
-
-    def enforce_timezone(parsed):
-        """
-        如果没有开启USE_TZ就会返回None. 从而导致field_timezone = None
-        When `self.default_timezone` is `None`, always return naive datetimes.
-        When `self.default_timezone` is not `None`, always return aware datetimes.
-        """
-        field_timezone = getattr(self, 'timezone', self.default_timezone())
-
-        if field_timezone is not None:
-            if timezone.is_aware(value):
-                try:
-                    return value.astimezone(field_timezone)
-                except OverflowError:
-                    self.fail('overflow')
+    # 尝试用各种去解析
+    for input_format in input_formats:
+        if input_format.lower() == ISO_8601:
             try:
-                return timezone.make_aware(value, field_timezone)
-            except InvalidTimeError:
-                self.fail('make_aware', timezone=field_timezone)
-        elif (field_timezone is None) and timezone.is_aware(value):
-            return timezone.make_naive(value, utc)
-        return value
+                parsed = parse_datetime(value)  # 用的是django的dateparse.parse_datetime
+                if parsed is not None:
+                    return self.enforce_timezone(parsed)  # 然后强制datetime
+            except (ValueError, TypeError):
+                pass
+        else:
+            try:
+                parsed = self.datetime_parser(value, input_format)
+                return self.enforce_timezone(parsed)
+            except (ValueError, TypeError):
+                pass
 
-    def default_timezone(self):
-        return timezone.get_current_timezone() if settings.USE_TZ else None
+    humanized_format = humanize_datetime.datetime_formats(input_formats)
+    self.fail('invalid', format=humanized_format)
 
-    def django.utils.dateparse.parse_datetime(value):
-        "2020-06-10T03:45:13.026Z" => "datetime.datetime(2020, 6, 10, 3, 45, 13, 26000, tzinfo=<UTC>)"
-        
+def enforce_timezone(parsed):
+    """
+    如果没有开启USE_TZ就会返回None. 从而导致field_timezone = None
+    When `self.default_timezone` is `None`, always return naive datetimes.
+    When `self.default_timezone` is not `None`, always return aware datetimes.
+    """
+    field_timezone = getattr(self, 'timezone', self.default_timezone())
+
+    if field_timezone is not None:
+        if timezone.is_aware(value):
+            try:
+                return value.astimezone(field_timezone)
+            except OverflowError:
+                self.fail('overflow')
+        try:
+            return timezone.make_aware(value, field_timezone)
+        except InvalidTimeError:
+            self.fail('make_aware', timezone=field_timezone)
+    elif (field_timezone is None) and timezone.is_aware(value):
+        return timezone.make_naive(value, utc)
+    return value
+
+def default_timezone(self):
+    return timezone.get_current_timezone() if settings.USE_TZ else None
+
+def django.utils.dateparse.parse_datetime(value):
+    "2020-06-10T03:45:13.026Z" => "datetime.datetime(2020, 6, 10, 3, 45, 13, 26000, tzinfo=<UTC>)"
+    
     ```
 * [ ] DateField
 * DurationField  
@@ -559,7 +570,7 @@ class StringListField(serializers.ListField): # 写成declarative格式,来方�
 ```
 * ModelField
 
-#### [自定义序列化类](https://www.django-rest-framework.org/api-guide/fields/#custom-fields)
+### [自定义序列化类](https://www.django-rest-framework.org/api-guide/fields/#custom-fields)
 
 ```python
 class MySerializer(serializers.Field):
@@ -588,7 +599,7 @@ class BSerializer:
     # 这个时候如果要save，必须手动修改BSerializer的save函数，并且内部得到的 as 里面每个对象都是一个OrderedDict, 而不是序列化类的instance
 ```
 
-### 进阶
+## 进阶
 ```
     TestPermissionSerializer(serializers.ModelSerializer):
         class Meta:
@@ -602,11 +613,11 @@ class BSerializer:
             read_only_fields = TestPermissionSerializer.Meta.read_only_fields + "date"]
 ```
 
-### 序列化类的继承
+## 序列化类的继承
 * `class CSerializer(ASerializer, BSerializer)`: 对于A和B都有的field，C会继承第一个class的（既A的)
 
 
-### ModelSerializer(rest_framework.serializers.ModelSerializer)
+## ModelSerializer(rest_framework.serializers.ModelSerializer)
 * 方法
     * [ ] `build_standard_field(self, field_name, model_field)` 这个方法知道作用,但是还没细看函数的作用方式.之后认真看看
     ```
@@ -617,6 +628,6 @@ class BSerializer:
         }
     ```
 
-### Field
+## Field
 * run_validation(data)  
 把data的数据校验后返回，经常用于SlugField().run_validation(data)

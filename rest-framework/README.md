@@ -1,14 +1,8 @@
 # django rest framework
-## [Views](./view.md)
-
-```{toctree}
-./view.md
-```
-
-## [Mixin](./mixin.md)
-
 ```{toctree}
 ./mixin.md
+./view.md
+./serializer.md
 ```
 
 ## [ViewSets](https://www.django-rest-framework.org/api-guide/viewsets/)
@@ -84,11 +78,6 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'model', ModelViewSet)
 urlpatterns = router.urls
-```
-
-## serializer序列化
-```{toctree}
-./serializer.md
 ```
 
 ### ModelSerializer
