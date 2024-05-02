@@ -318,6 +318,10 @@ from __future__ import unicode_literals
 ```
 
 # [常用的网站应用 Common Web application tools][common-tool]
+```{toctree}
+./logging.md
+```
+
 ## [用户认证 权限](./auth认证模块.md)
 Authentication Permission  
 * [已经有了AbstractUser的情况下,自定义user](https://www.caktusgroup.com/blog/2019/04/26/how-switch-custom-django-user-model-mid-project/)
@@ -333,8 +337,6 @@ cache = caches['thirdparty']
 cache.set('foo', 'bar', timeout=3600*24*60)
 cache.get('cache_list', [])  # 没有默认值就返回None
 ```
-
-## [logging](./logging.md)
 
 ## [Pagination](./pagination.md)
 ```

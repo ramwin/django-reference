@@ -64,7 +64,10 @@ with self.assertNumQueries(2):  # 可以用在验证Prefetch是否实现
 ```
 
 ### fixtures
+
 [官网](https://docs.djangoproject.com/en/5.0/topics/testing/tools/#fixture-loading)
+
+fixture的保存也会触发所有的signal
 
 ```python
 class MyTest(TestCase):

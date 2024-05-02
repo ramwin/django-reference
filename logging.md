@@ -1,8 +1,7 @@
-**Xiang Wang @ 2019-06-26 15:03:33**
+# logging
+[官网](https://docs.djangoproject.com/en/5.0/topics/logging/)
 
-
-## [logging](https://docs.djangoproject.com/en/2.2/topics/logging/)
-### 基础
+## 基础
 * 配置日志
 ```
 LOG_DIR = BASE_DIR / 'log'
@@ -80,6 +79,9 @@ LOGGING = {
 log = logging.getLogger(__name__)  # 这样不同的app就会用logging里面不同的配置，而不需要把logger重新定义了
 ```
 
-### Handlers
+## Handlers
 * MemoryHandler
 Memory不方便close
+
+## formatters
+如果要使用自定义的类，需要用`()`
