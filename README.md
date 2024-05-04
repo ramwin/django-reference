@@ -104,24 +104,22 @@ reset_queries()  # 清空query
 * [aggregation聚合数据](./aggregation聚集.md)
 
 # Model & Queryset  
+```{toctree}
+./model.md
+./queryset.md
+./advanced.md
+```
+
 *Django The Model Layer 数据库model层*
 [官网](https://docs.djangoproject.com/en/2.1/#the-model-layer)
 
 ## Model & Field
-```{toctree}
-./model.md
-```
 
 * [Field Options](./model.md#field-options-字段选项)  
 unique, blank, null的用法，歧义解释
 * [Field Types](./model.md#field-types-字段类型)
 * [Relationship fields](./model.md#relationship-fields-关联字段)
 * [Instance methods 实例方法](./model.md#instance-methods-实例方法)
-
-## QuerySets
-```{toctree}
-./queryset.md
-```
 
 ## Migrations
 ### [Introduction to Migrations][migrations]
@@ -144,41 +142,6 @@ class Migration(migrations.Migration):
     ]
 ```
 ### [压缩迁移 Squashing migrations](https://docs.djangoproject.com/en/3.0/topics/migrations/#squashing-migrations)
-
-## [Advanced](./advanced.md)
-
-### [Raw SQL](https://docs.djangoproject.com/en/4.1/topics/db/sql/)
-
-```
-from django.db import connection
-with connection.cursor() as cursor:
-    cursor.execute("SELECT foo FROM bar WHERE baz = %s", [self.baz])
-    row = cursor.fetchone()
-    print(row)
-```
-
-### Transactions 事务
-[链接](https://docs.djangoproject.com/en/3.2/topics/db/transactions/)
-
-    ```
-    from django.db import transaction
-
-    @transaction.atomic
-    def viewfunc(request):
-        do_stuff()
-
-    with transaction.atomic():
-        do_more_stuff()
-    ```
-
-### [ ] Managers
-### [ ] Custom lookups
-### [Multiple databases](https://docs.djangoproject.com/en/3.0/topics/db/multi-db/)
-### [Query Expressions](./advanced.md#query-expressions)
-### [ ] Conditional Expressions
-### Database Functions
-* [F功能](./advanced.md)
-
 
 ## TODO list
 * [ ] Model Instance
@@ -320,6 +283,12 @@ from __future__ import unicode_literals
 # [常用的网站应用 Common Web application tools][common-tool]
 ```{toctree}
 ./logging.md
+```
+
+## Serialization
+```python
+from django.core import serializers
+serializers.serializer("json", Iterable[Model], indent=4)  # json字符串
 ```
 
 ## [用户认证 权限](./auth认证模块.md)
