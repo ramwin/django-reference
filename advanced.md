@@ -1,12 +1,9 @@
-**Xiang Wang @ 2020-06-22 13:37:43**
+# Advanced
 
-
-## Advanced
-
-### Query Expressions
+## Query Expressions
 [官网](https://docs.djangoproject.com/en/3.0/ref/models/expressions/)
 一些可以计算出结果，并用来过滤修改的方法。
-#### `F() expressions`
+### `F() expressions`
 > F() 代表了一个从model获取的数据，但是不会取出到python内存里。
 * 例子
 ```python
@@ -19,7 +16,7 @@ from django.db.models import F
 reporter.stories_filed = F('stories_filed') + 1
 reporter.save()
 reporter.stories_filed  # <CombinedExpression: F(stories_filed) + Value(1)>
-如果需要获取数据，要使用
+# 如果需要获取数据，要使用
 reporter.refresh_from_db()
 ```
 ```python
@@ -32,8 +29,8 @@ reporter.update(stories_filed=F("stories_filed") + 1)
 * [ ] 用在annotations
 * [ ] 用在null来排序
 
-### [Database Functions][database functions]
-#### Math Functions
+## [Database Functions][database functions]
+### Math Functions
 * Abs: 求绝对值
 ```
 流水总量
