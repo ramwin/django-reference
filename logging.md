@@ -6,6 +6,10 @@
 ```
 LOG_DIR = BASE_DIR / 'log'
 LOG_DIR.mkdir(exist_ok=True)
+DEFAULT_HANDLERS = [
+    'debug_file', 'info_file',
+    'warning_file', 'error_file', 'color'
+]
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -17,6 +21,12 @@ LOGGING = {
         },
         'simple': {
             'format': '[%(levelname)s] %(message)s ',
+        },
+        'color': {
+            '()': 'colorlog.ColoredFormatter',
+            'format': ('%(log_color)s[%(levelname)5s] %(asctime)s %(process)d %(name)s '
+                       '%(funcName)s (line: %(lineno)d)'
+                       '    %(message)s'),
         },
     },
     'handlers': {
@@ -50,25 +60,27 @@ LOGGING = {
             'filename': LOG_DIR / 'debug.log',
             'formatter': 'verbose',
         },
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
+        # 'console': {
+        #     'class': 'logging.StreamHandler',
+        #     'formatter': 'verbose',
+        # },
+        'color': {
+            'class': 'colorlog.StreamHandler',
+            'level': "INFO",
+            'formatter': 'color',
         },
     },
     'loggers': {
         'default': {
-            'handlers': ['debug_file', 'info_file',
-                         'warning_file', 'error_file', 'console'],
+            'handlers': DEFAULT_HANDLERS,
             'level': "INFO",
         },
         'django': {
-            'handlers': ['debug_file', 'info_file',
-                         'warning_file', 'error_file', 'console'],
+            'handlers': DEFAULT_HANDLERS,
             'level': "INFO",
         },
         'testapp': {
-            'handlers': ['debug_file', 'info_file',
-                         'warning_file', 'error_file', 'console'],
+            'handlers': DEFAULT_HANDLERS,
             'level': "INFO",
         },
     },
