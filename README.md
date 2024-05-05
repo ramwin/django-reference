@@ -105,7 +105,6 @@ reset_queries()  # 清空query
 
 # Model & Queryset  
 ```{toctree}
-./model.md
 ./queryset.md
 ./advanced.md
 ```

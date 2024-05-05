@@ -10,8 +10,16 @@ Welcome to django文档's documentation!
    :maxdepth: 4
    :caption: 目录:
 
+   ./model.md
    ./README.md
    ./available_commands.md
+
+第三方包
+========
+
+.. toctree::
+   :caption: 第三方包:
+
    ./rest-framework/README.md
 
 
