@@ -28,14 +28,16 @@ gunicorn project.wsgi -c config.py
 ```
 
 ## 参数
+[官网](https://docs.gunicorn.org/en/latest/settings.html)  
 * daemon  是否当做放在后台运行
-* pidfile  pid保存路径
+* pid  pid保存路径
+如果是py文件的配置就是pidfile
 * workers  多少个进城
 CPU-1/0  
 * threads  每个进城多少线程
 2-4  
 * max-requests  处理多少次请求后,重新载入进程
-* max-requests-jitter
+* max-requests-jitter  避免所有进程一起失效，建议jitter设置为max-requests的一半
 
 ## 信号
 ```shell
