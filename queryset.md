@@ -1,13 +1,12 @@
-**Xiang Wang @ 2018-11-27 14:10:45**
+# queryset
 
 [官网][queryset]
 
-### [My Reference(以前我的文档)](./queries.md)  
-### [ ] Making Queries  
-#### 创建数据 Creating objects
-#### 修改数据 Saving changes to objects
-#### 获取数据 Retrieving objects
-* [ ] Lookups that span relationships
+## [My Reference(以前我的文档)](./queries.md)  
+## [ ] Making Queries  
+### 创建数据 Creating objects
+### 修改数据 Saving changes to objects
+### 获取数据 Retrieving objects
 * Filters can reference fields on the model
 ```
 from django.db.models import F
@@ -20,7 +19,7 @@ Entry.objects.filter(mod_date__gt=F('pub_date') + timedelta(days=3))  找到发�
 ```
 * [ ] The pk lookup shortcut
 
-#### [删除数据](https://docs.djangoproject.com/en/3.1/topics/db/queries/#deleting-objects)
+### [删除数据](https://docs.djangoproject.com/en/3.1/topics/db/queries/#deleting-objects)
 * [查询关联的删除](https://stackoverflow.com/questions/26807858/how-can-i-check-what-objects-will-be-cascade-deleted-in-django/66540097#66540097)
 ```
 from django.contrib.admin.utils import NestedObjects
@@ -29,7 +28,7 @@ nested_object.collect([Item])
 print(nested_object.nested())
 ```
 
-#### 待整理
+### 待整理
 一些基础的知识，创建数据，删除数据等等
 * 查看查询的SQL语句
     * 例子
@@ -37,23 +36,29 @@ print(nested_object.nested())
     from django.db import connection
     print connection.queries
     ```
-* Lookups that span relationships 通过**关联**的外键来查询 [官网文档](https://docs.djangoproject.com/en/3.0/topics/db/queries/#lookups-that-span-relationships)
-    * 例子django会把没有的字段当作None来处理。所以:
-    ```
-    Search.objects.filter(user__username='wx')  # left join式的过滤。如果没有user，也会被过滤掉
-    Search.objects.exclude(user__username='wx')  # 如果没有user，也不会过滤掉
+### Lookups that span relationships 通过**关联**的外键来查询
 
-    TestQuery.objects.exclude(user__id=4001)  # 会搜索出user为None的
-    TestQuery.objects.filter(user__id=None)  # 会搜索出user为None的
-    # user都没有，更没有id，id更不可能属于这个列表
-    TestQuery.objects.filter(user__id__in=[4001])  # 不会搜索出user为None的
-    # exclude并不没有user__id必须存在这个前提条件
-    TestQuery.objects.exclude(user__id__in=[4001])  # 会搜索出user为None的
+[官网文档](https://docs.djangoproject.com/en/3.0/topics/db/queries/#lookups-that-span-relationships)
 
-    Blog.objects.filter(entry__authors__name='Lennon')  # 如果author不存在的Blog不会返回
-    Blog.objects.filter(entry__authors__name__isnull=True)  # 这时候author不存在的也会返回
-    Blog.objects.filter(entry__authors__isnull=False, entry__authors__name__isnull=True)  # 这样就能指定必须含有authors，并且authors为空
-    ```
+* 用`foreignkey__id__gte`并不会导致额外的join，而是直接用`foreignkey_id`来排序对比了
+
+* 例子django会把没有的字段当作None来处理。所以:
+```
+Search.objects.filter(user__username='wx')  # left join式的过滤。如果没有user，也会被过滤掉
+Search.objects.exclude(user__username='wx')  # 如果没有user，也不会过滤掉
+
+TestQuery.objects.exclude(user__id=4001)  # 会搜索出user为None的
+TestQuery.objects.filter(user__id=None)  # 会搜索出user为None的
+# user都没有，更没有id，id更不可能属于这个列表
+TestQuery.objects.filter(user__id__in=[4001])  # 不会搜索出user为None的
+# exclude并不没有user__id必须存在这个前提条件
+TestQuery.objects.exclude(user__id__in=[4001])  # 会搜索出user为None的
+
+Blog.objects.filter(entry__authors__name='Lennon')  # 如果author不存在的Blog不会返回
+Blog.objects.filter(entry__authors__name__isnull=True)  # 这时候author不存在的也会返回
+Blog.objects.filter(entry__authors__isnull=False, entry__authors__name__isnull=True)  # 这样就能指定必须含有authors，并且authors为空
+```
+
 * 多字段查询关联的歧义
 ```
 User.objects.filter(shop__title__contains='shop', shop__gmt_create__year=2008)  # 于2008年注册过商店名包含'shop'的所有用户
@@ -67,15 +72,15 @@ Blog.objects.filter(entry__authors__name__isnull=True)
 ```
 * [ ] 如果是exclude的话会怎么样(暂时没遇到这个需求，以后再说)
 
-### QuerySet method reference
+## QuerySet method reference
 1. django的各种查询语句: **filter**, *exclude*, *annotate*等  
 2. django的各种过滤方法: **in**, *exact*, *contains*等
 
-#### [When Querysets Are Evaluated](https://docs.djangoproject.com/en/2.0/ref/models/querysets/#when-querysets-are-evaluated)
+### [When Querysets Are Evaluated](https://docs.djangoproject.com/en/2.0/ref/models/querysets/#when-querysets-are-evaluated)
 
-#### [QuerySet API][queryset_api]
+### [QuerySet API][queryset_api]
 
-##### Methods that return new Querysets 返回Queryset的方法
+#### Methods that return new Querysets 返回Queryset的方法
 * [ ] annotate
 * order_by
 直接按照字段排序
@@ -92,7 +97,7 @@ ManyModel.objects.annotate(text_id=Min("texts__id")).order_by("text_id")  # 按�
 TestFilterModel2.objects.values('_bool', '_int').annotate(Count('id'))  # 利用_bool, _int进行分组，查看数量
 MingpianChange.objects.order_by("amount").values("amount").annotate(Count("id"))  # 查看各个amount对应的数量
 ```
-###### values_list
+##### values_list
 [官网][values_list]  
 `values_list(*fields, flat=False, named=False)`  
 原理是通过select只看部分字段, 所以遇到外键是会有None, 遇到ManyToMany时数据会重复  
@@ -106,7 +111,7 @@ Entry.objects.values("id", flat=True)
 * defer
 `Entry.objects.defer("body")`: only access the body field when you use the `body` field to optimize the performance
 
-###### [select_for_update][select_for_update]
+##### [select_for_update][select_for_update]
 用来给行加锁, 这样其他函数调用时会卡在那。
 ```
 # 线程1
@@ -121,7 +126,7 @@ Entry.objects.get(id=1)  # 这句卡住，直到上面status改了save了
 ```
 
 
-##### Methods that do not return Querysets 不返回Queryset的方法
+#### Methods that do not return Querysets 不返回Queryset的方法
 `get, create, get_or_create`
 * `update_or_create(defaults=None, **kwargs)`
 通过kwargs来查找数据. 如果没有就创建
@@ -136,7 +141,7 @@ Shop.objects.bulk_create([
 ])
 ```
 
-##### [Field lookups 查询field的方法](https://docs.djangoproject.com/en/3.0/ref/models/querysets/#field-lookups)
+#### [Field lookups 查询field的方法](https://docs.djangoproject.com/en/3.0/ref/models/querysets/#field-lookups)
 * exact
 * iexact
 * contains
@@ -152,7 +157,7 @@ But the date is filtered by the date of server timezone. What if you want to fil
     Entry.objects.filter(pub_date__date=datetime)
     ```
 
-##### [Query Expressions 查询语句][expressions]
+#### [Query Expressions 查询语句][expressions]
 * Example  
 	```python
 	from django.db.models import Count, F, Value
@@ -202,8 +207,8 @@ But the date is filtered by the date of server timezone. What if you want to fil
 	```
 * [ ] Build-in Expressions
 
-#### Query-related tools
-##### [Q() objects][q-objects]
+### Query-related tools
+#### [Q() objects][q-objects]
 用这个以后可以使用 |(or), &(and), ^(XOR), ~(NOT)操作
 ```
 from django.db.models import Q
@@ -213,7 +218,7 @@ q2 &= Q(name2="name2")
 注意，因为一句一句执行，所以q2的顺序和q1不一样. q1因为执行顺序的原因，先执行&
 ```
 
-### [ ] ~~~Lookup expressions  ~~~  
+## [ ] ~~~Lookup expressions  ~~~  
 比较高端，暂时没用过
 
 
@@ -224,3 +229,13 @@ q2 &= Q(name2="name2")
 [queryset]: https://docs.djangoproject.com/en/4.2/topics/db/queries/
 [values_list]: https://docs.djangoproject.com/en/4.2/ref/models/querysets/#values-list
 [select_for_update]: http://django.ramwin.com/ref/models/querysets.html#select-for-update
+
+## groupby
+groupby无法group后对每个group都选指定的最新的数据。直接用多重select可能性能不咋地  
+```python
+Travel.objects.values('interest2').annotate(Count('user', distinct=True))
+# 对所有的旅行记录排序，看看那个经典(去的人次/去过的人, 有distinct就是一个人只能算去一次)最多
+Book.objects.values('name').annotate(Count('id')).order_by()
+# group the book by its name, order_by is required or the the group will not have effect.
+GetOrCreateModel.objects.annotate(date=TruncDate('time')).values('date').annotate(Count('id'))
+```
