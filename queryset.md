@@ -1,11 +1,20 @@
 # queryset
-
 [官网][queryset]
 
-## [My Reference(以前我的文档)](./queries.md)  
-## [ ] Making Queries  
+```{toctree}
+./queries.md
+```
+
 ### 创建数据 Creating objects
+Model.objects.create(name='王')  # 创建一个对象，会调用Model的save函数  
+Model.objects.get_or_create(text='w')  # 如果是创建的话会调用save函数  
+创建后会把创建对象的列表返回  
+
 ### 修改数据 Saving changes to objects
+```
+objs = model.objects.filter(status=1).update(status=1)
+```
+
 ### 获取数据 Retrieving objects
 * Filters can reference fields on the model
 ```

@@ -1,5 +1,3 @@
-** Xiang Wang @ 2016-09-30 16:14:18 **
-
 * 添加额外字段
     * [官网参考](https://docs.djangoproject.com/en/1.11/ref/models/database-functions/#module-django.db.models.functions.datetime)
     * 代码
@@ -44,16 +42,6 @@
     model.objects.raw("select * from table where id=%s", params=(1,))
     # 请务必使用params而不要自己用format把数字格式话到query里面
     # 这样不用考虑sql注入
-    ```
-
-# 创建
-    Model.objects.create(name='王')  # 创建一个对象，会调用Model的save函数
-    Model.objects.get_or_create(text='w')  # 如果是创建的话会调用save函数
-    创建后会把创建对象的列表返回
-
-# 修改
-    ```
-    objs = model.objects.filter(status=1).update(status=1)
     ```
 
 ## 原子操作
