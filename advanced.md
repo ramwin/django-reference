@@ -63,6 +63,13 @@ reporter.update(stories_filed=F("stories_filed") + 1)
 * [ ] 用在annotations
 * [ ] 用在null来排序
 
+## [Database Functions][database functions]
+### Math Functions
+* Abs: 求绝对值
+```
+流水总量
+Transaction.objects.aggregate(Sum(Abs('amount')))
+```
 
 
 [database functions]: https://docs.djangoproject.com/en/3.0/ref/models/database-functions/
