@@ -95,7 +95,11 @@ def create(self, validated_data):
     * using
 
 #### m2m_changed
-M2Mchanged有点复杂，因为他分为正向和反向的情况，可能是user.books.add(book) 也可能是 book.user_set.remove(user)
+M2Mchanged有点复杂，因为他分为正向和反向的情况，可能是user.books.add(book) 也可能是 book.user_set.remove(user)  
+每次保存reverse只会触发一个  
+每次新增pre_add, post_add都会触发一次  
+直接set也会给每个触发pre_add,post_add,pre_remove,post_remove。但是不变的不会触发  
+无法拿到被添加的child，因为只有pk_set  
 * 示例
 ```
 from django.db.models.signals import m2m_changed
