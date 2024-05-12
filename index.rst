@@ -10,6 +10,7 @@ Welcome to django文档's documentation!
    :maxdepth: 4
    :caption: 目录:
 
+   ./templates.md
    ./model.md
    ./queryset.md
    ./README.md

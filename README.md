@@ -157,13 +157,6 @@ class Migration(migrations.Migration):
 ./request_response.md
 ```
 
-
-# The template layer 模板
-```{toctree}
-./templates模板.md
-./templates.md
-```
-
 # [Forms 表单](https://docs.djangoproject.com/en/2.1/#forms)
 
 ## [Form API](https://docs.djangoproject.com/en/2.1/ref/forms/api/#)

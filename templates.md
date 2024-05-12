@@ -1,4 +1,4 @@
-**django template language**
+# templates模板
 
 [官方文档](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/)
 
@@ -78,23 +78,23 @@ Joel is a slug >>> joel-is-a-slug
 ```
 * [ ] stringformat
 * `with`:
-    ```
-    {% with shor_name=longname.longsubname.longrealname %}
-    {% endwith %}
-    ```
+```
+{% with shor_name=longname.longsubname.longrealname %}
+{% endwith %}
+```
 
 ## url 写法
 ```
-    {% url 'some-url-name' [v1 v2 arg1=v1 arg2=v2] %}  # 这些参数必须直接放入
-    {% url 'some-url-name' [v1 v2 arg1=v1 arg2=v2] %}?id=3  # 额外的参数放后面
+{% url 'some-url-name' [v1 v2 arg1=v1 arg2=v2] %}  # 这些参数必须直接放入
+{% url 'some-url-name' [v1 v2 arg1=v1 arg2=v2] %}?id=3  # 额外的参数放后面
 ```
 
 ## 自定义标签
 ```
-    {% templatetag openvariable %} message {% templatetag closevariable %}  # 临时输出个花括号标签
-    {% verbatim %}
-        {{if dying}}Still alive.{{/if}}  # 这样中间的代码就不会进行渲染了。
-    {% endverbatim %}
+{% templatetag openvariable %} message {% templatetag closevariable %}  # 临时输出个花括号标签
+{% verbatim %}
+    {{if dying}}Still alive.{{/if}}  # 这样中间的代码就不会进行渲染了。
+{% endverbatim %}
 ```
 
 ## Custom template tags and filters
