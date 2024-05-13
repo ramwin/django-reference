@@ -1,6 +1,6 @@
 # templates模板
 
-[官方文档](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/)
+[官方文档][templates]
 
 ## [build-in tags reference](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#built-in-tag-reference)
 * [extends](https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#extends)
@@ -42,7 +42,7 @@
 </ul>
 ```
 
-## [Filters过滤](https://docs.djangoproject.com/en/3.1/ref/templates/builtins/#built-in-filter-reference)
+## [Filters过滤][filters]
 * `add`: 增加
     * {{ 4 | add: "2" }}  ==> 6  
     * {{ [1,2,3] | add: [4,5,6] }} ==> [1,2,3,4,5,6]  
@@ -98,7 +98,18 @@ Joel is a slug >>> joel-is-a-slug
 ```
 
 ## Custom template tags and filters
-* 基础引用
+[官网][custom]
+
+### 自定义Filter
+```shell
+APP=school
+mkdir -p ${APP}/templatestags/
+touch ${APP}/templatetags/__init__.py
+vim 
+
+```
+
+### Write custom template tags
 ```
 app/
     models.py
@@ -109,8 +120,6 @@ register = template.Library()
 然后在页面里面
 {% load poll_extra %}
 ```
-
-### Write custom template tags
 #### Simple tags
 ```
 import datetime
@@ -133,3 +142,7 @@ from django.template import Context
 context = Context({"my_name": "ramwni"})
 template.render(context)
 ```
+
+[templates]: https://docs.djangoproject.com/en/5.0/ref/templates/builtins/
+[filters]: https://docs.djangoproject.com/en/5.0/ref/templates/builtins/#built-in-filter-reference
+[custom]: https://docs.djangoproject.com/en/5.0/howto/custom-template-tags/
