@@ -209,12 +209,12 @@ class Migration(migrations.Migration):
     * MultipleObjectsReturned
     * PermissionDenied()
 
-## django-admin and manage.py
+# django-admin and manage.py
 
-* [可用命令](./available_commands.md)
-
-### [customcommand 自定义指令](./customcommand.md)
-
+```{toctree}
+./available_commands.md
+./customcommand.md
+```
 ```
 from django.core.management import call_command
 ```

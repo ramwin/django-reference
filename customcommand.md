@@ -1,8 +1,8 @@
-Xiang Wang @ 2017-02-09 13:49:33
+# customcommand
 
 [官网][custom_command]
 
-#### 案例
+## 案例
 mkdir -p app/management/commands/
 ```
 from django.core.management.base import BaseCommand, CommandError
@@ -34,7 +34,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS('Successfully closed poll "%s"' % poll_id))
 ```
 
-#### [手动调用][call_command]
+## [手动调用][call_command]
 call_command会把命令保存在一个字典里，然后用importlib去调用。所以
 1. 不会导致重新遍历文件
 2. 不会导致重新import
@@ -44,7 +44,7 @@ call_command(命令名字)
 ```
 
 
-#### 美化输出
+## 美化输出
 自定义指令里使用:  
 `self.stdout.write(self.style.SUCCESS('operate success'))`  
 view里面使用:  
@@ -58,7 +58,7 @@ out.write(style.SUCCESS(serializer.data))
 各个样式:  
 ![the style of output](./img/command_style.png)
 
-#### 源码分析
+## 源码分析
 * [ ] 继续查看Loader的原理  
 
 ```
