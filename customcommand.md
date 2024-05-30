@@ -17,7 +17,7 @@ class Command(BaseCommand):
         """
         parser.add_argument('poll_id', nargs='+', type=int)
         parser.add_argument('-max', type=int, default=150, help="一次性推送允许的最多人数")  #  带有默认值的参数. 可以传可以不传
-        parser.add_argument("-n", "--no-act", action="store_true", help="只是看看，不进行操作")
+        parser.add_argument("-n", "--no-act", action="store_true", help="只是看看，不进行操作")  # store_true以后不会有None, 要么True要么False
 
     def handle(self, *args, **options):
         if options.get("no_act"):
