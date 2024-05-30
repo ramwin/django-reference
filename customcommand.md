@@ -12,6 +12,9 @@ class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
 
     def add_arguments(self, parser):
+        """
+        add_argument以后，不管传不传, kwargs里都有这个。值可能是None
+        """
         parser.add_argument('poll_id', nargs='+', type=int)
         parser.add_argument('-max', type=int, default=150, help="一次性推送允许的最多人数")  #  带有默认值的参数. 可以传可以不传
         parser.add_argument("-n", "--no-act", action="store_true", help="只是看看，不进行操作")
