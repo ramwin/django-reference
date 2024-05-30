@@ -1,3 +1,10 @@
 .wy-nav-content {
   max-width: 90%;
 }
+
+blockquote {
+  border-left: 4px solid #999;
+  padding-left: 1rem;
+  margin: 22px 0px 0px;
+  display: block
+}
