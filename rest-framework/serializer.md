@@ -618,6 +618,18 @@ class BSerializer:
 
 
 ## ModelSerializer(rest_framework.serializers.ModelSerializer)
+
+### 源码剖析
+```
+modelserializer调用get_field_kwargs
+get_field_kwargs调用get_unique_validators
+get_unique_validators看 1 UniqueConstraint 2 unique=True
+最后返回 UniqueValidator(queryset=queryset)
+validate的时候会简单的filter_queryset
+所以如果你用many插入多个重复的并不会报错
+大小写也区分, 需要不区分的话可以加索引
+CREATE UNIQUE INDEX "unique_lower_name" ON "test" (LOWER("name"))
+```
 * 方法
     * [ ] `build_standard_field(self, field_name, model_field)` 这个方法知道作用,但是还没细看函数的作用方式.之后认真看看
     ```
