@@ -95,7 +95,7 @@ def create(self, validated_data):
     * instance, 注意此时 instance.id 还是可以获取的
     * using
 ```{note}
-批量删除的时候每条数据都会触发信号
+批量删除的时候每条数据都会触发信号, 但是DELETE语句是只有一句(用的id__in)。所以会导致第一个model的post_delete里面去查询返回的数字是0
 ```
 
 ### m2m_changed
