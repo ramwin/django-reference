@@ -344,10 +344,6 @@ objectslist.number  # 当前页码
 
 
 
-## signal
-```{toctree}
-./signal信号.md
-```
 
 # TODO list
 * [ ] [Document](https://docs.djangoproject.com/en/2.0/#how-the-documentation-is-organized)

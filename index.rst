@@ -15,6 +15,7 @@ Welcome to django文档's documentation!
    ./queryset.md
    ./README.md
    ./available_commands.md
+   ./signal信号.md
 
 第三方包
 ========
