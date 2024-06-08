@@ -107,6 +107,7 @@ reset_queries()  # 清空query
 ```{toctree}
 ./queryset.md
 ./advanced.md
+./pagination.md
 ```
 
 *Django The Model Layer 数据库model层*

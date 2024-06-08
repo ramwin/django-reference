@@ -1,12 +1,10 @@
-**Xiang Wang @ 2019-07-26 16:54:29**
+# [pagination](https://docs.djangoproject.com/en/2.1/topics/pagination/)
 
-## [pagination](https://docs.djangoproject.com/en/2.1/topics/pagination/)
-
-### [Paginator](https://docs.djangoproject.com/en/2.1/topics/pagination/#paginator-objects)
+## [Paginator](https://docs.djangoproject.com/en/2.1/topics/pagination/#paginator-objects)
 ```
 def get_paginated_response(self, data)
 ```
 
-### [Page](https://docs.djangoproject.com/en/2.1/topics/pagination/#page-objects)
+## [Page](https://docs.djangoproject.com/en/2.1/topics/pagination/#page-objects)
 * number:
 获取当前的分页的页码

@@ -52,14 +52,6 @@
     obj.save()  # 注意哦，每次save都会触发底层的mysql更新，所以save只能执行一次
     ```
 
-# 求和
-    ```
-    from django.db.modes import Sum
-    >>> Number.objects.filter(id__lte=3).aggregate(s = Sum('integer'))
-    >>> {'s': 10}  # 如果没有搜索到，返回的会是None，而不是0哦
-    ```
-
-
 # 操作符号
 
 ## [官方教程](https://docs.djangoproject.com/en/1.10/ref/models/querysets/#field-lookups)
@@ -97,7 +89,21 @@
     ```
 
 # aggregation
-* [官方文档](https://docs.djangoproject.com/en/1.11/topics/db/aggregation/)
+[官方文档](https://docs.djangoproject.com/en/5.0/ref/models/querysets/#aggregation-functions)
+
+## [Sum](https://docs.djangoproject.com/en/5.0/ref/models/querysets/#sum)
+```python
+django.db.models[.aggregates].Sum
+Student.objects.aggregat(height=Sum("height"))  # {'height': None | 1}
+
+Number.objects.filter(id__lte=3).aggregate(s = Sum('integer'))
+{'s': 10}  # 如果没有搜索到，返回的会是None，而不是0哦
+```
+```{warning}
+queryset空或者都是null=True返回的是None, 所以不要用get("height", 4) 要用get("height") or 0
+```
+
+## 其他
 * [Cheat Sheet](https://docs.djangoproject.com/en/1.11/topics/db/aggregation/#cheat-sheet)
     ```python
     from django.db.models import Avg, Max, FloatField, Count, Min
