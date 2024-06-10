@@ -62,7 +62,41 @@ def __init__(self, instance=None, data=empty, **kwargs):
     kwargs.pop('many', None)
     super().__init__(**kwargs)
 ```
+## 如何把用户的字典变成了`validated_data`
+1. `to_internal_value`
+```
+for field in fields:
+    primitive_value = field.get_value(data)
+    # set_value(ret, field.source_attrs, validated_value)
+```
 
+2. `rest_framework.fields.get_value`
+```
+return dictionary.get(self.field_name)
+```
+
+3. `rest_framework.fields.Field.field_name`
+```{warning}
+# field_name的来源，在field.bind serializer的时候设置的
+# serializer调用BindingDict, __setitem__的时候会调用Bind
+# BindingDict在调用_get_declared_fields的时候是直接传入的attrs的属性，所以无法变更外部的属性适配serializer
+```
+
+3. `rest_framework.fields.set_value`
+set_value支持传入字典, 所以关键看`source_attrs`怎么确认的
+```
+set_value({'a': 1}, [], {'b': 2}) -> {'a': 1, 'b': 2}
+set_value({'a': 1}, ['x'], 2) -> {'a': 1, 'x': 2}
+set_value({'a': 1}, ['x', 'y'], 2) -> {'a': 1, 'x': {'y': 2}}
+```
+
+3. `Field.source_attrs`
+```
+if self.source == "*":
+    self.source_attrs = []
+else:
+    self.source_attrs = self.source.split('.')
+```
 
 ## [Validation](https://www.django-rest-framework.org/api-guide/serializers/#validation)
 在获取data前，需要先调用`is_valid`函数。如果失败了 `.errors` 里面是一个字典，每个key就是报错的字段, 对应的values是一个string构成的列表，表明这个数据不符合哪个规则
