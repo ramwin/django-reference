@@ -1,16 +1,4 @@
-** Xiang Wang @ 2016-09-30 16:14:18 **
-
 # 查找
-* 示例
-    ```
-    obj, created = <model>.objects.get_or_create(user__name='wangx')
-    # 不存在用户就不登录而是注册
-    # created 为 True， 代表了obj是新建
-    # 如果返回多条数据，会报错的
-    # 创建的时候的时候会自动保存, 但是要注意, 如果有写field不允许null, 就需要get的时候把参数传进去
-    # get_or_create里面如果传递的是过滤参数，就会先用过滤参数过来
-    obj, created = <model>.objects.get_or_create(text='text', time__gt='2017-12-12T10:24:00+08:00')
-    ```
 * 添加额外字段
     * [官网参考](https://docs.djangoproject.com/en/1.11/ref/models/database-functions/#module-django.db.models.functions.datetime)
     * 代码

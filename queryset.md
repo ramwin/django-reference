@@ -15,11 +15,6 @@ print connection.queries
 ```
 
 ## queryset操作
-### 创建数据 Creating objects
-Model.objects.create(name='王')  # 创建一个对象，会调用Model的save函数  
-Model.objects.get_or_create(text='w')  # 如果是创建的话会调用save函数  
-创建后会把创建对象的列表返回  
-
 ### 修改数据 Saving changes to objects
 ```
 objs = model.objects.filter(status=1).update(status=1)
@@ -91,9 +86,9 @@ Blog.objects.filter(entry__authors__name__isnull=True)
 
 ### [When Querysets Are Evaluated](https://docs.djangoproject.com/en/2.0/ref/models/querysets/#when-querysets-are-evaluated)
 
-### [QuerySet API][queryset_api]
 
-#### Methods that return new Querysets 返回Queryset的方法
+### Methods that return new Querysets 返回Queryset的方法
+[QuerySet API][queryset_api]
 * [ ] annotate
 * order_by
 直接按照字段排序
@@ -110,7 +105,7 @@ ManyModel.objects.annotate(text_id=Min("texts__id")).order_by("text_id")  # 按�
 TestFilterModel2.objects.values('_bool', '_int').annotate(Count('id'))  # 利用_bool, _int进行分组，查看数量
 MingpianChange.objects.order_by("amount").values("amount").annotate(Count("id"))  # 查看各个amount对应的数量
 ```
-##### values_list
+#### values_list
 [官网][values_list]  
 `values_list(*fields, flat=False, named=False)`  
 原理是通过select只看部分字段, 所以遇到外键是会有None, 遇到ManyToMany时数据会重复  
@@ -124,7 +119,7 @@ Entry.objects.values("id", flat=True)
 * defer
 `Entry.objects.defer("body")`: only access the body field when you use the `body` field to optimize the performance
 
-##### [select_for_update][select_for_update]
+#### [select_for_update][select_for_update]
 用来给行加锁, 这样其他函数调用时会卡在那。
 ```
 # 线程1
@@ -139,8 +134,19 @@ Entry.objects.get(id=1)  # 这句卡住，直到上面status改了save了
 ```
 
 
-#### Methods that do not return Querysets 不返回Queryset的方法
+### Methods that do not return Querysets 不返回Queryset的方法
 `get, create, get_or_create`
+* `get_or_create`:
+```
+Model.objects.get_or_create(text='w')  # 如果是创建的话会调用save函数  
+obj, created = <model>.objects.get_or_create(user__name='wangx')
+# 不存在用户就不登录而是注册
+# created 为 True， 代表了obj是新建
+# 如果返回多条数据，会报错的
+# 创建的时候的时候会自动保存, 但是要注意, 如果有写field不允许null, 就需要get的时候把参数传进去
+# get_or_create里面如果传递的是过滤参数，就会先用过滤参数过来
+obj, created = <model>.objects.get_or_create(text='text', time__gt='2017-12-12T10:24:00+08:00')
+```
 * `update_or_create(defaults=None, **kwargs)`
 通过kwargs来查找数据. 如果没有就创建
 * [bulk_create](http://ramwin.com:8888/ref/models/querysets.html#bulk-create): 一次性创建多个instance
@@ -154,13 +160,13 @@ Shop.objects.bulk_create([
 ])
 ```
 
-#### [Field lookups 查询field的方法](https://docs.djangoproject.com/en/3.0/ref/models/querysets/#field-lookups)
+### [Field lookups 查询field的方法](https://docs.djangoproject.com/en/3.0/ref/models/querysets/#field-lookups)
 * exact
 * iexact
 * contains
 * icontains
 * startswith
-* ###### [date](https://docs.djangoproject.com/en/2.2/ref/models/querysets/#date)  
+#### [date](https://docs.djangoproject.com/en/2.2/ref/models/querysets/#date)  
 > When `USE_TZ` is True, fields are converted to the current time zone before filtering.  
 `Entry.objects.filter(pub_date__date=datetime.date(2005, 1, 1))`  
 But the date is filtered by the date of server timezone. What if you want to filter the date create by customer living in other timezone district? I find the only way is to use time range.  
