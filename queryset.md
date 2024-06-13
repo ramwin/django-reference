@@ -5,6 +5,16 @@
 ./queries.md
 ```
 
+## database
+* 启动的时候不会链接数据库
+* 执行shell和command也不会自动链接
+* 查看查询的SQL语句
+```
+from django.db import connection
+print connection.queries
+```
+
+## queryset操作
 ### 创建数据 Creating objects
 Model.objects.create(name='王')  # 创建一个对象，会调用Model的save函数  
 Model.objects.get_or_create(text='w')  # 如果是创建的话会调用save函数  
@@ -39,12 +49,6 @@ print(nested_object.nested())
 
 ### 待整理
 一些基础的知识，创建数据，删除数据等等
-* 查看查询的SQL语句
-    * 例子
-    ```
-    from django.db import connection
-    print connection.queries
-    ```
 ### Lookups that span relationships 通过**关联**的外键来查询
 
 [官网文档](https://docs.djangoproject.com/en/3.0/topics/db/queries/#lookups-that-span-relationships)
