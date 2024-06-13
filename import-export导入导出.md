@@ -1,9 +1,9 @@
-## django-import-export 导入导出功能
+# django-import-export 导入导出功能
 
 [官网](https://django-import-export.readthedocs.io/en/latest/)
 [github](https://github.com/django-import-export/django-import-export)
 
-### Resource
+## Resource
 * 源码剖析
   ```
   def import_date():
@@ -57,7 +57,7 @@
       return instance_loader.get_instance(row)
   ```
 
-### [Field](https://django-import-export.readthedocs.io/en/stable/api_fields.html)
+## [Field](https://django-import-export.readthedocs.io/en/stable/api_fields.html)
 * 因为源码里是用`__`来split的,注意
   ```
   from import_export.fields import Field
@@ -106,7 +106,7 @@
           return value
   ```
 
-### ModelInstanceLoader
+## ModelInstanceLoader
 * 源码剖析
   ```
   def get_instance(self, row):  # 用来修改数据的

@@ -24,7 +24,9 @@ Welcome to django文档's documentation!
    :caption: 第三方包:
 
    ./rest-framework/README.md
-
+   ./import-export导入导出.md
+   ./django-redis.md
+   ./lib.md
 
 
 Indices and tables
