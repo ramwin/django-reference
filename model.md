@@ -1,6 +1,48 @@
 # Model 模型
 
 ## [Introduction简介][models]
+示例
+```
+class profile(models.Model):
+    SEX_CHOICE = (
+        ('M':'男'),
+        ('F':'女')
+    )
+    user = models.ForeignKey(User)  # 外键
+    sex = models.CharField(
+            max_length = 1,
+            verbose_name = '性别',  # 显示名称
+            choices = SEX_CHOICE)   # 可选内容
+    birthday = models.DateField(default = datetime.date.today()) # 默认值, 日期
+    registertime = models.DateTimeField(auto_now=True)
+    # django默认是用
+    lastlogin = models.DateTimeField()
+```
+
+## [方法](https://docs.djangoproject.com/en/2.0/ref/models/instances/)
+### create...
+### refresh_from_db
+### validate objects..
+### [save](https://docs.djangoproject.com/en/2.0/ref/models/instances/#saving-objects)
+save的时候，会把model的所有数据全量更新一遍，所以两个线程来了，只会save最后一个的数据
+* 主键有就是update，主键没有就是insert
+* save的时候发生了什么
+    1. 触发model的pre—save信号
+    2. 处理数据，每个field触发`pre_save`，比如`auto_now_add`和`auto_now`
+    3. 处理给数据库的数据，每个field触发`get_db_prep_save`
+    4. 插入数据
+    5. 触发post-save信号
+* django怎么区分update和insert
+* 指定更新哪些field: `product.save(update_fields=["name"])`
+    * 更新后，并不会触发`refresh_from_db`
+
+### delete...
+### pickle...
+### `__str__`
+### `__eq__`
+### `__hash__`
+### `get_absolute_url`
+
 
 ## [Options][options]
 * null = True,    # 是否可以是NULL
@@ -40,7 +82,7 @@ can_null_blank_integer = models.IntegerField(null=True, blank=True)
 
 ## Field Types 字段类型
 [官网][fieldtypes]
-* [ArrayField](https://docs.djangoproject.com/en/5.0/ref/contrib/postgres/fields/#arrayfield)
+### [ArrayField](https://docs.djangoproject.com/en/5.0/ref/contrib/postgres/fields/#arrayfield)
 postgresql特有的, size可以不传, 就是动态的size
 ```
 from django.contrib.postgres.fields import ArrayField
@@ -56,8 +98,9 @@ class ChessBoard(models.Model):
         size=8,
     )
 ```
-* AutoField, BigAutoField, BigIntegerField, BinaryField
-* [BooleanField](https://docs.djangoproject.com/en/3.1/ref/models/fields/#booleanfield)  
+
+### AutoField, BigAutoField, BigIntegerField, BinaryField
+### [BooleanField](https://docs.djangoproject.com/en/3.1/ref/models/fields/#booleanfield)  
 > before 1.11 version: use NullBooleanField  
 > after 2.0 version: user BooleanField(null=True)
 
@@ -71,6 +114,7 @@ models.TextField()  # 默认会为""
 models.EmailField()
 ## 底层还是 CharField 只不过用 EmailValidator 去校验
 ```
+* [EmailValidator](https://docs.djangoproject.com/en/1.10/ref/validators/#django.core.validators.EmailValidator)
 
 ### DateField
 [官网][datefield]  
@@ -88,19 +132,19 @@ models.EmailField()
     * `auto_now = True`: 保存未当前时间，每次保存时候会自动变更 见[DateField](#datefield)
 * 示例
     * 如果`timezone = 'UTC'`
-        ```
-        DateTimeModel.objects.create(time=timezone.now())  # 没问题
-        DateTimeModel.objects.create(time=datetime.now())  # 自动保存为当前时间, 因为datetime.now()会自动变化，所以这个时间也是正确的
-        DateTimeModel.objects.create(time='2017-12-12 10:24:00')  # 保存为UTC的10点了，如果是客户直接上传的，就会到处差了8小时
-        DateTimeModel.objects.create(time='2017-12-12T10:24:00+08:00')  # 这么精确，也没问题
-        ```
-    * 如果`timezone = 'Asia/Shanghai'
-        ```
-        DateTimeModel.objects.create(time=timezone.now())  # 没问题
-        DateTimeModel.objects.create(time=datetime.now())  # 自动保存为当前时间, 因为datetime.now()会自动变化，所以这个时间也是正确的
-        DateTimeModel.objects.create(time='2017-12-12 10:24:00')  # 保存为Asia/Shanghai的10点了，如果是客户直接上传的，因为恰好客户和我们的服务器是同一个时区，所以也没问题
-        DateTimeModel.objects.create(time='2017-12-12T10:24:00+08:00')  # 这么精确，也没问题
-        ```
+    ```
+    DateTimeModel.objects.create(time=timezone.now())  # 没问题
+    DateTimeModel.objects.create(time=datetime.now())  # 自动保存为当前时间, 因为datetime.now()会自动变化，所以这个时间也是正确的
+    DateTimeModel.objects.create(time='2017-12-12 10:24:00')  # 保存为UTC的10点了，如果是客户直接上传的，就会到处差了8小时
+    DateTimeModel.objects.create(time='2017-12-12T10:24:00+08:00')  # 这么精确，也没问题
+    ```
+    * 如果`timezone = 'Asia/Shanghai'`
+    ```
+    DateTimeModel.objects.create(time=timezone.now())  # 没问题
+    DateTimeModel.objects.create(time=datetime.now())  # 自动保存为当前时间, 因为datetime.now()会自动变化，所以这个时间也是正确的
+    DateTimeModel.objects.create(time='2017-12-12 10:24:00')  # 保存为Asia/Shanghai的10点了，如果是客户直接上传的，因为恰好客户和我们的服务器是同一个时区，所以也没问题
+    DateTimeModel.objects.create(time='2017-12-12T10:24:00+08:00')  # 这么精确，也没问题
+    ```
     * 结论: 服务器端都用timezone，客户端都用带iso 8601
 
 ### DecimalField
@@ -129,7 +173,7 @@ models.EmailField()
 * [ ] FilePathField
 * [FloatField](https://docs.djangoproject.com/en/2.2/ref/models/fields/#floatfield)
 * [ ] ImageField
-* ## IntegerField
+## IntegerField
 [官网](https://docs.djangoproject.com/en/2.2/ref/models/fields/#integerfield)
 integer:    1, '1', 不可以是 '2.9', 但是可以是 2.9(之后存入2), 调用的是int函数
     * 基础
@@ -164,7 +208,8 @@ TextField如果定义了max_length, 会影响view和form. 但是在数据库底�
 其实就是CharField加上了URLValidator,  默认是200个字符长度
 
 ### UUIDField
-```
+
+```python
 import uuid
 models.UUIDField(default=uuid.uuid4)
 ```
