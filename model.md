@@ -353,6 +353,28 @@ class Meta:
     # 如果不符合，会报错  django.db.utils.IntegrityError
 ```
 
+### [constraints](https://docs.djangoproject.com/en/4.2/ref/models/options/#django.db.models.Options.constraints)
+#### UniqueConsraints
+* expression
+约束. lower的话drf里无法触发
+```
+from django.db import models
+
+class Meta:
+    constraints = [
+        models.UniqueConsraints(
+            Lower("code"), name="table_code_lower",
+        )]
+```
+* fields condition
+```
+models.UniqueConsraints(
+    fields=["user", "exam"], condition=Q(status="TAKING"), name="student_take_one_exam"
+)
+```
+* include
+当作unique的索引时,可以把额外的字段也放在索引。只有postgresql支持
+
 ### [API](https://docs.djangoproject.com/en/3.1/ref/models/meta/)
 * `get_field`
 获取某个Field

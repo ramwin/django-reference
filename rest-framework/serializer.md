@@ -279,6 +279,7 @@ def to_internal_value(self, data):
 
 ### `validate_<field_name>`:
 校验某个字段,这个字段是已经通过序列化转化的数据，所以是校验后才会调用
+* 如果是update的，此时可以通过self.instance拿到旧的数据方便对比
 ```
 def validate_even(self, value):
     if value % 2 != 0:
