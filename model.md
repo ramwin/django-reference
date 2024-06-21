@@ -192,23 +192,24 @@ integer:    1, '1', 不可以是 '2.9', 但是可以是 2.9(之后存入2), 调�
     # 不使用原来的id，而是使用自定义的主键。注意一个model里面primary_key只能有一个，autofield也只能有一个
     models.AutoField(primary_key=True)
     ```
-* GenericIPAddressField
-* NullBooleanField
-> Like BooleanField with null=True. Use that instead of this field as it’s likely to be deprecated in a future version of Django.
-* PositiveIntegerField, PositiveSmallIntegerField,
-* [SlugField][slugfield]
-    * 包含`[a-zA-Z_-]`，可以用在一些变量名上面
-    * max_length 默认50
-    * allow_unicode: 默认False，是否允许非ascii的名字
-* SmallIntegerField
-* TextField
+### GenericIPAddressField
+### [JSONField](https://docs.djangoproject.com/en/5.0/ref/models/fields/#django.db.models.JSONField)
+* JSONField虽然可以传json,但是drf里null的判断比json的早。所以None无法通过校验.
+* django里None的判断也比json早，遇到是None的时候直接保存null了，会违背数据库的约束。但是从数据库却能直接设置成"null", 导致从数据库拿出来的数据，直接save竟然会报错的情况。
+
+### PositiveIntegerField, PositiveSmallIntegerField,
+### [SlugField][slugfield]
+* 包含`[a-zA-Z_-]`，可以用在一些变量名上面
+* max_length 默认50
+* allow_unicode: 默认False，是否允许非ascii的名字
+### SmallIntegerField
+### TextField
 TextField如果定义了max_length, 会影响view和form. 但是在数据库底层实现上没有max_length这个说法.
-* TimeField
+### TimeField
 ### URLField  
 其实就是CharField加上了URLValidator,  默认是200个字符长度
 
 ### UUIDField
-
 ```python
 import uuid
 models.UUIDField(default=uuid.uuid4)
