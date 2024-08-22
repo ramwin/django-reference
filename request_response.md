@@ -1,9 +1,4 @@
-**Xiang Wang @ 2016-09-23 10:55:46**
-
-
-[ ] Quick Overview
-
-### HttpRequest objects
+# HttpRequest objects
 ```
     request.POST.getlist('multi_select')  # 获取一个多选的select的数值
     request.method == "GET" | "POST"
@@ -32,7 +27,7 @@
 * 其他
     * `request.META['REMOTE_ADDR']`  # 获取IP地址
 
-### [QueryDict][QueryDict]
+# [QueryDict][QueryDict]
 django.http.request.QueryDict, 是一个MultiValueDict
 ```python
 query = QueryDict('a=1&a=2&b=3')
@@ -45,29 +40,39 @@ query.getlist('c') == []
 * getlist(key, default=None)
 必定返回list或者default的值
 
-### [response](https://docs.djangoproject.com/en/3.1/ref/request-response/)
+# [response](https://docs.djangoproject.com/en/5.1/ref/request-response/)
 
-##### [参数](https://docs.djangoproject.com/en/1.11/ref/request-response/#httpresponse-objects)
+### [参数](https://docs.djangoproject.com/en/1.11/ref/request-response/#httpresponse-objects)
 * content
 * charset
 * status_code
 
-#### JsonResponse
+## JsonResponse
 ```
 from django.http import JsonResponse
 response = JsonResponse({"foo": "bar"})
 ```
 
-#### 返回文件
-```
-    from django.http import FileResponse
-    response = FileResponse(open('filename', 'rb'))
-    response['Content-Disposition'] = 'attachment;filename="result.xlsx"'  # 告诉浏览器文件的文件名
-    response['Content-Length'] = tmp_file.tell()  # 告诉浏览器文件的大小
-    return response
+## 返回文件 [FileResponse](https://docs.djangoproject.com/en/5.1/ref/request-response/#fileresponse-objects)
+```python
+import io
+return FileResponse(
+    io.BytesIO(b'123'),
+    headers={
+        "Content-Disposition": 'attachment;filename="下载.csv"'.encode("utf8"),
+    }
+)
 ```
 
-#### 返回csv
+```python
+from django.http import FileResponse
+response = FileResponse(open('filename', 'rb'))
+response['Content-Disposition'] = 'attachment;filename="result.xlsx"'  # 告诉浏览器文件的文件名
+response['Content-Length'] = tmp_file.tell()  # 告诉浏览器文件的大小
+return response
+```
+
+## 返回csv
 ```
     from django.http import HttpResponse
     from import csv
@@ -79,13 +84,13 @@ response = JsonResponse({"foo": "bar"})
     write.writerow(['Second row', 'A', 'B', 'C', '"Testing"'])
 ```
 
-#### 设置cookie
+## 设置cookie
     a = HttpResponse('ok')
     a.set_cookie('foo', value='bar')
     return a
 
 
-#### 重定向(HttpResponseRedirect)
+## 重定向(HttpResponseRedirect)
 ```
 from django.http import HttpResponseRedirect
 return HttpResponseRedirect('http://www.ramwin.com')
