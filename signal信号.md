@@ -85,7 +85,9 @@ def create(self, validated_data):
     * sender: class的类
     * instance: 对象
     * created: 是否是刚创建的
-    * `update_fields`: 这个是Model.save的时候传入的. 不传就是None了
+    * `update_fields`:
+        * 这个是Model.save的时候传入的. 不传就是None了
+        * 如果是**update_or_create**,更新时有update_fields
 
 
 ### post_delete
