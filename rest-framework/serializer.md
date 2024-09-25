@@ -386,7 +386,9 @@ class Field:
 * [source](https://www.django-rest-framework.org/api-guide/fields/#source)
     1. [ ] method that only takes a self argument like `URLField(source='get_absolute_url')`
     2. [ ] dotted notation to traverse attributes like `EmailField(source='user.email')`  
-    ~~如果user是None, 不会报错，返回None~~, 如果user是None, 会报错, 所以要设置一个default
+
+    如果user是None, 会报错, 所以要设置一个default
+
     3. [ ] `source="*"` means entire object should be passed through to the field
     4. [ ] 如果不设置 `read_only=True` 在, save的时候要处理好这个数据
     ```

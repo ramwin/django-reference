@@ -12,5 +12,6 @@ sphinx-autobuild \
     . _build/html/ \
     --re-ignore "\.mypy_cache" \
     --re-ignore "\.git"    \
-    --re-ignore "\.*\.swp"
-    --re-ignore "\.*\.log"
+    --re-ignore "\.*\.swp" \
+    --re-ignore "\.*\.log" \
+
