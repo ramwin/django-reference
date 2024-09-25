@@ -13,3 +13,4 @@ sphinx-autobuild \
     --re-ignore "\.mypy_cache" \
     --re-ignore "\.git"    \
     --re-ignore "\.*\.swp"
+    --re-ignore "\.*\.log"
