@@ -16,6 +16,7 @@ Welcome to django文档's documentation!
    ./README.md
    ./available_commands.md
    ./signal信号.md
+   ./一种利用pending状态实现锁的方案.md
 
 第三方包
 ========
