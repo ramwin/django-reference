@@ -167,12 +167,6 @@ from django.core.management import call_command
 * 没有signal绑定的情况下
     * 如果是gunicorn的进程, 会先启动新的进程, term的时候会等待最后一个请求完成
 
-# The Admin 后台管理系统cms
-* [Admin site](./admin.md)
-* [ ] Admin actions
-* [ ] Admin documentation generator
-
-
 # [Security](https://docs.djangoproject.com/en/2.0/#security)
 ## [Cross Site Request Forgery protection](https://docs.djangoproject.com/en/2.0/ref/csrf/)
 form表单提交的csrf数据: csrfmiddlewaretoken="wfjdaefefewajfklajsf"

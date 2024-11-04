@@ -1,8 +1,8 @@
-admin界面设置
+# admin界面设置
 
-# Admin Site 管理界面
+## Admin Site 管理界面
 [官网](https://docs.djangoproject.com/en/3.0/ref/contrib/admin/)
-## 最简单的
+### 最简单的
 ```
 from django.contrib import admin
 admin.site.register(models)
@@ -11,14 +11,14 @@ class MyModelAdmin(admin.ModelAdmin):
     ...
 ```
 
-## [全局参数](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#adminsite-attributes)
+### [全局参数](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#adminsite-attributes)
 ```
 admin.site.site_header = 'Django administration'
 ```
 * `site_header`: 修改全局的标题，默认 `Django administration`
 * `site_title`: 页面的title
 
-## [ModelAdmin][ModelAdmin]:
+### [ModelAdmin][ModelAdmin]:
 * `list_display`: 在列表页面需要显示的字段数据
 * `list_filter`: 在列表页面，可以进行分类查看的数据
 * `list_per_page`: 默认100, 一页多少数据
@@ -63,7 +63,7 @@ class ChoiceAdmin(admin.ModelAdmin):
 * ...
 
 
-## [InlineModelAdmin](https://docs.djangoproject.com/en/3.0/ref/contrib/admin/#inlinemodeladmin-objects)
+### [InlineModelAdmin](https://docs.djangoproject.com/en/3.0/ref/contrib/admin/#inlinemodeladmin-objects)
 ```
 from django.contrib import admin
 class BookInline(admin.TabularInline):
@@ -74,7 +74,7 @@ class AuthorAdmin(admin.ModelAdmin):
     ]
 ```
 
-## [自定义]
+### [自定义]
 * [自定义一个字段](#设置样式)
 * [自定义缩略图](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display)
 ```python
@@ -87,11 +87,11 @@ class AuthorAdmin(admin.ModelAdmin):
             return format_html('<img src="%s">' % obj.avatar)
 ```
 
-## [设置](https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.has_add_permission)
+### [设置][setting]
 * `has_add_permission(request)`: 能否添加
 * `has_delete_permission(request, obj=None)`: 能否删除
 
-## 设置样式
+### 设置样式
 ```python
     class SampleAdmin(admin.ModelAdmin):
         fieldsets = [
@@ -107,9 +107,28 @@ class AuthorAdmin(admin.ModelAdmin):
 ```
 
 
-# Admin actions
+## Admin actions
+```
+from django.contrib import admin
+from myapp.models import Article
 
-# Admin documentation generator
+
+@admin.action(description="Mark selected stories as published")
+def make_published(modeladmin, request, queryset):
+    queryset.update(status="p")
+
+
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ["title", "status"]
+    ordering = ["title"]
+    actions = [make_published]
+
+
+admin.site.register(Article, ArticleAdmin)
+```
+
+## Admin documentation generator
 
 [ModelAdmin]: https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#modeladmin-objects
 [autocomplete_fields]: https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.autocomplete_fields
+[setting]: https://docs.djangoproject.com/en/5.1/ref/contrib/admin/#django.contrib.admin.InlineModelAdmin.has_add_permission

@@ -14,6 +14,7 @@ Welcome to django文档's documentation!
    ./model.md
    ./queryset.md
    ./README.md
+   ./admin.md
    ./available_commands.md
    ./signal信号.md
    ./一种利用pending状态实现锁的方案.md
