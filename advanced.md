@@ -7,6 +7,8 @@ with connection.cursor() as cursor:
     cursor.execute("SELECT foo FROM bar WHERE baz = %s", [self.baz])
     row = cursor.fetchone()
     print(row)
+# 查看本进程的PID用于后面排查
+LOGGER.info("当前数据库进程id: %s", connections['default'].cursor().execute('select pg_backend_pid();').fetchall())
 ```
 
 ### Transactions 事务
