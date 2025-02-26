@@ -25,6 +25,7 @@ Welcome to django文档's documentation!
 .. toctree::
    :caption: 第三方包:
 
+   ./django_channels.md
    ./rest-framework/README.md
    ./import-export导入导出.md
    ./django-redis.md
