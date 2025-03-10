@@ -1,6 +1,18 @@
 # serializer  
 [官网](https://www.django-rest-framework.org/api-guide/serializers/)
 
+## 属性
+* validated_data  
+虽然validated_data是一个property, 但是因为内部通过了`_validated_data`做缓存, 所以这个返回数据如果修改了, validated_data的返回也会被修改  
+从源码看到,返回的ret是单独生成的, 如果需要返回所有的字段可以加
+```
+def to_internal_value(self, data):
+    ret = super().to_internal_value(data)
+    for key in data.keys() - ret.keys():
+        ret[key] = data[key]
+    return ret
+```
+
 ## 基础使用
 ```
 from rest_framework import serializers
@@ -525,8 +537,8 @@ def default_timezone(self):
 
 def django.utils.dateparse.parse_datetime(value):
     "2020-06-10T03:45:13.026Z" => "datetime.datetime(2020, 6, 10, 3, 45, 13, 26000, tzinfo=<UTC>)"
-    
-    ```
+```
+
 * [ ] DateField
 * DurationField  
 [官网](https://www.django-rest-framework.org/api-guide/fields/#durationfield)  
