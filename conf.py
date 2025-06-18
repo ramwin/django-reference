@@ -15,11 +15,18 @@ author = 'Xiang Wang'
 
 extensions = [
         "myst_parser",
-        "sphinx_design",
+        "sphinx.ext.todo",
+        "sphinx.ext.autodoc",
+        "sphinxmermaid",
         ]
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = [
+        '_build',
+        '.DS_Store',
+        '.git',
+        'Thumbs.db',
+        ]
 
 language = 'zh_CN'
 
@@ -32,8 +39,15 @@ source_suffix = {
     '.rst': 'restructuredtext',
     '.md': 'markdown',
 }
-myst_heading_anchors = 4
-myst_enable_extensions = ["colon_fence"]
+myst_heading_anchors = 7
+myst_enable_extensions = [
+        "attrs_inline",
+        "colon_fence",
+        "strikethrough",
+        "tasklist",
+        "deflist",
+        "fieldlist",
+]
 suppress_warnings = ["myst.header", "myst.xref_missing"]
 html_css_files = [
         "custom.css"

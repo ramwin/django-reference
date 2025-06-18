@@ -14,4 +14,3 @@ sphinx-autobuild \
     --re-ignore "\.git"    \
     --re-ignore "\.*\.swp" \
     --re-ignore "\.*\.log" \
-
