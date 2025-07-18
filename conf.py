@@ -17,7 +17,7 @@ extensions = [
         "myst_parser",
         "sphinx.ext.todo",
         "sphinx.ext.autodoc",
-        "sphinxmermaid",
+        "sphinxcontrib.mermaid",
         ]
 
 templates_path = ['_templates']
@@ -52,3 +52,16 @@ suppress_warnings = ["myst.header", "myst.xref_missing"]
 html_css_files = [
         "custom.css"
         ]
+todo_include_todos = True
+latex_use_xindy = True
+smartquotes = True
+sphinxmermaid_mermaid_init = {
+  'theme': 'base',
+  'themeVariables': {
+    'fontSize': '40px',
+  }
+}
+mermaid_version = "11.2.0"
+mermaid_use_local = "node_modules/mermaid/dist/mermaid.min.js"
+mermaid_elk_use_local = "node_modules/@mermaid-js/layout-elk/dist/mermaid-layout-elk.esm.min.mjs"
+d3_use_local = "node_modules/d3/dist/d3.min.js"
