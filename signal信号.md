@@ -85,6 +85,7 @@ def create(self, validated_data):
     * sender: class的类
     * instance: 对象
     * created: 是否是刚创建的
+        * 不是仅仅根据id判断的,如果保存到其他的数据库,哪怕有id也是返回True
     * `update_fields`:
         * 这个是Model.save的时候传入的. 不传就是None了
         * 如果是**update_or_create**,更新时有update_fields
