@@ -216,7 +216,7 @@ models.UUIDField(default=uuid.uuid4)
 ```
 
 ## [Relationship fields 关联字段][relation]
-### [ForeignKey](https://docs.djangoproject.com/en/3.1/ref/models/fields/#foreignkey)
+### [ForeignKey][foreignkey]
 * Example 例子  
     ```
     def get_default_user():
@@ -236,6 +236,8 @@ models.UUIDField(default=uuid.uuid4)
     * models.SET_DEFAULT: `设置为默认`
     * models.SET(): `调用函数`
     * models.DO_NOTHING: `什么都不做,但是数据库如果限制会有报错`
+
+* 使用`<model>_id`可以直接拿到表内的数字信息. 如果使用`<model>`, 会导致用id去进行二次查询. 创建数据时可以直接用`<model>_id`
 
 ### [OneToOneField][onetoone]
 * onetoone如果没有设置null=True, 但是实际数据库是None的话, 获取时会报错
@@ -477,6 +479,7 @@ django.db.models.
 * [ ] extra instance methods 额外方法
 * [ ] other attributes 其他属性
 
+[foreignkey]: https://docs.djangoproject.com/en/6.0/ref/models/fields/#foreignkey
 [models]: https://docs.djangoproject.com/en/3.1/topics/db/models/
 [options]: http://ramwin.com:8888/ref/models/fields.html#field-options
 [unique-fields-allow-null]: https://stackoverflow.com/questions/454436/unique-fields-that-allow-nulls-in-django
