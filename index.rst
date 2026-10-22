@@ -18,6 +18,7 @@ Welcome to django文档's documentation!
    ./available_commands.md
    ./signal信号.md
    ./一种利用pending状态实现锁的方案.md
+   ./websocket和轮询对比.md
 
 第三方包
 ========
